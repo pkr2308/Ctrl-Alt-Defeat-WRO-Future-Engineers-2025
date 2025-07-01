@@ -1,3 +1,5 @@
 fp-info-cache
 ~peripherals-board.kicad_sch.lck
 peripherals-board.kicad_prl
+peripherals-board-backups/*
+\#auto_saved_files#
