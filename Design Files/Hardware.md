@@ -6,11 +6,13 @@
 - Arduino Uno
 ## Motors
 - TB6612FNG H-Bridge Motor Driver
+- L298 Motor Driver Shield
 - N20 DC Motor with Encoder
-- MG995 Servo Motor
+- MG995/MG996R Servo Motor (180°)
 ## Sensors
 - MPU6050 Gyroscope and Accelerometer
 - HMC5583L Magnetometer
+- BMU055 Absolute Orientatio Sensor
 - Raspberry Pi Camera Module 3 Wide
 - RPiLidar
 - TF Luna Lidar
