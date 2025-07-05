@@ -38,4 +38,10 @@ class Sensor{
    */
   virtual std::vector<sensors_event_t> update() = 0;
 
+  /**
+   * @brief Returns the type of the sensor.
+   * @return A string representing the sensor type.
+   */
+  virtual const char* getType() const = 0;
+
 };
