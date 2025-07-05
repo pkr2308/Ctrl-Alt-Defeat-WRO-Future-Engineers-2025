@@ -1,0 +1,7 @@
+/*
+  SensorManager
+  Manages sensor data collection and processing
+
+  Written by DIY Labs
+
+*/

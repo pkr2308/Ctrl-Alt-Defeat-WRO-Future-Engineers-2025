@@ -1,0 +1,7 @@
+/*
+  CommManager
+  Manages communication with Pi over USB
+
+  Written by DIY Labs
+
+*/
