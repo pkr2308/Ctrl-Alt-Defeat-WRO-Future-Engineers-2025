@@ -17,7 +17,7 @@
 #define PIN_TB6612_BIN2       27
 #define PIN_TB6612_STBY       29
 
-#define PIN_STEERING_SERVO    4
+#define PIN_STEERING_SERVO    12
 
 #define PIN_MOTOR_ENCA        2
 #define PIN_MOTOR_ENCB        3
@@ -28,5 +28,6 @@
 #define PIN_I2C0_SCL          1
 #define PIN_I2C0_SDA          0
 #define PIN_I2C1_SCL          11
-#define PN_I2C1_SDA           10
+#define PIN_I2C1_SDA           10
 
+#define PIN_LIDAR_SERVO       4

@@ -6,8 +6,6 @@
 
 */
 
-#pragma once
-
 #define SENSOR_MANAGER_DEBUG   // Uncomment to enable debug messages
 
 #include "SensorManager.h"
@@ -15,10 +13,6 @@
 #include <Arduino.h>
 
 SensorManager::SensorManager(){
-
-  #ifdef SENSOR_MANAGER_DEBUG
-    Serial.println("SensorManager: Initialized");
-  #endif
 
 }
 
