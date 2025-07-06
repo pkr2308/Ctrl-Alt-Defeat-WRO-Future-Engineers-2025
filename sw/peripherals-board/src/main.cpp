@@ -18,7 +18,6 @@ void setup(){
 
   Serial.begin();
   delay(5000);
-  Serial.println("test");
 
   lidarServo.attach(PIN_LIDAR_SERVO);
   steeringServo.attach(PIN_STEERING_SERVO);
@@ -29,6 +28,36 @@ void setup(){
   sensorManager.addSensor(&sensorMPU6050);
   sensorManager.addSensor(&sensorBMP085);
   sensorManager.initializeSensors();
+
+  std::vector<sensors_event_t> sensorData = sensorManager.updateSensors();
+
+  for(auto event : sensorData){
+
+    Serial.println("Sensor Type: " + String(event.type));
+
+    if(event.type == SENSOR_TYPE_ACCELEROMETER){
+      Serial.print("Acceleration X: ");
+      Serial.println(event.acceleration.x);
+      Serial.print("Acceleration Y: ");
+      Serial.println(event.acceleration.y);
+      Serial.print("Acceleration Z: ");
+      Serial.println(event.acceleration.z);
+    }
+    else if(event.type == SENSOR_TYPE_GYROSCOPE){
+      Serial.print("Gyro X: ");
+      Serial.println(event.gyro.x);
+      Serial.print("Gyro Y: ");
+      Serial.println(event.gyro.y);
+      Serial.print("Gyro Z: ");
+      Serial.println(event.gyro.z);
+    }
+    else if(event.type == SENSOR_TYPE_PRESSURE){
+      Serial.print("Pressure: ");
+      Serial.println(event.pressure);
+    }
+
+  }
+
 
 }
 
