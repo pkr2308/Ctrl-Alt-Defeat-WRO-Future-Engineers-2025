@@ -3,12 +3,14 @@
 #include "SensorManager/SensorManager.h"
 #include "CommManager/CommManager.h"
 #include "drivers/MPU6050.h"
+#include "drivers/BMP085.h"
 #include <Servo.h>
 
 Servo lidarServo;
 Servo steeringServo;
 
 DriverMPU6050 sensorMPU6050(&Wire1);
+DriverBMP085 sensorBMP085(&Wire1);
 SensorManager sensorManager;
 
 
@@ -25,6 +27,7 @@ void setup(){
   Wire1.setSDA(PIN_I2C1_SDA);
 
   sensorManager.addSensor(&sensorMPU6050);
+  sensorManager.addSensor(&sensorBMP085);
   sensorManager.initializeSensors();
 
 }
