@@ -18,6 +18,9 @@ DriverTFLuna sensorTFLuna;
 SensorManager sensorManager;
 
 
+void driveFromRX();
+void driveMotor(int throttle);
+
 void setup(){
 
   Serial.begin();
@@ -37,58 +40,55 @@ void setup(){
   sensorManager.addSensor(&sensorTFLuna);
   sensorManager.initializeSensors();
 
-  std::vector<sensors_event_t> sensorData = sensorManager.updateSensors();
+  pinMode(PIN_RX_CH1, INPUT);
+  pinMode(PIN_RX_CH2, INPUT);
 
-  for(auto event : sensorData){
-
-    Serial.println("Sensor Type: " + String(event.type));
-
-    if(event.type == SENSOR_TYPE_ACCELEROMETER){
-      Serial.print("Acceleration X: ");
-      Serial.println(event.acceleration.x);
-      Serial.print("Acceleration Y: ");
-      Serial.println(event.acceleration.y);
-      Serial.print("Acceleration Z: ");
-      Serial.println(event.acceleration.z);
-    }
-    else if(event.type == SENSOR_TYPE_GYROSCOPE){
-      Serial.print("Gyro X: ");
-      Serial.println(event.gyro.x);
-      Serial.print("Gyro Y: ");
-      Serial.println(event.gyro.y);
-      Serial.print("Gyro Z: ");
-      Serial.println(event.gyro.z);
-    }
-    else if(event.type == SENSOR_TYPE_PRESSURE){
-      Serial.print("Pressure: ");
-      Serial.println(event.pressure);
-    }
-    else if(event.type == SENSOR_TYPE_AMBIENT_TEMPERATURE){
-      Serial.print("Temperature: ");
-      Serial.println(event.temperature);
-    }
-    else if(event.type == SENSOR_TYPE_COLOR){
-      Serial.print("Color R: ");
-      Serial.println(event.color.r);
-      Serial.print("Color G: ");
-      Serial.println(event.color.g);
-      Serial.print("Color B: ");
-      Serial.println(event.color.b);
-    }
-    else if(event.type == SENSOR_TYPE_PROXIMITY){
-      Serial.print("Distance: ");
-      Serial.println(event.distance);
-    }
-    else{
-      Serial.println("Unknown sensor type");
-    }
-
-  }
+  pinMode(PIN_TB6612_BIN1, OUTPUT);
+  pinMode(PIN_TB6612_BIN2, OUTPUT);
+  pinMode(PIN_TB6612_PWMB, OUTPUT);
+  pinMode(PIN_TB6612_STBY, OUTPUT);
 
 }
 
 void loop(){
 
+  driveFromRX();
 
+
+}
+
+void driveFromRX(){
+
+  int16_t steering = pulseIn(PIN_RX_CH1, HIGH);
+  int16_t throttle = pulseIn(PIN_RX_CH2, HIGH);
+
+  steering = constrain(map(steering, 1000, 2000, 0, 180), 0, 180);
+  throttle = constrain(map(throttle, 1000, 2000, -100, 100), -100, 100);
+
+  steeringServo.write(steering);
+  driveMotor(throttle);
+
+  Serial.println("Steering: " + String(steering) + ", Throttle: " + String(throttle));
+
+}
+
+void driveMotor(int throttle){
+
+  digitalWrite(PIN_TB6612_STBY, HIGH); 
+
+  if(throttle > 0){
+
+    digitalWrite(PIN_TB6612_BIN1, HIGH);
+    digitalWrite(PIN_TB6612_BIN2, LOW);
+    analogWrite(PIN_TB6612_PWMB, map(throttle, 0, 1024, 0, 255));
+
+  }
+  else{
+
+    digitalWrite(PIN_TB6612_BIN1, LOW);
+    digitalWrite(PIN_TB6612_BIN2, HIGH);
+    analogWrite(PIN_TB6612_PWMB, map(-throttle, 0, 1024, 0, 255));
+
+  }
 
 }
