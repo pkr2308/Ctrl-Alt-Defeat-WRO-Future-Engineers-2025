@@ -20,11 +20,14 @@ SensorManager sensorManager;
 
 void driveFromRX();
 void driveMotor(int throttle);
+void updateEncoder();
+
+volatile int encoderPos;
+volatile int prevEncoderPos;
 
 void setup(){
 
   Serial.begin();
-  delay(5000);
 
   lidarServo.attach(PIN_LIDAR_SERVO);
   steeringServo.attach(PIN_STEERING_SERVO);
@@ -48,12 +51,16 @@ void setup(){
   pinMode(PIN_TB6612_PWMB, OUTPUT);
   pinMode(PIN_TB6612_STBY, OUTPUT);
 
+  pinMode(PIN_MOTOR_ENCA, INPUT);
+  pinMode(PIN_MOTOR_ENCB, INPUT);
+  attachInterrupt(digitalPinToInterrupt(PIN_MOTOR_ENCA), updateEncoder, CHANGE);
+
 }
 
 void loop(){
 
   driveFromRX();
-
+  Serial.println("Encoder Position: " + String(encoderPos));
 
 }
 
@@ -90,5 +97,22 @@ void driveMotor(int throttle){
     analogWrite(PIN_TB6612_PWMB, map(-throttle, 0, 1024, 0, 255));
 
   }
+
+}
+
+void updateEncoder(){
+
+  int MSB = digitalRead(PIN_MOTOR_ENCA); 
+  int LSB = digitalRead(PIN_MOTOR_ENCB); 
+
+  int encoded = (MSB << 1) | LSB;
+  int sum = (prevEncoderPos << 2) | encoded;
+
+  if (sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011)
+    encoderPos++;
+  if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000)
+    encoderPos--;
+
+  prevEncoderPos = encoded;
 
 }
