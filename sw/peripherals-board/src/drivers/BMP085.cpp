@@ -51,13 +51,13 @@ std::vector<sensors_event_t> DriverBMP085::update(){
   tempEvent.version = sizeof(sensors_event_t);
   tempEvent.sensor_id = 0;
   tempEvent.timestamp = millis();
-  tempEvent.type = 13;                            // !!! VERY BAD HACK !!! THIS CAN BREAK! TODO: FIND WAY TO SET TYPE PROPERLY
+  tempEvent.type = SENSOR_TYPE_AMBIENT_TEMPERATURE;
   tempEvent.temperature = temp;
   
   presEvent.version = sizeof(sensors_event_t);
   presEvent.sensor_id = 0;
   presEvent.timestamp = millis();
-  presEvent.type = 6;
+  presEvent.type = SENSOR_TYPE_PRESSURE;
   presEvent.pressure = pressure;
   
 
