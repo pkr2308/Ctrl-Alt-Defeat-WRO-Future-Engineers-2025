@@ -2,9 +2,25 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid caa19d1a-d407-4cf5-a8f8-de116332f63c)
+	(uuid "caa19d1a-d407-4cf5-a8f8-de116332f63c")
 	(paper "A4")
+	(title_block
+		(title "Peripherals Board V2")
+		(date "2025-07-07")
+		(rev "2")
+		(company "DIY Laboratories")
+	)
 	(lib_symbols)
+	(text "Requirements:\nWaveshare RP2040-Zero\nOn-board MPU6050/BNO055 (Options for both)\nEEPROM chip to store log data (MicroSD too big)\nOLED for status (ext connector, might need to mount OLED on top of frame)\nTB6612FNG Motor Driver\nThree I2C ports for LiDAR sensor\nScrew Terminal for power input\nScrew terminal for motor output\nConnector for steering servo\nbreak out GPIO"
+		(exclude_from_sim no)
+		(at 55.88 28.194 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "b89ee804-705b-474f-8f00-8c5caf4b0c8c")
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
