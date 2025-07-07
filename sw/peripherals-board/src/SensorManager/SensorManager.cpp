@@ -6,7 +6,7 @@
 
 */
 
-#define SENSOR_MANAGER_DEBUG   // Uncomment to enable debug messages
+// #define SENSOR_MANAGER_DEBUG   // Uncomment to enable debug messages
 
 #include "SensorManager.h"
 #include "Sensor.h"

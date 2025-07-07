@@ -2,6 +2,7 @@
 #include "pindefs.h"
 #include "SensorManager/SensorManager.h"
 #include "CommManager/CommManager.h"
+#include "DataProcessor/DataProcessor.h"
 #include "drivers/MPU6050.h"
 #include "drivers/BMP085.h"
 #include "drivers/TCS34725.h"
@@ -16,14 +17,21 @@ DriverBMP085 sensorBMP085(&Wire1);
 DriverTCS34725 sensorTCS34725;
 DriverTFLuna sensorTFLuna;
 SensorManager sensorManager;
-
+DataProcessor dataProcessor;
 
 void driveFromRX();
+void driveFromSerial();
 void driveMotor(int throttle);
 void updateEncoder();
+float getYaw();
 
 volatile int encoderPos;
-volatile int prevEncoderPos;
+int throttle;
+int steering;
+
+unsigned long prevMillis;
+
+float targetYaw;
 
 void setup(){
 
@@ -59,29 +67,42 @@ void setup(){
 
 void loop(){
 
-  driveFromRX();
-  Serial.println("Encoder Position: " + String(encoderPos));
+  //driveFromRX();
+  //driveFromSerial(); 
+
+
+  // change target yaw if dist < 80 cm
+  
+  // steering proportional to ya error
+  // yawDiff = targetYaw - getYaw
+  // steering = constrain(steering + yawDiff * constant, 0, 180);
+  
+  targetYaw = 90;
+
+  float yawDiff = targetYaw - getYaw();
+  steering = constrain(90 + yawDiff * 1, 0, 180);
+  
+  Serial.println("Yaw: " + String(getYaw()) + " Target Yaw: " + String(targetYaw) + " Steering: " + String(steering));
 
 }
 
 void driveFromRX(){
 
-  int16_t steering = pulseIn(PIN_RX_CH1, HIGH);
-  int16_t throttle = pulseIn(PIN_RX_CH2, HIGH);
+  steering = pulseIn(PIN_RX_CH1, HIGH);
+  throttle = pulseIn(PIN_RX_CH2, HIGH);
 
   steering = constrain(map(steering, 1000, 2000, 0, 180), 0, 180);
-  throttle = constrain(map(throttle, 1000, 2000, -100, 100), -100, 100);
+  throttle = constrain(map(throttle, 1000, 2000, -800, 800), -800, 800);
 
   steeringServo.write(steering);
   driveMotor(throttle);
-
-  Serial.println("Steering: " + String(steering) + ", Throttle: " + String(throttle));
 
 }
 
 void driveMotor(int throttle){
 
   digitalWrite(PIN_TB6612_STBY, HIGH); 
+  analogWriteResolution(255);
 
   if(throttle > 0){
 
@@ -102,17 +123,54 @@ void driveMotor(int throttle){
 
 void updateEncoder(){
 
-  int MSB = digitalRead(PIN_MOTOR_ENCA); 
-  int LSB = digitalRead(PIN_MOTOR_ENCB); 
-
-  int encoded = (MSB << 1) | LSB;
-  int sum = (prevEncoderPos << 2) | encoded;
-
-  if (sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011)
+  if(throttle > 0){
     encoderPos++;
-  if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000)
+  }
+  else{
     encoderPos--;
+  }
 
-  prevEncoderPos = encoded;
+}
+
+void driveFromSerial(){
+
+  if(Serial.available()){
+
+    String input = Serial.readString();
+
+    int commaIndex = input.indexOf(',');
+
+    String throttleString = input.substring(0, commaIndex);
+    String steeringString = input.substring(commaIndex + 1);
+
+    throttle = throttleString.toInt();
+    steering = steeringString.toInt();
+
+  }
+
+}
+
+float getYaw(){
+
+  std::vector<sensors_event_t> sensorData = sensorManager.updateSensors();
+
+  static float yaw = 0.0f;
+
+    for(sensors_event_t event : sensorData){
+
+    if(event.type == SENSOR_TYPE_GYROSCOPE){
+
+      unsigned long currentMillis = millis();
+      float dT = (currentMillis - prevMillis) / 1000.0f; // seconds
+      prevMillis = currentMillis;
+
+      // event.gyro.z is in rad/s, convert to deg/s and integrate
+      yaw -= event.gyro.z * (180.0f / PI) * dT;
+
+    }
+
+  }
+
+  return yaw;
 
 }
