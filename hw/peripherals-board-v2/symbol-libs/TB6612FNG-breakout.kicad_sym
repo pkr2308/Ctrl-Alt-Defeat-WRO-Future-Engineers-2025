@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TB6612FNG-breakout:TB6612FNG-breakout"
 			(at 0 0 0)
 			(effects
 				(font
