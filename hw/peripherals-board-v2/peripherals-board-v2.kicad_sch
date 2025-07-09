@@ -10,7 +10,368 @@
 		(rev "2")
 		(company "DIY Laboratories")
 	)
-	(lib_symbols)
+	(lib_symbols
+		(symbol "TB6612FNG-breakout:TB6612FNG-breakout"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 3.048 2.286 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TB6612FNG-breakout_0_1"
+				(rectangle
+					(start 2.54 1.27)
+					(end 12.7 -12.7)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TB6612FNG-breakout_1_1"
+				(text "TB6612FNG\nBreakout"
+					(at 7.366 -0.254 0)
+					(effects
+						(font
+							(size 0.635 0.635)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "VM"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -3.81 0)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -6.35 0)
+					(length 2.54)
+					(name "AO1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "AO2"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -8.89 0)
+					(length 2.54)
+					(name "B02"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "B01"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -11.43 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 15.24 -2.54 180)
+					(length 2.54)
+					(name "PWMA"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 15.24 -3.81 180)
+					(length 2.54)
+					(name "AIN2"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 15.24 -5.08 180)
+					(length 2.54)
+					(name "AIN1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -6.35 180)
+					(length 2.54)
+					(name "STBY"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -7.62 180)
+					(length 2.54)
+					(name "BIN1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -8.89 180)
+					(length 2.54)
+					(name "BIN2"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -10.16 180)
+					(length 2.54)
+					(name "PWMB"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 15.24 -11.43 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
 	(text "Requirements:\nWaveshare RP2040-Zero\nOn-board MPU6050/BNO055 (Options for both)\nEEPROM chip to store log data (MicroSD too big)\nOLED for status (ext connector, might need to mount OLED on top of frame)\nTB6612FNG Motor Driver\nThree I2C ports for LiDAR sensor\nScrew Terminal for power input\nScrew terminal for motor output\nConnector for steering servo\nbreak out GPIO"
 		(exclude_from_sim no)
 		(at 55.88 28.194 0)
@@ -20,6 +381,116 @@
 			)
 		)
 		(uuid "b89ee804-705b-474f-8f00-8c5caf4b0c8c")
+	)
+	(symbol
+		(lib_id "TB6612FNG-breakout:TB6612FNG-breakout")
+		(at 146.05 49.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a7fd44eb-40f5-41a0-80a1-b5859c25e134")
+		(property "Reference" "U1"
+			(at 153.67 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 153.67 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 146.05 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 146.05 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 146.05 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "8a8409fa-639b-460f-a94d-8b7c7c30a567")
+		)
+		(pin "7"
+			(uuid "dc0791c9-3ede-4ec8-856b-c5664faedf49")
+		)
+		(pin "15"
+			(uuid "68128a9b-f16e-4d0b-9d6d-c0152cee697c")
+		)
+		(pin "6"
+			(uuid "cc7cbf6a-a357-4e35-ad49-9200da423735")
+		)
+		(pin "13"
+			(uuid "8738d28f-cc1c-436a-93c1-7f88e475f7e0")
+		)
+		(pin "1"
+			(uuid "351dc707-a6fe-4efc-ac23-88f2d7f5e6b6")
+		)
+		(pin "9"
+			(uuid "4e1fe5b0-57eb-4deb-828c-f5cfcc932a90")
+		)
+		(pin "12"
+			(uuid "48944f27-2490-4289-9873-f4ca3a567066")
+		)
+		(pin "5"
+			(uuid "1b722afc-d622-4322-8f5e-74626ef45269")
+		)
+		(pin "4"
+			(uuid "dc56ccfe-9dda-4012-9c41-0115216ae9c4")
+		)
+		(pin "8"
+			(uuid "3ee0a89b-4647-4ee7-b51c-3230c4d056f2")
+		)
+		(pin "16"
+			(uuid "e62b47ba-db55-4c43-9aae-a43847027d57")
+		)
+		(pin "14"
+			(uuid "f0b8ca94-e46d-45e7-ae2d-f9fa4591dcbb")
+		)
+		(pin "11"
+			(uuid "33fdb07a-76cf-4358-93fc-da01c508666d")
+		)
+		(pin "10"
+			(uuid "c99164b7-31e2-4cb0-8f98-52a92c9cf737")
+		)
+		(pin "3"
+			(uuid "505579e4-f66a-4d02-8fb8-754ccbecd668")
+		)
+		(instances
+			(project ""
+				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(sheet_instances
 		(path "/"

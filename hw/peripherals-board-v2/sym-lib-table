@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "TB6612-breakout")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/TB6612-breakout.kicad_sym")(options "")(descr ""))
+  (lib (name "TB6612FNG-breakout")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/TB6612FNG-breakout.kicad_sym")(options "")(descr ""))
+)
