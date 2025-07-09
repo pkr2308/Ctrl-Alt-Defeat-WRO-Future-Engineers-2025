@@ -7,7 +7,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
-			(at 3.048 2.286 0)
+			(at 1.778 1.524 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23,7 +23,7 @@
 			)
 		)
 		(property "Footprint" "TB6612FNG-breakout:TB6612FNG-breakout"
-			(at 0 0 0)
+			(at 0.254 4.826 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -51,8 +51,8 @@
 		)
 		(symbol "TB6612FNG-breakout_0_1"
 			(rectangle
-				(start 2.54 1.27)
-				(end 12.7 -12.7)
+				(start 2.54 -1.27)
+				(end 15.24 -21.59)
 				(stroke
 					(width 0)
 					(type default)
@@ -63,11 +63,11 @@
 			)
 		)
 		(symbol "TB6612FNG-breakout_1_1"
-			(text "TB6612FNG\nBreakout"
-				(at 7.366 -0.254 0)
+			(text "TB6612FNG\nBreakout\n"
+				(at 9.144 0.762 0)
 				(effects
 					(font
-						(size 0.635 0.635)
+						(size 1.27 1.27)
 					)
 				)
 			)
@@ -77,32 +77,14 @@
 				(name "VM"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "1"
 					(effects
 						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at 0 -3.81 0)
-				(length 2.54)
-				(name "VCC"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-				(number "2"
-					(effects
-						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
@@ -110,71 +92,35 @@
 			(pin input line
 				(at 0 -5.08 0)
 				(length 2.54)
+				(name "VCC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 0 -7.62 0)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "3"
 					(effects
 						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-			)
-			(pin output line
-				(at 0 -6.35 0)
-				(length 2.54)
-				(name "AO1"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-				(number "4"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-			)
-			(pin output line
-				(at 0 -7.62 0)
-				(length 2.54)
-				(name "AO2"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-				(number "5"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-			)
-			(pin output line
-				(at 0 -8.89 0)
-				(length 2.54)
-				(name "B02"
-					(effects
-						(font
-							(size 0.762 0.762)
-						)
-					)
-				)
-				(number "6"
-					(effects
-						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
@@ -182,179 +128,233 @@
 			(pin output line
 				(at 0 -10.16 0)
 				(length 2.54)
+				(name "AO1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 0 -12.7 0)
+				(length 2.54)
+				(name "AO2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 0 -15.24 0)
+				(length 2.54)
+				(name "B02"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 0 -17.78 0)
+				(length 2.54)
 				(name "B01"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "7"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin input line
-				(at 0 -11.43 0)
+				(at 0 -20.32 0)
 				(length 2.54)
 				(name "GND"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "8"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin input line
-				(at 15.24 -2.54 180)
+				(at 17.78 -2.54 180)
 				(length 2.54)
 				(name "PWMA"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "16"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin input line
-				(at 15.24 -3.81 180)
+				(at 17.78 -5.08 180)
 				(length 2.54)
 				(name "AIN2"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "15"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin input line
-				(at 15.24 -5.08 180)
+				(at 17.78 -7.62 180)
 				(length 2.54)
 				(name "AIN1"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "14"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin output line
-				(at 15.24 -6.35 180)
+				(at 17.78 -10.16 180)
 				(length 2.54)
 				(name "STBY"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "13"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin output line
-				(at 15.24 -7.62 180)
+				(at 17.78 -12.7 180)
 				(length 2.54)
 				(name "BIN1"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "12"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin output line
-				(at 15.24 -8.89 180)
+				(at 17.78 -15.24 180)
 				(length 2.54)
 				(name "BIN2"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "11"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin output line
-				(at 15.24 -10.16 180)
+				(at 17.78 -17.78 180)
 				(length 2.54)
 				(name "PWMB"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "10"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 			)
 			(pin input line
-				(at 15.24 -11.43 180)
+				(at 17.78 -20.32 180)
 				(length 2.54)
 				(name "GND"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
 				(number "9"
 					(effects
 						(font
-							(size 0.762 0.762)
+							(size 1.27 1.27)
 						)
 					)
 				)
