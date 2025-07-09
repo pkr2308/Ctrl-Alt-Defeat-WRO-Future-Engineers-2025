@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "GY87:GY87"
 			(at 0 0 0)
 			(effects
 				(font
