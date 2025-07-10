@@ -1,0 +1,199 @@
+(footprint "JST_XH_01x04_Horizontal_NoFlange"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -0.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "8500db5d-bfa5-4bcc-90b1-3a91acb5bd8d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "JST_XH_01x04_Horizontal_NoFlange"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a97e8fe8-588e-4ff5-8ed1-66df38e1faa8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2cdf3433-ea4b-4bcc-be0c-8622e41453b7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ac8bfdf3-40aa-4c53-87c9-78407aff0bde")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -2.5 -7.5)
+		(end 10 -7.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "17216cc3-e317-4a72-9a1e-d14974356984")
+	)
+	(fp_line
+		(start -2.5 -0.5)
+		(end -2.5 -7.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "a34701ff-2899-4604-acd0-dd766e9c2d1c")
+	)
+	(fp_line
+		(start -2.5 -0.5)
+		(end -1.1 -0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "adda0224-608e-4885-bba5-fcc5da527422")
+	)
+	(fp_line
+		(start -1.1 -0.5)
+		(end -1.1 -1.1)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "ee8dffd6-3f1d-468e-90d5-8e57fbec4395")
+	)
+	(fp_line
+		(start 8.6 -1.1)
+		(end -1.1 -1.1)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "01f046cc-67d9-4efa-b512-0bc649835981")
+	)
+	(fp_line
+		(start 8.6 -0.5)
+		(end 8.6 -1.1)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "be558445-202f-4cd3-9358-f0dcc9529329")
+	)
+	(fp_line
+		(start 10 -7.5)
+		(end 10 -0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "e9f44714-bc1a-423e-bfe1-dbd01d92ed6f")
+	)
+	(fp_line
+		(start 10 -0.5)
+		(end 8.6 -0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "815a415f-3532-459e-b9e4-c9371036e3cf")
+	)
+	(fp_poly
+		(pts
+			(xy -1.1 0) (xy -1.3 -0.2) (xy -1.3 0.2)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "cf243319-8fc1-47b6-91d6-9b97a9a08ed7")
+	)
+	(pad "1" thru_hole roundrect
+		(at 0 0)
+		(size 1.7 1.95)
+		(drill 0.95)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(roundrect_rratio 0.147059)
+		(uuid "d8af25e9-04d8-4ccc-925d-d3d1c299cc1f")
+	)
+	(pad "2" thru_hole oval
+		(at 2.5 0)
+		(size 1.7 1.95)
+		(drill 0.95)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "e5bdc233-1bd0-4ffa-a30e-6f1d2d781664")
+	)
+	(pad "3" thru_hole oval
+		(at 5 0)
+		(size 1.7 1.95)
+		(drill 0.95)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "7f683c98-2f76-4261-8dce-fbdeab0c466c")
+	)
+	(pad "4" thru_hole oval
+		(at 7.5 0)
+		(size 1.7 1.95)
+		(drill 0.95)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "6bd1914e-ceb3-49f4-b4ed-ce4f797ce36d")
+	)
+	(group ""
+		(uuid "0d0c6723-d143-4426-ad8a-f0e06a4fce3c")
+		(members "6bd1914e-ceb3-49f4-b4ed-ce4f797ce36d" "7f683c98-2f76-4261-8dce-fbdeab0c466c"
+			"d8af25e9-04d8-4ccc-925d-d3d1c299cc1f" "e5bdc233-1bd0-4ffa-a30e-6f1d2d781664"
+		)
+	)
+	(group ""
+		(uuid "18ff13c8-0c26-4fcf-bb53-b985ff3c0a9d")
+		(members "01f046cc-67d9-4efa-b512-0bc649835981" "17216cc3-e317-4a72-9a1e-d14974356984"
+			"815a415f-3532-459e-b9e4-c9371036e3cf" "a34701ff-2899-4604-acd0-dd766e9c2d1c"
+			"adda0224-608e-4885-bba5-fcc5da527422" "be558445-202f-4cd3-9358-f0dcc9529329"
+			"e9f44714-bc1a-423e-bfe1-dbd01d92ed6f" "ee8dffd6-3f1d-468e-90d5-8e57fbec4395"
+		)
+	)
+	(embedded_fonts no)
+)

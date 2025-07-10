@@ -252,7 +252,7 @@
 						)
 					)
 				)
-				(number "23"
+				(number "22"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -270,7 +270,7 @@
 						)
 					)
 				)
-				(number "22"
+				(number "23"
 					(effects
 						(font
 							(size 1.27 1.27)
