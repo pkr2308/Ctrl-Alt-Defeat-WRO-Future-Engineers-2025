@@ -14373,18 +14373,6 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "diylabsed.github.io/wro-25"
-		(at 121.8 92.8 0)
-		(layer "F.SilkS")
-		(uuid "2c9ad0a2-bc77-4c09-86c8-f7feea6de9fd")
-		(effects
-			(font
-				(size 0.6 0.6)
-				(thickness 0.075)
-			)
-			(justify left bottom)
-		)
-	)
 	(gr_text "SDA"
 		(at 61.7 56.7 0)
 		(layer "F.SilkS")
@@ -14441,18 +14429,6 @@
 			(font
 				(size 0.6 0.6)
 				(thickness 0.1)
-			)
-			(justify left bottom)
-		)
-	)
-	(gr_text "diylabsed.github.io/wro-25"
-		(at 122.4 91.8 0)
-		(layer "F.SilkS")
-		(uuid "4176d8d0-622e-4905-b09e-70d434ea1e33")
-		(effects
-			(font
-				(size 0.6 0.6)
-				(thickness 0.075)
 			)
 			(justify left bottom)
 		)
@@ -15130,7 +15106,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "https://DIYLabsED.GitHub.io/wro-25\n"
+	(gr_text "https://diylabsed.github.io/wro-25\n"
 		(at 79.8 67.5 0)
 		(layer "B.SilkS")
 		(uuid "19eaf473-ea6d-411a-bf0c-5519c1537d94")
@@ -16849,7 +16825,7 @@
 	(group ""
 		(uuid "cc141ada-44d0-46ed-ba97-89b315989032")
 		(members "57b87c6b-6795-4c16-813f-7b25c02e8e27" "8be86143-ee16-4ab6-84d1-f07a21c35082"
-			"bc0e079f-9c5e-4db5-99b2-6822604a57ec" "d07d6b22-6a29-4d67-b3b7-077e6eceaa15"
+			"bc0e079f-9c5e-4db5-99b2-6822604a57ec"
 		)
 	)
 	(group ""
