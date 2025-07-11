@@ -33,6 +33,7 @@ int pos = 90;    // variable to store the servo position
 float yaw;
 int threshold = 65;
 int16_t lidarDist;
+int16_t startDist = 50;
 
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
 
@@ -67,13 +68,13 @@ void setup() {
   attachInterrupt(0, updateEncoder, CHANGE); 
   attachInterrupt(1, updateEncoder, CHANGE);
   
-  
+  delay(2000);
+
   if(!bno.begin()){
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
   }
   bno.setExtCrystalUse(true);
-
-  delay(2000);
+  lidar.getData(startDist, 0x10);
   /*
   while (true){
     //Serial.println("Waiting for start");
@@ -85,7 +86,7 @@ void setup() {
     }
   }
   */
-  forward(250);
+  forward(200);
 }
 
 void loop() {
@@ -97,7 +98,7 @@ void loop() {
 
   distance = encoderValue / 45;
   currentMillis = millis();
-  /*
+  
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
     
@@ -121,7 +122,8 @@ void loop() {
 
     Serial.print(" Turns:");
     Serial.println(turns);
-  }*/
+  }
+
   checkYaw();
 
   lidar.getData(lidarDist, 0x10); 
@@ -130,7 +132,7 @@ void loop() {
     turning = true;
   }
   
-  if (turns == 12 && distance > 100){ 
+  if (turns == 12 && lidarDist <= startDist && distance > 10){ 
     stop();
     while (true){}
     //Serial.print("Finished");
@@ -145,14 +147,6 @@ void updateEncoder(){
   if(dir == -1) encoderValue --;
   if(dir == 1) encoderValue ++;
 }
-
-/*
-void turnMotor(int dist,int direction){
-  int startEncoder = encoderValue;
-  target = startEncoder + 43*dist*direction;
-  if (direction == 1) forward(400);
-  else if (direction == -1) backward(400);
-}*/
 
 void forward(int pwm){
   digitalWrite(motorDir,HIGH);
@@ -197,13 +191,15 @@ void pStraight(){
     int error = round(targetYaw - yaw);
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
-    correction = 2.2 * error;
-    if (correction > 0) correction = correction * 1.1; // add a little bit of correction to the right
-    else correction = correction * 0.95; // add a little bit of correction to the left
+    
+    if (correction > 0) correction = correction * 1.5; // correction to the right
+    else if (correction < 0) correction = correction * 1.7; // correction to the left
+
     if (correction > 45) correction = 45;
     else if (correction < -45) correction = -45;
+
     myservo.write(90 + correction);
-    Serial.print("Correction: ");
-    Serial.println(correction);
+    // Serial.println("Correction: ");
+    // Serial.println(correction);
   }
 }
