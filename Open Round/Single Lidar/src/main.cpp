@@ -165,7 +165,8 @@ void backward(int pwm){
 }
 
 void stop(){
-  analogWrite(motor,0);
+  digitalWrite(motor,0);
+  digitalWrite(motorDir,LOW);
 }
 
 void steer(int angle){
@@ -181,7 +182,7 @@ void steer(int angle){
 
 void checkYaw(){
   float difference = targetYaw - yaw;
-  if (abs(difference) < 1 && turning == true){
+  if (abs(difference) < 3 && turning == true){
     myservo.write(90);
     turning = false;
     encoderValue = 0;
@@ -197,6 +198,10 @@ void pStraight(){
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
     correction = 2.2 * error;
+    if (correction > 0) correction = correction * 1.1; // add a little bit of correction to the right
+    else correction = correction * 0.95; // add a little bit of correction to the left
+    if (correction > 45) correction = 45;
+    else if (correction < -45) correction = -45;
     myservo.write(90 + correction);
     Serial.print("Correction: ");
     Serial.println(correction);
