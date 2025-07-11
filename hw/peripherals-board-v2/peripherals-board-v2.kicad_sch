@@ -4453,16 +4453,6 @@
 		)
 		(uuid "0e42481b-7935-4044-bd24-d77d7ae3486d")
 	)
-	(label "INT1"
-		(at 180.34 115.57 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "0f55423c-59a4-4b96-b7fd-3b64e08d2bc9")
-	)
 	(label "I2C0_SCL"
 		(at 40.64 80.01 0)
 		(effects
@@ -4492,6 +4482,16 @@
 			(justify left bottom)
 		)
 		(uuid "1f1ef133-4b48-4ea6-9804-b5695c5f63e4")
+	)
+	(label "DRDY"
+		(at 180.34 115.57 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2066669f-dc8e-47ce-a7c6-0553ae791ebf")
 	)
 	(label "BIN2"
 		(at 180.34 105.41 180)
@@ -4572,16 +4572,6 @@
 			(justify left bottom)
 		)
 		(uuid "4a9f321a-b30b-4abe-8a77-d4db4355e815")
-	)
-	(label "DRDY"
-		(at 180.34 113.03 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "4c099743-7674-46ab-aa9e-46e2adf91e7d")
 	)
 	(label "GP4"
 		(at 85.09 123.19 0)
@@ -4852,6 +4842,16 @@
 			(justify left bottom)
 		)
 		(uuid "bbc8368e-82e5-4f58-9341-d3b8b8fc98ca")
+	)
+	(label "INT1"
+		(at 180.34 113.03 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c41db791-9af9-411a-b281-cd8a1a5debc4")
 	)
 	(label "ENCB"
 		(at 22.86 185.42 0)
