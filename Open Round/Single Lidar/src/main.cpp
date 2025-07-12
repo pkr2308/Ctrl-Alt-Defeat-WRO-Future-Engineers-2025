@@ -1,6 +1,9 @@
 #include <Arduino.h>
 
+#include <wifi_data.h> // Include WiFi credentials
+
 #include <Wire.h>
+#include <WiFiS3.h>
 
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
@@ -20,14 +23,12 @@ const int motorDir = 10;
 int dir = 1;
 int lastEncoded = 0; 
 long encoderValue = 0;
-int target = 1000;
 int turns = 0;
 bool turning = false;
 
-unsigned long startMillis;  //some global variables available anywhere in the program
+unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 200;
-const unsigned long motorPeriod = 100;
 
 int pos = 90;    // variable to store the servo position  
 float yaw;
@@ -43,6 +44,13 @@ int startYaw = 0;
 
 float distance = 0.0;
 
+char ssid[] = WIFI_SSID;        // your network SSID (name)
+char pass[] = WIFI_PASS;    // your network password (use for WPA, or use as key for WEP)
+int keyIndex = 0;                 // your network key index number (needed only for WEP)
+
+int status = WL_IDLE_STATUS;
+WiFiServer server(80);
+
 // put function declarations here:
 void updateEncoder();
 void forward(int pwm);
@@ -51,6 +59,8 @@ void stop();
 void steer(int angle);
 void checkYaw();
 void pStraight();
+void printWifiStatus();
+void wifiData();
 
 void setup() {
   // put your setup code here, to run once:
@@ -75,17 +85,30 @@ void setup() {
   }
   bno.setExtCrystalUse(true);
   lidar.getData(startDist, 0x10);
-  /*
-  while (true){
-    //Serial.println("Waiting for start");
-    int pinValue = digitalRead(startBtn);
-    Serial.println("Waiting");
-    if(pinValue != 1){
-      Serial.print("Started");
-      break;
-    }
+
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Communication with WiFi module failed!");
+    // don't continue
+    while (true);
   }
-  */
+
+  String fv = WiFi.firmwareVersion();
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+    Serial.println("Please upgrade the firmware");
+  }
+
+  // attempt to connect to WiFi network:
+  while (status != WL_CONNECTED) {
+    Serial.print("Attempting to connect to Network named: ");
+    Serial.println(ssid);                   
+
+    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    status = WiFi.begin(ssid, pass);
+    // wait 10 seconds for connection:
+    delay(10000);
+  }
+  server.begin();
+  printWifiStatus();
   forward(200);
 }
 
@@ -137,9 +160,10 @@ void loop() {
     while (true){}
     //Serial.print("Finished");
   }
-  //if ( (dir == 1 && encoderValue > target) or (dir == -1 && encoderValue < target)) stop();
 
   pStraight();
+  wifiData();
+
 }
 
 // put function definitions here:
@@ -201,5 +225,85 @@ void pStraight(){
     myservo.write(90 + correction);
     // Serial.println("Correction: ");
     // Serial.println(correction);
+  }
+}
+
+void printWifiStatus() {
+  // print the SSID of the network you're attached to:
+  Serial.print("SSID: ");
+  Serial.println(WiFi.SSID());
+
+  // print your board's IP address:
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+
+  // print the received signal strength:
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
+  // print where to go in a browser:
+  Serial.print("To see this page in action, open a browser to http://");
+  Serial.println(ip);
+}
+
+void wifiData() {
+  WiFiClient client = server.available();   // listen for incoming clients
+
+  if (client) {                             // if you get a client,
+    Serial.println("new client");           // print a message out the serial port
+    String currentLine = "";                // make a String to hold incoming data from the client
+    while (client.connected()) {            // loop while the client's connected
+      if (client.available()) {             // if there's bytes to read from the client,
+        char c = client.read();             // read a byte, then
+        Serial.write(c);                    // print it out to the serial monitor
+        if (c == '\n') {                    // if the byte is a newline character
+
+          // if the current line is blank, you got two newline characters in a row.
+          // that's the end of the client HTTP request, so send a response:
+          if (currentLine.length() == 0) {
+            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+            // and a content-type so the client knows what's coming, then a blank line:
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-type:text/html");
+            client.println();
+
+            // the content of the HTTP response follows the header:
+            client.print("<p style=\"font-size:7vw;\"> Lidar - ");
+            client.print(lidarDist);
+            client.print(" cm </p>");
+            
+            client.print("<p style=\"font-size:7vw;\"> Yaw: ");
+            client.print(yaw);
+            client.print("°</p>");
+
+            client.print("<p style=\"font-size:7vw;\"> Target Yaw: ");
+            client.print(targetYaw);
+            client.print("°</p>");
+
+            client.print("<p style=\"font-size:7vw;\"> Distance: ");
+            client.print(distance);
+            client.print(" cm</p>");
+
+            client.print("<p style=\"font-size:7vw;\"> Turns: ");
+            client.print(turns);
+            client.print("</p>");
+            // The HTTP response ends with another blank line:
+            client.println();
+            // break out of the while loop:
+            break;
+          } else {    // if you got a newline, then clear currentLine:
+            currentLine = "";
+          }
+        } else if (c != '\r') {  // if you got anything else but a carriage return character,
+          currentLine += c;      // add it to the end of the currentLine
+        }
+      }
+      
+    }
+    // close the connection:
+    client.stop();
+    Serial.println("client disconnected");
   }
 }
