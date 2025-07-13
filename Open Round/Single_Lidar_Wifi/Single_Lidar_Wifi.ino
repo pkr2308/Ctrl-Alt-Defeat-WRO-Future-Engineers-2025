@@ -1,7 +1,5 @@
 #include <Arduino.h>
 
-#include <wifi_data.h> // Include WiFi credentials
-
 #include <Wire.h>
 #include <WiFiS3.h>
 
@@ -16,7 +14,7 @@ Servo myservo;
 
 const int encoder1 = 2;
 const int encoder2 = 3;
-const int startBtn = 5;
+const int startBtn = 8;
 const int motor = 12;
 const int motorDir = 10;
 
@@ -32,7 +30,7 @@ const unsigned long period = 200;
 
 int pos = 90;    // variable to store the servo position  
 float yaw;
-int threshold = 60;
+int threshold = 65;
 int16_t lidarDist;
 int16_t startDist = 50;
 
@@ -44,12 +42,8 @@ int startYaw = 0;
 
 float distance = 0.0;
 
-int correction = 0;
-float error = 0;
-float totalError = 0;
-
-char ssid[] = WIFI_SSID;        // your network SSID (name)
-char pass[] = WIFI_PASS;    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "Airtel_yolabs_apr";        // your network SSID (name)
+char pass[] = "yolabs4321";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;                 // your network key index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
@@ -58,21 +52,17 @@ WiFiServer server(80);
 // put function declarations here:
 void updateEncoder();
 void forward(int pwm);
-void backward(int pwm);
+void backward();
 void stop();
 void steer(int angle);
 void checkYaw();
 void pStraight();
-void printWifiStatus();
-void wifiData();
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-
   Wire.begin(); 
   myservo.attach(9);
-  myservo.write(90);
 
   pinMode(startBtn, INPUT_PULLUP);
 
@@ -83,30 +73,10 @@ void setup() {
   
   attachInterrupt(0, updateEncoder, CHANGE); 
   attachInterrupt(1, updateEncoder, CHANGE);
-  /*
-  while (true){
-    //Serial.println("Waiting for start");
-    int pinValue = digitalRead(startBtn);
-    Serial.println("Waiting");
-    if(pinValue != 1){
-      Serial.print("Started");
-      break;
-    }
-  }*/
-  delay(2000);
 
-  if(!bno.begin()){
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-  }
-  Serial.println("Initializing...");
-  bno.setExtCrystalUse(true);
-  lidar.getData(startDist, 0x20);
-  Serial.print("Start Distance: ");
-  Serial.println(startDist);
-  
   if (WiFi.status() == WL_NO_MODULE) {
     Serial.println("Communication with WiFi module failed!");
-    // don't continue
+
   }
 
   String fv = WiFi.firmwareVersion();
@@ -122,10 +92,18 @@ void setup() {
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
     // wait 10 seconds for connection:
-    delay(5000);
+    delay(10000);
   }
   server.begin();
   printWifiStatus();
+
+  if(!bno.begin()){
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+  }
+  bno.setExtCrystalUse(true);
+  lidar.getData(startDist, 0x10);
+  
+  delay(100);
   forward(200);
 }
 
@@ -137,9 +115,8 @@ void loop() {
   yaw = event.orientation.x;
 
   distance = encoderValue / 45;
-  
-  /*
   currentMillis = millis();
+  
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
     
@@ -163,17 +140,17 @@ void loop() {
 
     Serial.print(" Turns:");
     Serial.println(turns);
-  }*/
+  }
 
   checkYaw();
 
   lidar.getData(lidarDist, 0x20); 
-  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){
+  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 150)){
     steer(90);
     turning = true;
   }
   
-  if (turns == 12 && lidarDist <= (startDist+20) && distance > 10){ 
+  if (turns == 12 && lidarDist <= startDist && distance > 10){ 
     stop();
     while (true){}
     //Serial.print("Finished");
@@ -181,6 +158,7 @@ void loop() {
 
   pStraight();
   wifiData();
+
 }
 
 // put function definitions here:
@@ -217,7 +195,7 @@ void steer(int angle){
 
 void checkYaw(){
   float difference = targetYaw - yaw;
-  if (abs(difference) < 4 && turning == true){
+  if (abs(difference) < 3 && turning == true){
     myservo.write(90);
     turning = false;
     encoderValue = 0;
@@ -228,23 +206,22 @@ void checkYaw(){
 
 void pStraight(){
   if(turning == false){
-    correction = 0;
-    error = round(targetYaw - yaw);
+    int correction = 0;
+    int error = round(targetYaw - yaw);
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
-    totalError += error;
-    if (error > 0) correction = error * 2.2 - totalError * 0.02; // correction to the right
-    else if (error < 0) correction = error * 2.4 - totalError * 0.02; // correction to the left
+    
+    if (correction > 0) correction = correction * 1.5; // correction to the right
+    else if (correction < 0) correction = correction * 1.7; // correction to the left
 
     if (correction > 45) correction = 45;
     else if (correction < -45) correction = -45;
 
     myservo.write(90 + correction);
-    Serial.println("Correction: ");
-    Serial.println(correction);
+    // Serial.println("Correction: ");
+    // Serial.println(correction);
   }
 }
-
 
 void printWifiStatus() {
   // print the SSID of the network you're attached to:

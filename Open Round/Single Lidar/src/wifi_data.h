@@ -1,2 +1,2 @@
-#define WIFI_SSID "SamruddhiMesh"
-#define WIFI_PASS "Pranav2308"
+#define WIFI_SSID "Airtel_yolabs_apr"
+#define WIFI_PASS "yolabs4321"
