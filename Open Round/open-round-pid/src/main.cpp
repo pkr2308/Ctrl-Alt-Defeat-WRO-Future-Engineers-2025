@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "Adafruit_SSD1306.h"
 #include "Adafruit_BNO055.h"
+#include "Servo.h"
 #include "TFLI2C.h"
 #include "PID_v1.h"
 #include "pindefs.hpp"
@@ -9,14 +10,15 @@ unsigned long lastLoopTime = 0;
 unsigned long currentLoopTime = 0;
 const unsigned long loopInterval = 50;
 
-const double PID_P = 2;
-const double PID_I = 0;
-const double PID_D = 0;
+const double PID_P = 5;
+const double PID_I = 0.5;
+const double PID_D = 0.5;
 
 double yawError = 0;
 double yawTarget = 0;
 double pidOutput = 0;
 double currentYaw = 0;
+double adjustedYawTarget = 0;
 
 const double MAX_PID_OUTPUT = 200;
 const double MAX_STEERING_DEFLECTION = 45;
@@ -24,6 +26,7 @@ const double STEERING_CENTER = 90;
 int servoAngle = STEERING_CENTER;
 double servoAdjustment = 0;
 
+int16_t lidarDistance = 0;
 
 double getShortestAngleError(double target, double current);
 void commandSteering(double pidCommand);
@@ -32,7 +35,9 @@ void drive(int speed);
 
 Adafruit_SSD1306 oled(128, 64, &Wire1, -1);
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
-PID steeringPID(&currentYaw, &pidOutput, &yawTarget, PID_P, PID_I, PID_D, DIRECT);
+PID steeringPID(&currentYaw, &pidOutput, &adjustedYawTarget, PID_P, PID_I, PID_D, DIRECT);
+TFLI2C lidar;
+Servo steeringServo;
 
 
 void setup(){
@@ -49,6 +54,8 @@ void setup(){
   pinMode(PIN_TB6612_PWMB, OUTPUT);
   pinMode(PIN_TB6612_STBY, OUTPUT);
 
+  steeringServo.attach(PIN_STEERING_SERVO);
+
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 
   if(!bno.begin()) {
@@ -56,6 +63,8 @@ void setup(){
   }
 
   bno.setExtCrystalUse(true);
+
+  delay(3000);
 
   steeringPID.SetMode(AUTOMATIC);
   steeringPID.SetOutputLimits(-MAX_PID_OUTPUT, MAX_PID_OUTPUT);
@@ -70,12 +79,21 @@ void loop(){
   if(currentLoopTime - lastLoopTime >= loopInterval) {
     lastLoopTime = currentLoopTime;
 
+    lidar.getData(lidarDistance, 0x20);
+
     sensors_event_t event; 
     bno.getEvent(&event);
 
     currentYaw = event.orientation.x;
     yawError = getShortestAngleError(yawTarget, currentYaw);
-    yawTarget = 90;
+
+    adjustedYawTarget = yawTarget;
+    if(currentYaw - adjustedYawTarget > 180){
+      adjustedYawTarget += 360;
+    }
+    else if(currentYaw - adjustedYawTarget < -180){
+      adjustedYawTarget -= 360;
+    }
 
     Serial.print("yawTarget: ");
     Serial.print(yawTarget);
@@ -94,7 +112,8 @@ void loop(){
 
   printDataToOLED();
 
-  drive(200);
+  drive(150);
+  analogWriteResolution(1024);
 
 }
 
@@ -116,8 +135,10 @@ double getShortestAngleError(double target, double current) {
 
 void commandSteering(double pidCommand){
 
-  servoAdjustment = map(pidCommand, -MAX_PID_OUTPUT, MAX_PID_OUTPUT, -90, 90);
+  servoAdjustment = map(pidCommand, -MAX_PID_OUTPUT, MAX_PID_OUTPUT, -86, 86);
   servoAngle = STEERING_CENTER + servoAdjustment;
+
+  steeringServo.write(servoAngle);
 
 }
 
@@ -141,6 +162,8 @@ void printDataToOLED(){
   oled.println(servoAdjustment);
   oled.print("Servo Angle: ");
   oled.println(servoAngle);
+  oled.print("LiDAR Distance: ");
+  oled.println(lidarDistance);
 
   oled.display();
 
@@ -152,17 +175,30 @@ void drive(int speed){
 
   if(speed > 0){
 
-    digitalWrite(PIN_TB6612_BIN1, HIGH);
-    digitalWrite(PIN_TB6612_BIN2, LOW);
-    analogWrite(PIN_TB6612_PWMB, speed);
-
-  }
-  else{
-
     digitalWrite(PIN_TB6612_BIN1, LOW);
     digitalWrite(PIN_TB6612_BIN2, HIGH);
     analogWrite(PIN_TB6612_PWMB, speed);
 
   }
+  else{
+
+    digitalWrite(PIN_TB6612_BIN1, HIGH);
+    digitalWrite(PIN_TB6612_BIN2, LOW);
+    analogWrite(PIN_TB6612_PWMB, speed);
+
+  }
+
+}
+
+void setup1(){
+
+  delay(3000);  
+
+}
+
+void loop1(){
+    
+  delay(3000);
+  yawTarget = fmod(yawTarget -= 90, 360.0);
 
 }
