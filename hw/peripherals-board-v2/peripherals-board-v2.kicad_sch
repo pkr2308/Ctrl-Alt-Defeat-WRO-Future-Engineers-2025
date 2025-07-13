@@ -3545,6 +3545,16 @@
 	)
 	(wire
 		(pts
+			(xy 39.37 144.78) (xy 49.53 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1278f620-e26b-4885-8a77-2002dce041c8")
+	)
+	(wire
+		(pts
 			(xy 83.82 33.02) (xy 83.82 35.56)
 		)
 		(stroke
@@ -3865,13 +3875,13 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 124.46) (xy 50.8 124.46)
+			(xy 43.18 121.92) (xy 50.8 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "605f519a-6ae2-4bac-99dd-6fb8ec063fff")
+		(uuid "5ea18528-81ab-40e8-a42a-c9c050aaa79c")
 	)
 	(wire
 		(pts
@@ -3882,16 +3892,6 @@
 			(type default)
 		)
 		(uuid "66f022d1-c5ff-4291-89ad-bf1938a3fa31")
-	)
-	(wire
-		(pts
-			(xy 40.64 121.92) (xy 50.8 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "69cba910-bfbf-4b1c-997a-67c33b88030b")
 	)
 	(wire
 		(pts
@@ -3942,16 +3942,6 @@
 			(type default)
 		)
 		(uuid "7698f0bf-5961-4146-9f47-48d4cb15044d")
-	)
-	(wire
-		(pts
-			(xy 41.91 144.78) (xy 49.53 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "77b1dc53-3efd-4cc6-b00b-7658bce45f9b")
 	)
 	(wire
 		(pts
@@ -4022,6 +4012,16 @@
 			(type default)
 		)
 		(uuid "8a6445f1-3fd1-4f2c-9336-a857a7099b0d")
+	)
+	(wire
+		(pts
+			(xy 39.37 147.32) (xy 49.53 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c0c1bd4-75a8-4968-a72e-fbad470678f6")
 	)
 	(wire
 		(pts
@@ -4175,6 +4175,16 @@
 	)
 	(wire
 		(pts
+			(xy 43.18 124.46) (xy 50.8 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c675d1b7-f10c-4773-9533-3d4d5d594710")
+	)
+	(wire
+		(pts
 			(xy 172.72 113.03) (xy 180.34 113.03)
 		)
 		(stroke
@@ -4192,16 +4202,6 @@
 			(type default)
 		)
 		(uuid "c8a01b99-e5b1-484c-918c-da94bdb828c8")
-	)
-	(wire
-		(pts
-			(xy 41.91 147.32) (xy 49.53 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "caa96fb4-ccdb-4b11-92e6-6353fc60bd08")
 	)
 	(wire
 		(pts
@@ -4433,26 +4433,6 @@
 		)
 		(uuid "0697badf-1b5f-4591-86d8-f87608bb59b8")
 	)
-	(label "RX_STR"
-		(at 41.91 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "0862f904-15d8-45f6-a7a3-0893841e7fd0")
-	)
-	(label "I2C0_SDA"
-		(at 40.64 121.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "0e42481b-7935-4044-bd24-d77d7ae3486d")
-	)
 	(label "I2C0_SCL"
 		(at 40.64 80.01 0)
 		(effects
@@ -4512,16 +4492,6 @@
 			(justify right bottom)
 		)
 		(uuid "27d56e43-6272-4a70-9a14-f61f42f844fb")
-	)
-	(label "I2C0_SCL"
-		(at 40.64 124.46 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "37caebc7-0968-459c-92e0-8cd328c7702e")
 	)
 	(label "I2C0_SDA"
 		(at 40.64 55.88 0)
@@ -4673,6 +4643,16 @@
 		)
 		(uuid "7ce401cf-0994-4d8f-90bc-408be7c7c0ee")
 	)
+	(label "RX_THR"
+		(at 43.18 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "83f45ab2-c889-4230-a276-cb23fc995d81")
+	)
 	(label "DRDY"
 		(at 106.68 80.01 0)
 		(effects
@@ -4813,16 +4793,6 @@
 		)
 		(uuid "b5b29bc5-a140-4b3c-8496-4d345f20562b")
 	)
-	(label "RX_THR"
-		(at 41.91 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ba76b190-b388-499d-83ed-fb7cc91d18a7")
-	)
 	(label "MOTOR-"
 		(at 175.26 43.18 0)
 		(effects
@@ -4883,6 +4853,16 @@
 		)
 		(uuid "d0ab385a-3563-4fe6-a8a5-f96b0c58d4d3")
 	)
+	(label "I2C0_SDA"
+		(at 39.37 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d470be14-61a2-4c75-901b-38a20ae66c4d")
+	)
 	(label "ENCA"
 		(at 180.34 100.33 180)
 		(effects
@@ -4912,6 +4892,16 @@
 			(justify right bottom)
 		)
 		(uuid "dd0bb778-a07b-459c-87cf-588ceb42dac1")
+	)
+	(label "I2C0_SCL"
+		(at 39.37 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "de60f149-9cad-4d2e-bafb-e89871ea83ee")
 	)
 	(label "STBY"
 		(at 180.34 110.49 180)
@@ -4962,6 +4952,16 @@
 			(justify left bottom)
 		)
 		(uuid "fdd16c6e-8616-49c4-901e-0f29b070440d")
+	)
+	(label "RX_STR"
+		(at 43.18 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ffdfbb96-e7d0-498e-88c8-8ad34b94de79")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -6321,7 +6321,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Radio Input"
+		(property "Value" "LiDAR Left"
 			(at 55.88 147.3199 0)
 			(effects
 				(font
@@ -8881,7 +8881,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LiDAR Left"
+		(property "Value" "Radio Input"
 			(at 57.15 124.4599 0)
 			(effects
 				(font
