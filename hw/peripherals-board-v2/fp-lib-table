@@ -2,4 +2,5 @@
   (version 7)
   (lib (name "JST_XH_01x04_Horizontal_NoFlange")(type "KiCad")(uri "${KIPRJMOD}/footprint-libs/JST_XH_01x04_Horizontal_NoFlange.pretty")(options "")(descr ""))
   (lib (name "ScrewTerminal_01x04_P5mm")(type "KiCad")(uri "${KIPRJMOD}/footprint-libs/ScrewTerminal_01x04_P5mm.pretty")(options "")(descr ""))
+  (lib (name "BNO055-breakout")(type "KiCad")(uri "${KIPRJMOD}/footprint-libs/BNO055-breakout.pretty")(options "")(descr ""))
 )
