@@ -8836,19 +8836,7 @@
 			(justify top)
 		)
 	)
-	(gr_text "DESIGNED IN KICAD 9 | MANUFACTURED BY ROBU"
-		(at 106.9 47.3 0)
-		(layer "B.SilkS")
-		(uuid "2b74a320-be14-450a-8f17-402896bc6c38")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.0625)
-			)
-			(justify left top mirror)
-		)
-	)
-	(gr_text "Peripherals Board\nHW Revision 2"
+	(gr_text "Peripherals Interface\nHW Revision 2"
 		(at 91.2 60.85 0)
 		(layer "B.SilkS")
 		(uuid "3f56053b-2424-4640-b849-5a7bdd7df6a6")
@@ -8885,6 +8873,18 @@
 			(justify left top mirror)
 		)
 	)
+	(gr_text "Status"
+		(at 76.5 79.1885 0)
+		(layer "B.SilkS")
+		(uuid "94a307c4-3141-4b11-94dd-3b096122225d")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify top mirror)
+		)
+	)
 	(gr_text "Blogs"
 		(at 47.318929 75.724375 0)
 		(layer "B.SilkS")
@@ -8895,6 +8895,30 @@
 				(thickness 0.125)
 			)
 			(justify left top mirror)
+		)
+	)
+	(gr_text "Meat-based drivers are not allowed beyond this point."
+		(at 97.658932 48.37 0)
+		(layer "B.SilkS")
+		(uuid "abf1ac1f-009a-4569-88cf-900f82b59d14")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.125)
+			)
+			(justify left top mirror)
+		)
+	)
+	(gr_text "Board #"
+		(at 76.5 71.5185 0)
+		(layer "B.SilkS")
+		(uuid "bf79ab93-c189-4e06-b075-fc361800eb63")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify top mirror)
 		)
 	)
 	(gr_text "Designed by Adbhut Patil\ndiylabsed.github.io/wro-25"
@@ -11843,7 +11867,7 @@
 				(xy 72.192147 56.626359) (xy 72.255703 56.655384) (xy 72.262181 56.661416) (xy 72.525139 56.924374)
 				(xy 72.525149 56.924385) (xy 72.529479 56.928715) (xy 72.52948 56.928716) (xy 72.641284 57.04052)
 				(xy 72.728095 57.090639) (xy 72.728097 57.090641) (xy 72.766151 57.112611) (xy 72.778215 57.119577)
-				(xy 72.930943 57.1605) (xy 73.089057 57.1605) (xy 82.400831 57.1605) (xy 82.400847 57.160501) (xy 82.408443 57.160501)
+				(xy 72.930943 57.1605) (xy 82.400831 57.1605) (xy 82.400847 57.160501) (xy 82.408443 57.160501)
 				(xy 82.566554 57.160501) (xy 82.566557 57.160501) (xy 82.719285 57.119577) (xy 82.769404 57.090639)
 				(xy 82.856216 57.04052) (xy 82.96802 56.928716) (xy 82.96802 56.928714) (xy 82.978228 56.918507)
 				(xy 82.97823 56.918504) (xy 83.471133 56.4256) (xy 83.532454 56.392117) (xy 83.597126 56.395351)
@@ -13442,6 +13466,68 @@
 			)
 		)
 	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layer "B.SilkS")
+		(uuid "54450cf6-3956-4af9-970c-58407cbd09d4")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0.5)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(fill yes
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy 69.5 80.59) (xy 83.5 80.59) (xy 83.5 85.59) (xy 69.5 85.59)
+			)
+		)
+		(filled_polygon
+			(layer "B.SilkS")
+			(island)
+			(pts
+				(xy 83.443039 80.609685) (xy 83.488794 80.662489) (xy 83.5 80.714) (xy 83.5 85.466) (xy 83.480315 85.533039)
+				(xy 83.427511 85.578794) (xy 83.376 85.59) (xy 69.624 85.59) (xy 69.556961 85.570315) (xy 69.511206 85.517511)
+				(xy 69.5 85.466) (xy 69.5 80.714) (xy 69.519685 80.646961) (xy 69.572489 80.601206) (xy 69.624 80.59)
+				(xy 83.376 80.59)
+			)
+		)
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layer "B.SilkS")
+		(uuid "ed46e547-095f-493e-800a-ab95981a1273")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0.5)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(fill yes
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy 79 72.9185) (xy 74 72.9185) (xy 74 77.9185) (xy 79 77.9185)
+			)
+		)
+		(filled_polygon
+			(layer "B.SilkS")
+			(island)
+			(pts
+				(xy 78.943039 72.938185) (xy 78.988794 72.990989) (xy 79 73.0425) (xy 79 77.7945) (xy 78.980315 77.861539)
+				(xy 78.927511 77.907294) (xy 78.876 77.9185) (xy 74.124 77.9185) (xy 74.056961 77.898815) (xy 74.011206 77.846011)
+				(xy 74 77.7945) (xy 74 73.0425) (xy 74.019685 72.975461) (xy 74.072489 72.929706) (xy 74.124 72.9185)
+				(xy 78.876 72.9185)
+			)
+		)
+	)
 	(group ""
 		(uuid "2ce58501-1680-4715-b24b-eb2bd2c081d2")
 		(members "1f33ba35-fb73-41a0-b711-87afedd66306" "74cd1132-2a3a-4e4e-bb8a-187c3ba843fa"
@@ -13471,6 +13557,22 @@
 		(members "1be3cebb-bb20-4893-a42f-8a7c5a183936" "7c3bca12-8395-4e7e-acdb-d896bc106f8b"
 			"e43f2fd1-1dcd-49eb-9158-70274f33a26a" "e8e890f8-32a5-4a30-934c-574a704a12e6"
 		)
+	)
+	(group ""
+		(uuid "064281cf-0883-4292-900a-1a50879a4f4d")
+		(members "bf79ab93-c189-4e06-b075-fc361800eb63")
+	)
+	(group ""
+		(uuid "e5411a59-be7f-4233-b674-83c3ac2cfbd1")
+		(members "54450cf6-3956-4af9-970c-58407cbd09d4" "ffa7acf7-c143-4548-8d59-9e12ae28676b")
+	)
+	(group ""
+		(uuid "ea1727af-1429-4875-b184-ed6cd06c8a44")
+		(members "064281cf-0883-4292-900a-1a50879a4f4d" "ed46e547-095f-493e-800a-ab95981a1273")
+	)
+	(group ""
+		(uuid "ffa7acf7-c143-4548-8d59-9e12ae28676b")
+		(members "94a307c4-3141-4b11-94dd-3b096122225d")
 	)
 	(group ""
 		(uuid "0fa56c73-d0a8-4553-ba0d-814d3f0a8d24")

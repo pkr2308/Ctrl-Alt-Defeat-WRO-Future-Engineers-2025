@@ -3632,83 +3632,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(rectangle
-		(start 74.93 17.78)
-		(end 153.67 48.26)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid 5188854f-c7f8-4baf-9700-855d49317f0d)
-	)
-	(rectangle
-		(start 99.06 54.61)
-		(end 129.54 82.55)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid b0c52be2-0f60-45a8-aa82-ff87a88aa521)
-	)
-	(rectangle
-		(start 160.02 17.78)
-		(end 264.16 57.15)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid be03c0a6-92a4-44cc-99e1-1904db18e504)
-	)
-	(text "Power Supply\n"
-		(exclude_from_sim no)
-		(at 127 21.59 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-			)
-		)
-		(uuid "5ea2fd94-b798-4a00-8a3d-09c104a6f542")
-	)
-	(text "Motor Driver"
-		(exclude_from_sim no)
-		(at 216.662 21.844 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-			)
-		)
-		(uuid "93720e88-533a-443d-9e86-41dbe22fd6a0")
-	)
-	(text "IMU\n"
-		(exclude_from_sim no)
-		(at 119.634 57.15 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-			)
-		)
-		(uuid "abbc4d46-4506-4bc1-9644-7615c6ab3952")
-	)
-	(text "I2C Addresses:\nMPU6050: 0x68, 0x69\nBMP085: 0x77\nHMC5883L: 0x1E\nSSD1306 0x3C, 0x3D\nTFLuna: 0x07-0x77\nBNO055: 0x28, 0x29\nM24M02: 0x50-0x57"
-		(exclude_from_sim no)
-		(at 13.462 13.97 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "e9bca0a8-2183-4246-b736-2328c9dffb87")
-	)
 	(junction
 		(at 74.93 64.77)
 		(diameter 0)
@@ -4011,16 +3934,6 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 144.78) (xy 138.43 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3adcabf7-b1e8-40a2-9eec-9f6a418ef73d")
-	)
-	(wire
-		(pts
 			(xy 176.53 30.48) (xy 184.15 30.48)
 		)
 		(stroke
@@ -4031,7 +3944,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 144.78) (xy 133.35 144.78)
+			(xy 125.73 144.78) (xy 138.43 144.78)
 		)
 		(stroke
 			(width 0)
@@ -4331,16 +4244,6 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 147.32) (xy 138.43 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8d2a64c5-91cd-43a5-9d46-8bb6cf71333c")
-	)
-	(wire
-		(pts
 			(xy 260.35 74.93) (xy 250.19 74.93)
 		)
 		(stroke
@@ -4531,7 +4434,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 147.32) (xy 125.73 147.32)
+			(xy 125.73 147.32) (xy 138.43 147.32)
 		)
 		(stroke
 			(width 0)
@@ -4628,16 +4531,6 @@
 			(type default)
 		)
 		(uuid "d3d754a1-b59f-4744-98b5-44a40cab2c19")
-	)
-	(wire
-		(pts
-			(xy 125.73 167.64) (xy 138.43 167.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e0635bcb-8205-4243-ba67-27a27349aef2")
 	)
 	(wire
 		(pts
@@ -4778,16 +4671,6 @@
 			(justify right bottom)
 		)
 		(uuid "02a4cc7e-3075-4d28-81c2-f5c534a00e2f")
-	)
-	(label "MOTOR+"
-		(at 175.26 40.64 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "036cc073-f2e4-4a87-bcb7-08fa81127ed5")
 	)
 	(label "SPI1_MISO"
 		(at 260.35 74.93 180)
@@ -5109,16 +4992,6 @@
 		)
 		(uuid "8e32652e-299f-4142-adb9-1625ff6990fe")
 	)
-	(label "BIN2"
-		(at 208.28 40.64 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "a509ec30-3a9a-4b41-b607-dc875c3019a7")
-	)
 	(label "RF24_CSN"
 		(at 83.82 157.48 0)
 		(effects
@@ -5189,15 +5062,15 @@
 		)
 		(uuid "bba58d5b-81eb-4fd6-9803-9ce5bd282157")
 	)
-	(label "ENCA"
-		(at 180.34 100.33 180)
+	(label "SPI1_SCK"
+		(at 260.35 72.39 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "bf4a04a4-8124-4e83-ac3c-4f69dbe18b80")
+		(uuid "be9bd437-5e02-4313-9bb3-744974fa6693")
 	)
 	(label "BIN2"
 		(at 72.39 151.13 180)
@@ -5390,6 +5263,7 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
@@ -6507,79 +6381,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Socket")
-		(at 143.51 167.64 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "42abd1fc-32ea-4ff4-9360-81e9d9385531")
-		(property "Reference" "J13"
-			(at 144.78 166.3699 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "RPLidar Motor"
-			(at 144.78 168.9099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 143.51 167.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 143.51 167.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 143.51 167.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "5e33cce4-e271-416d-be13-a59c093563ed")
-		)
-		(pin "1"
-			(uuid "8d7b6e91-4b22-4107-b962-a8c49bab78da")
-		)
-		(pin "3"
-			(uuid "47455c38-f893-4016-a47f-0632067246a4")
-		)
-		(instances
-			(project ""
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "J13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:Conn_01x04_Socket")
 		(at 245.11 105.41 0)
 		(unit 1)
@@ -7573,7 +7374,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7985b82d-e8e8-41ef-8a08-2c657038cd57")
-		(property "Reference" "J5"
+		(property "Reference" "#PWR037"
 			(at 143.51 68.5799 0)
 			(effects
 				(font
@@ -7621,84 +7422,19 @@
 		(pin "1"
 			(uuid "47a8cd0e-378f-425d-b48b-dad476453762")
 		)
+		(pin "2"
+			(uuid "4c06e3e7-4b9a-44d6-b2ab-0ceadc85de8d")
+		)
+		(pin "3"
+			(uuid "1609736a-7611-41d6-904c-d34affad22ff")
+		)
+		(pin "4"
+			(uuid "9dac47c0-8230-4a2a-b41c-0c1de5a4fa44")
+		)
 		(instances
 			(project "peripherals-board-v2"
 				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
 					(reference "#PWR037")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 100.33 184.15 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7c81d929-b307-48a5-8cae-00d360340f97")
-		(property "Reference" "J10"
-			(at 102.362 181.356 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Extra Servo"
-			(at 107.95 185.166 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 100.33 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 142.24 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x04, script generated"
-			(at 142.24 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "a32776e1-a5f0-4230-b3e1-5adb21103db8")
-		)
-		(pin "4"
-			(uuid "af73f820-1cd8-4bb8-bced-086cb03f463f")
-		)
-		(pin "1"
-			(uuid "d21c9b27-f65e-4f93-9e89-ee4a81d1e150")
-		)
-		(pin "2"
-			(uuid "95d066c2-07ba-430c-b0db-5634c63d0514")
-		)
-		(instances
-			(project "peripherals-board-v2"
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -8571,72 +8307,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 138.43 142.24 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bb741933-9d92-41a8-bd25-63dadf377005")
-		(property "Reference" "#PWR017"
-			(at 138.43 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 138.43 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 138.43 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 138.43 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 138.43 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8731c77d-d446-44b6-bcdf-fe9e3e84a3e5")
-		)
-		(instances
-			(project "peripherals-board-v2"
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:Conn_01x04_Socket")
 		(at 189.23 27.94 0)
 		(unit 1)
@@ -8785,72 +8455,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 138.43 170.18 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ce762b58-3e68-4edc-a8b6-20063d10e76c")
-		(property "Reference" "#PWR042"
-			(at 138.43 176.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 138.43 175.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 138.43 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 138.43 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 138.43 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2e39c2be-1448-4a10-813c-abcbc411e634")
-		)
-		(instances
-			(project "peripherals-board-v2"
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "#PWR042")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:Conn_01x04_Socket")
 		(at 142.24 46.99 0)
 		(unit 1)
@@ -8921,72 +8525,6 @@
 			(project "peripherals-board-v2"
 				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
 					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 138.43 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d1e0bd28-5354-4ef7-b422-6787865ca6e3")
-		(property "Reference" "#PWR040"
-			(at 138.43 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 138.43 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 138.43 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 138.43 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 138.43 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f5299169-d75f-4cee-9e3c-ff43023ab4e2")
-		)
-		(instances
-			(project "peripherals-board-v2"
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -9192,72 +8730,6 @@
 			(project "peripherals-board-v2"
 				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
 					(reference "#PWR03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 138.43 165.1 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "df69aa35-e096-4aec-b48d-4e7464345528")
-		(property "Reference" "#PWR041"
-			(at 138.43 168.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 138.43 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 138.43 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 138.43 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 138.43 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "e769d04f-9408-44da-973a-5a76af0648d1")
-		)
-		(instances
-			(project "peripherals-board-v2"
-				(path "/caa19d1a-d407-4cf5-a8f8-de116332f63c"
-					(reference "#PWR041")
 					(unit 1)
 				)
 			)
