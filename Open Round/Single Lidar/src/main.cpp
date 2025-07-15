@@ -48,9 +48,9 @@ int correction = 0;
 float error = 0;
 float totalError = 0;
 
-char ssid[] = WIFI_SSID;        // your network SSID (name)
-char pass[] = WIFI_PASS;    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;                 // your network key index number (needed only for WEP)
+char ssid[] = WIFI_SSID;        // network SSID (name) from WifiData.h
+char pass[] = WIFI_PASS;    // network password from WifiData.h
+int keyIndex = 0;                 // network key index number
 
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);
@@ -83,7 +83,7 @@ void setup() {
   
   attachInterrupt(0, updateEncoder, CHANGE); 
   attachInterrupt(1, updateEncoder, CHANGE);
-  /*
+  
   while (true){
     //Serial.println("Waiting for start");
     int pinValue = digitalRead(startBtn);
@@ -92,7 +92,7 @@ void setup() {
       Serial.print("Started");
       break;
     }
-  }*/
+  }
   delay(2000);
 
   if(!bno.begin()){
@@ -138,7 +138,7 @@ void loop() {
 
   distance = encoderValue / 45;
   
-  /*
+  
   currentMillis = millis();
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
@@ -163,7 +163,7 @@ void loop() {
 
     Serial.print(" Turns:");
     Serial.println(turns);
-  }*/
+  }
 
   checkYaw();
 
@@ -233,15 +233,15 @@ void pStraight(){
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
     totalError += error;
-    if (error > 0) correction = error * 2.2 - totalError * 0.02; // correction to the right
-    else if (error < 0) correction = error * 2.4 - totalError * 0.02; // correction to the left
+    if (error > 0) correction = error * 2.2 - totalError * 0.002; // correction to the right
+    else if (error < 0) correction = error * 2.4 - totalError * 0.002; // correction to the left
 
     if (correction > 45) correction = 45;
     else if (correction < -45) correction = -45;
 
     myservo.write(90 + correction);
-    Serial.println("Correction: ");
-    Serial.println(correction);
+    //Serial.print("Correction: ");
+    //Serial.println(correction);
   }
 }
 
@@ -307,6 +307,14 @@ void wifiData() {
             client.print("<p style=\"font-size:7vw;\"> Turns: ");
             client.print(turns);
             client.print("</p>");
+
+            client.print("<p style=\"font-size:7vw;\"> Error: ");
+            client.print(error);
+            client.print(" °</p>");
+
+            client.print("<p style=\"font-size:7vw;\"> Correction: ");
+            client.print(correction);
+            client.print(" °</p>");
             // The HTTP response ends with another blank line:
             client.println();
             // break out of the while loop:
