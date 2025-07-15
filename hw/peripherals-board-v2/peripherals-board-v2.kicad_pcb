@@ -8475,7 +8475,7 @@
 			(justify top)
 		)
 	)
-	(gr_text "HW REV 2"
+	(gr_text "Peripherals Board"
 		(at 76.45 90 0)
 		(layer "F.SilkS")
 		(uuid "4895782a-a4b9-4715-8ed7-f0d84a0588d2")
