@@ -8487,6 +8487,18 @@
 			(justify bottom)
 		)
 	)
+	(gr_text "MTR-"
+		(at 102.86 101.05 0)
+		(layer "F.SilkS")
+		(uuid "4ffdf93c-2fe2-4839-b76f-b33ca5e0d0f3")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify bottom)
+		)
+	)
 	(gr_text "5V"
 		(at 48.25 68.2 90)
 		(layer "F.SilkS")
@@ -8533,6 +8545,18 @@
 				(thickness 0.1)
 			)
 			(justify top)
+		)
+	)
+	(gr_text "BATT-"
+		(at 92.88 101.06 0)
+		(layer "F.SilkS")
+		(uuid "679a1ff9-3848-4675-bbe2-332af7bce405")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify bottom)
 		)
 	)
 	(gr_text "GP11"
@@ -8630,6 +8654,30 @@
 				(thickness 0.1)
 			)
 			(justify top)
+		)
+	)
+	(gr_text "BATT+"
+		(at 87.86 101.05 0)
+		(layer "F.SilkS")
+		(uuid "a62e73ff-2a5d-4cb6-90c0-03cd61bf9c22")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "MTR+"
+		(at 97.86 101.05 0)
+		(layer "F.SilkS")
+		(uuid "a79dd54f-b541-49fc-8f5e-ec7e9cfec34e")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify bottom)
 		)
 	)
 	(gr_text "SDA"
