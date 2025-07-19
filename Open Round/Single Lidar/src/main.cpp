@@ -27,7 +27,7 @@ float distance = 0.0;
 // About turning
 int turns = 0;
 bool turning = false;
-int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise
+int turnDir = -1;           // 1 for clockwise, -1 for counterclockwise
 
 // About IMU
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
@@ -92,17 +92,14 @@ void setup() {
   if(!bno.begin()){
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
   }
-  Serial.println("Initializing...");
   bno.setExtCrystalUse(true);
+  Serial.println("Initializing...");
+
   lidar.getData(startDist, 0x20);
   Serial.print("Start Distance: ");
   Serial.println(startDist);
-  if (startDist > 140) {
-    stopDist = 0;
-  }
-  else{
-    stopDist = 80;
-  }
+  if (startDist > 140) stopDist = 0;
+  else stopDist = 80;
   
   forward(275);
 }
