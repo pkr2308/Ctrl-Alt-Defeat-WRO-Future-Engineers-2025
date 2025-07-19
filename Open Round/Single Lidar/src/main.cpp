@@ -11,42 +11,51 @@
 TFLI2C lidar;
 Servo myservo;
 
+// Pin definitions
 const int encoder1 = 2;
 const int encoder2 = 3;
-const int startBtn = 8;
+const int startBtn = 5;
 const int motor = 12;
 const int motorDir = 10;
 
+// About driving
 int dir = 1;
 int lastEncoded = 0; 
 long encoderValue = 0;
-int target = 1000;
+float distance = 0.0;
+
+// About turning
 int turns = 0;
 bool turning = false;
+int turnDir = -1;           // 1 for clockwise, -1 for counterclockwise
 
-unsigned long startMillis;  //some global variables available anywhere in the program
-unsigned long currentMillis;
-const unsigned long period = 200;
-const unsigned long motorPeriod = 100;
-
-int pos = 90;    // variable to store the servo position  
-float yaw;
-int threshold = 65;
-int16_t lidarDist;
-int16_t startDist = 50;
-
+// About IMU
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
-
-int turnDir = 1;
+float yaw;
 int targetYaw = 0;
 int startYaw = 0;
 
-float distance = 0.0;
+unsigned long startMillis;
+unsigned long currentMillis;
+const unsigned long period = 200;
 
-// put function declarations here:
+int pos = 90;    // variable to store the servo position  
+
+// About Lidar
+int threshold = 60;
+int16_t lidarDist;
+int16_t startDist = 50;
+int stopDist = 5;
+
+// About Gyro straight follower
+int correction = 0;
+float error = 0;
+float totalError = 0;             // Used for integral control
+
+// Function declarations
 void updateEncoder();
 void forward(int pwm);
-void backward();
+void backward(int pwm);
 void stop();
 void steer(int angle);
 void checkYaw();
@@ -55,8 +64,10 @@ void pStraight();
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+
   Wire.begin(); 
   myservo.attach(9);
+  myservo.write(90);
 
   pinMode(startBtn, INPUT_PULLUP);
 
@@ -65,19 +76,10 @@ void setup() {
   pinMode(encoder1, INPUT_PULLUP); 
   pinMode(encoder2, INPUT_PULLUP);
   
-  attachInterrupt(0, updateEncoder, CHANGE); 
-  attachInterrupt(1, updateEncoder, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(2), updateEncoder, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(3), updateEncoder, CHANGE);
   
-  delay(2000);
-
-  if(!bno.begin()){
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-  }
-  bno.setExtCrystalUse(true);
-  lidar.getData(startDist, 0x10);
-  /*
   while (true){
-    //Serial.println("Waiting for start");
     int pinValue = digitalRead(startBtn);
     Serial.println("Waiting");
     if(pinValue != 1){
@@ -85,20 +87,35 @@ void setup() {
       break;
     }
   }
-  */
-  forward(200);
+  delay(1500);
+
+  if(!bno.begin()){
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+  }
+  bno.setExtCrystalUse(true);
+  Serial.println("Initializing...");
+
+  lidar.getData(startDist, 0x20);
+  Serial.print("Start Distance: ");
+  Serial.println(startDist);
+  if (startDist > 140) stopDist = 0;
+  else stopDist = 80;
+  
+  forward(275);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  
   sensors_event_t event; 
   bno.getEvent(&event);
 
   yaw = event.orientation.x;
 
   distance = encoderValue / 45;
-  currentMillis = millis();
   
+  /*
+  currentMillis = millis();
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
     
@@ -122,22 +139,21 @@ void loop() {
 
     Serial.print(" Turns:");
     Serial.println(turns);
-  }
+  }*/
 
   checkYaw();
 
-  lidar.getData(lidarDist, 0x10); 
-  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 150)){
+  lidar.getData(lidarDist, 0x20); 
+  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){
     steer(90);
     turning = true;
   }
   
-  if (turns == 12 && lidarDist <= startDist && distance > 10){ 
+  if (turns == 12 && distance >= stopDist){ 
     stop();
+    myservo.write(90);
     while (true){}
-    //Serial.print("Finished");
   }
-  //if ( (dir == 1 && encoderValue > target) or (dir == -1 && encoderValue < target)) stop();
 
   pStraight();
 }
@@ -149,11 +165,13 @@ void updateEncoder(){
 }
 
 void forward(int pwm){
+  dir = 1;
   digitalWrite(motorDir,HIGH);
   analogWrite(motor,pwm);
 }
 
 void backward(int pwm){
+  dir = -1;
   digitalWrite(motorDir,LOW);
   analogWrite(motor,pwm);
 }
@@ -165,19 +183,21 @@ void stop(){
 
 void steer(int angle){
   myservo.write(90 + turnDir*42);
+  forward(225);
   startYaw = yaw;
   targetYaw = yaw + angle*turnDir;
   if (targetYaw > 360) targetYaw = targetYaw - 360;
-  if (targetYaw > 85 && targetYaw < 95) targetYaw = 90;
-  else if (targetYaw > 175 && targetYaw < 185) targetYaw = 180;
-  else if (targetYaw > 265 && targetYaw < 275) targetYaw = 270;
-  else if (targetYaw > 355 or targetYaw < 5) targetYaw = 0;
+  if (targetYaw > 75 && targetYaw < 105) targetYaw = 90;
+  else if (targetYaw > 165 && targetYaw < 195) targetYaw = 180;
+  else if (targetYaw > 255 && targetYaw < 285) targetYaw = 270;
+  else if (targetYaw > 345 or targetYaw < 15) targetYaw = 0;
 }
 
 void checkYaw(){
   float difference = targetYaw - yaw;
-  if (abs(difference) < 3 && turning == true){
+  if (abs(difference) <= 6 && turning == true){
     myservo.write(90);
+    forward(275);
     turning = false;
     encoderValue = 0;
     distance = 0;
@@ -187,19 +207,19 @@ void checkYaw(){
 
 void pStraight(){
   if(turning == false){
-    int correction = 0;
-    int error = round(targetYaw - yaw);
+    correction = 0;
+    error = round(targetYaw - yaw);
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
-    
-    if (correction > 0) correction = correction * 1.5; // correction to the right
-    else if (correction < 0) correction = correction * 1.7; // correction to the left
+    totalError += error;
+    if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right
+    else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left
 
     if (correction > 45) correction = 45;
     else if (correction < -45) correction = -45;
 
     myservo.write(90 + correction);
-    // Serial.println("Correction: ");
-    // Serial.println(correction);
+    Serial.print("Correction: ");
+    Serial.println(correction);
   }
 }
