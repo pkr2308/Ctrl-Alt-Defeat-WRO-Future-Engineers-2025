@@ -13,13 +13,16 @@ Adafruit_NeoPixel pixel(1, PIN_RGB_LED, NEO_RGB + NEO_KHZ800);
 
 
 unsigned long prevCommandSendTime = 0;
-unsigned long commandSendIntervalMS = 100;
+unsigned long commandSendIntervalMS = 10;
 
 RFCommand command;
 RFData data;
 
 
 void blinkLED();
+void printDataStruct();
+void ledOn();
+void ledOff();
 
 
 void setup(){
@@ -38,9 +41,6 @@ void setup(){
   }
 
   Serial.begin();  
-  while(!Serial){
-    blinkLED();
-  }
 
   radio.setPALevel(RF24_PA_HIGH);
   radio.setDataRate(RF24_2MBPS);
@@ -54,6 +54,8 @@ void loop(){
 
   if(millis() - prevCommandSendTime >= commandSendIntervalMS){
 
+    prevCommandSendTime = millis();
+
     command.targetHeading = 20;
     command.targetSpeed = 200;
 
@@ -64,32 +66,71 @@ void loop(){
 
     if(sent){
 
-      Serial.println("Successfully sent command, awaiting telemetry");
+      ledOff();
 
       if(radio.available()){
-
-        Serial.println("Received telemetry");
         
         radio.read(&data, sizeof(data));
 
-        Serial.print("Orientation X: ");
-        Serial.println(data.orientation.x);
+        printDataStruct();
 
       }
 
+    }
+    else{
+      ledOn();
     }
 
   }
 
 }
 
-void blinkLED(){
+void ledOn(){
 
   pixel.setPixelColor(0, pixel.Color(255, 255, 0));
   pixel.show();
-  delay(100);
+
+}
+
+void ledOff(){
+
   pixel.setPixelColor(0, pixel.Color(0, 0, 0));
   pixel.show();
-  delay(100);
+  
+}
+
+void printDataStruct(){
+
+  Serial.print(data.orientation.x);
+  Serial.print(',');
+
+  Serial.print(data.orientation.y);
+  Serial.print(',');
+
+  Serial.print(data.orientation.z);
+  Serial.print(',');
+
+  Serial.print(data.speed);
+  Serial.print(',');  
+
+  Serial.print(data.steeringAngle);
+  Serial.print(',');  
+
+  Serial.print(data.targetSpeed);
+  Serial.print(',');  
+
+  Serial.print(data.targetYaw);
+  Serial.print(',');  
+
+  Serial.print(data.lidarData[0]);
+  Serial.print(',');  
+
+  Serial.print(data.lidarData[1]);
+  Serial.print(',');  
+
+  Serial.print(data.lidarData[2]);
+  Serial.print(',');  
+
+  Serial.println();
 
 }
