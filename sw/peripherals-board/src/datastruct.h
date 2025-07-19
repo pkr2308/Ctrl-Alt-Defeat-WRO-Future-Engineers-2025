@@ -16,4 +16,9 @@ struct RFData{
   uint8_t steeringAngle;
   uint16_t speed;
 
+  uint16_t targetYaw;
+  uint16_t targetSpeed;
+
+  uint16_t lidarData[3];
+
 };
