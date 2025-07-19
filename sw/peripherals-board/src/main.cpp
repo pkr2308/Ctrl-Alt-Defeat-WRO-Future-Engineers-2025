@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <RF24.h>
+#include <Adafruit_BNO055.h>
 #include "pindefs.h"
 #include "datastruct.h"
 #include "cmdstruct.h"
@@ -8,6 +9,7 @@
 
 
 RF24 radio(PIN_RF24_CE, PIN_RF24_CSN);
+Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
 
 RFCommand command;
 RFData data;
@@ -19,11 +21,18 @@ void setup(){
   SPI.setMOSI(PIN_SPI0_MOSI);
   SPI.setMISO(PIN_SPI0_MISO);
 
+  Wire.setSCL(PIN_I2C0_SCL);
+  Wire.setSDA(PIN_I2C0_SDA);
+
   Serial.begin();  
   while(!Serial);
 
   if(!radio.begin()){
     Serial.println("Radio init failed");
+  }
+
+  if(!bno.begin()){
+    Serial.println("BNO055 init failed");
   }
 
   radio.setPALevel(RF24_PA_HIGH);
@@ -39,7 +48,12 @@ void setup(){
 
 void loop(){
 
-  data.orientation.x = 42;
+  sensors_event_t event; 
+  bno.getEvent(&event);
+
+  data.orientation.x = event.orientation.x;
+  data.orientation.y = event.orientation.y;
+  data.orientation.z = event.orientation.z;
 
   uint8_t pipe;
 
