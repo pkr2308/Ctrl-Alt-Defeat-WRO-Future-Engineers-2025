@@ -27,7 +27,7 @@ float distance = 0.0;
 // About turning
 int turns = 0;
 bool turning = false;
-int turnDir = -1;           // 1 for clockwise, -1 for counterclockwise
+int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise
 
 // About IMU
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
@@ -156,6 +156,7 @@ void loop() {
   }
 
   pStraight();
+  delay(0.5);
 }
 
 // put function definitions here:
