@@ -60,7 +60,7 @@ void loop(){
   data.bnoGyroCal = gyroCal;
   data.bnoAccelCal = accelCal;
   data.bnoMagCal = magCal;
-  data.heartbeat = (millis()/100) % 2;
+  data.millis = millis();
 
   uint8_t pipe;
 
