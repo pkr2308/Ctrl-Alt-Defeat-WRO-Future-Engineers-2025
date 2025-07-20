@@ -10,8 +10,8 @@
 
 
 RF24 radio(PIN_RF24_CE, PIN_RF24_CSN);
-Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
-Adafruit_SSD1306 oled;
+Adafruit_BNO055 bno(0x28);
+Adafruit_SSD1306 oled(128, 64, &Wire, -1);
 
 RFCommand rfCommand;
 RFData rfData;
@@ -19,6 +19,7 @@ RFData rfData;
 
 void setCommPins();
 bool initRadio();
+void handleRadio();
 
 
 void setup(){
@@ -27,6 +28,10 @@ void setup(){
 
   Serial.begin();  
   while(!Serial);
+
+  if(!oled.begin(SSD1306_SWITCHCAPVCC, 0x3C)){
+    Serial.println("SSD1306 init failed");
+  }
 
   if(initRadio()){
     Serial.println("Radio init failed");
@@ -47,19 +52,12 @@ void loop(){
   rfData.orientation.y = event.orientation.y;
   rfData.orientation.z = event.orientation.z;
 
-  uint8_t pipe;
+  handleRadio();
 
-  if(radio.available(&pipe)){
-
-    radio.read(&rfCommand, sizeof(rfCommand));
-   
-    if(radio.writeAckPayload(pipe, &rfData, sizeof(rfData))){
-
-      Serial.println("successfully sent ack payload");
-
-    }
-
-  }
+  Serial.print("Throttle command: ");
+  Serial.print(rfCommand.targetSpeed);
+  Serial.print("  |  Steering command: ");
+  Serial.println(rfCommand.targetHeading);
 
 }
 
@@ -88,5 +86,23 @@ bool initRadio(){
   
   radio.openReadingPipe(1, VEHICLE_RX_ADDR);
   radio.startListening();
+
+  return true;
+
+}
+
+void handleRadio(){
+
+  uint8_t pipe;
+
+  if(radio.available(&pipe)){
+
+    radio.read(&rfCommand, sizeof(rfCommand));
+   
+    if(radio.writeAckPayload(pipe, &rfData, sizeof(rfData))){
+
+    }
+
+  }  
 
 }
