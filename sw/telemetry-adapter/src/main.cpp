@@ -23,6 +23,9 @@ void blinkLED();
 void printDataStruct();
 void ledOn();
 void ledOff();
+bool initRadio();
+void getCommandsFromSerial();
+void handleRadio();
 
 
 void setup(){
@@ -34,19 +37,7 @@ void setup(){
   SPI.setMOSI(RF_MOSI);
   SPI.setMISO(RF_MISO);
 
-  if(!radio.begin()){
-    pixel.setPixelColor(0, pixel.Color(255, 0, 0));
-    pixel.show();
-    while(true);
-  }
-
-  Serial.begin();  
-
-  radio.setPALevel(RF24_PA_HIGH);
-  radio.setDataRate(RF24_2MBPS);
-  radio.setAutoAck(true);
-  radio.enableAckPayload();
-  radio.setAddressWidth(5);
+  Serial.begin();
   
 }
 
@@ -56,30 +47,8 @@ void loop(){
 
     prevCommandSendTime = millis();
 
-    command.targetHeading = 20;
-    command.targetSpeed = 200;
-
-    radio.stopListening();
-    radio.openWritingPipe(VEHICLE_RX_ADDR);
-
-    bool sent = radio.write(&command, sizeof(command));
-
-    if(sent){
-
-      ledOff();
-
-      if(radio.available()){
-        
-        radio.read(&data, sizeof(data));
-
-        printDataStruct();
-
-      }
-
-    }
-    else{
-      ledOn();
-    }
+    getCommandsFromSerial();
+    handleRadio();
 
   }
 
@@ -144,5 +113,50 @@ void printDataStruct(){
   Serial.print(',');
 
   Serial.println();
+
+}
+
+bool initRadio(){
+
+  if(!radio.begin()){
+
+    pixel.setPixelColor(0, pixel.Color(255, 0, 0));
+    pixel.show();
+    return false;
+
+  }
+
+  radio.setPALevel(RF24_PA_HIGH);
+  radio.setDataRate(RF24_2MBPS);
+  radio.setAutoAck(true);
+  radio.enableAckPayload();
+  radio.setAddressWidth(5);
+  return true;
+
+}
+
+void handleRadio(){
+
+  radio.stopListening();
+  radio.openWritingPipe(VEHICLE_RX_ADDR);
+
+  bool sent = radio.write(&command, sizeof(command));
+
+  if(sent){
+
+    ledOff();
+
+    if(radio.available()){
+      
+      radio.read(&data, sizeof(data));
+
+      printDataStruct();
+
+    }
+
+  }
+  else{
+    ledOn();
+  }
 
 }
