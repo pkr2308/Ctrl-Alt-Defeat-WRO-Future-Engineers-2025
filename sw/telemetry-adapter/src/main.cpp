@@ -143,7 +143,7 @@ void printDataStruct(){
   Serial.print(data.bnoMagCal);
   Serial.print(',');
 
-  Serial.print(data.heartbeat);
+  Serial.print(data.millis);
   Serial.print(',');
 
   Serial.println();
