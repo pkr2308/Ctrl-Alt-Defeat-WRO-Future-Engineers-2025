@@ -21,4 +21,9 @@ struct RFData{
 
   uint16_t lidarData[3];
 
+  uint8_t bnoSysCal;
+  uint8_t bnoGyroCal;
+  uint8_t bnoAccelCal;
+  uint8_t bnoMagCal;
+
 };

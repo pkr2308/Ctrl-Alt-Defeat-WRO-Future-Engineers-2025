@@ -131,6 +131,18 @@ void printDataStruct(){
   Serial.print(data.lidarData[2]);
   Serial.print(',');  
 
+  Serial.print(data.bnoSysCal);
+  Serial.print(',');
+
+  Serial.print(data.bnoGyroCal);
+  Serial.print(',');
+
+  Serial.print(data.bnoAccelCal);
+  Serial.print(',');
+
+  Serial.print(data.bnoMagCal);
+  Serial.print(',');
+
   Serial.println();
 
 }
