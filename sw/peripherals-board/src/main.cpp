@@ -60,6 +60,7 @@ void loop(){
   data.bnoGyroCal = gyroCal;
   data.bnoAccelCal = accelCal;
   data.bnoMagCal = magCal;
+  data.heartbeat = !data.heartbeat;
 
   uint8_t pipe;
 

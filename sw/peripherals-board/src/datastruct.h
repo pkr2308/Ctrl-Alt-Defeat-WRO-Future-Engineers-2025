@@ -26,4 +26,6 @@ struct RFData{
   uint8_t bnoAccelCal;
   uint8_t bnoMagCal;
 
+  bool heartbeat;
+
 };
