@@ -78,7 +78,9 @@ void loop(){
 
     }
     else{
+
       ledOn();
+      
     }
 
   }
