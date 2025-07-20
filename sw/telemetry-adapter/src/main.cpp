@@ -143,6 +143,9 @@ void printDataStruct(){
   Serial.print(data.bnoMagCal);
   Serial.print(',');
 
+  Serial.print(data.heartbeat);
+  Serial.print(',');
+
   Serial.println();
 
 }
