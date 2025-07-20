@@ -49,11 +49,17 @@ void setup(){
 void loop(){
 
   sensors_event_t event; 
+  uint8_t sysCal, accelCal, gyroCal, magCal;
+  bno.getCalibration(&sysCal, &gyroCal, &accelCal, &magCal);
   bno.getEvent(&event);
 
   data.orientation.x = event.orientation.x;
   data.orientation.y = event.orientation.y;
   data.orientation.z = event.orientation.z;
+  data.bnoSysCal = sysCal;
+  data.bnoGyroCal = gyroCal;
+  data.bnoAccelCal = accelCal;
+  data.bnoMagCal = magCal;
 
   uint8_t pipe;
 
