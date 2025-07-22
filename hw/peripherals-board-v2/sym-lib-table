@@ -3,4 +3,5 @@
   (lib (name "TB6612-breakout")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/TB6612-breakout.kicad_sym")(options "")(descr ""))
   (lib (name "TB6612FNG-breakout")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/TB6612FNG-breakout.kicad_sym")(options "")(descr ""))
   (lib (name "GY87")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/GY87.kicad_sym")(options "")(descr ""))
+  (lib (name "BNO055-breakout")(type "KiCad")(uri "${KIPRJMOD}/symbol-libs/BNO055-breakout.kicad_sym")(options "")(descr ""))
 )

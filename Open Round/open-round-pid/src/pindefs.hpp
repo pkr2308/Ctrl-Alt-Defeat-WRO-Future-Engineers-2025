@@ -31,9 +31,3 @@
 #define PIN_I2C1_SDA           10
 
 #define PIN_LIDAR_SERVO       4
-
-#define PIN_SPI0_SCK 6
-#define PIN_SPI0_MOSI 7
-#define PIN_SPI0_MISO 4
-#define PIN_RF24_CE 5
-#define PIN_RF24_CSN 8
