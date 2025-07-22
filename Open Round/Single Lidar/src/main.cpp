@@ -114,32 +114,36 @@ void loop() {
 
   distance = encoderValue / 45;
   
-  /*
+
   currentMillis = millis();
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
     
-    Serial.print("Lidar:");
+    //Serial.print("Lidar:");
     Serial.print(lidarDist);
+    Serial.print(",");
     
-    Serial.print(" Yaw:");
+    //Serial.print(" Yaw:");
     Serial.print(yaw);
+    Serial.print(",");
 
-    Serial.print(" Target Yaw:");
+    //Serial.print(" Target Yaw:");
     Serial.print(targetYaw);
-    
-    Serial.print(" Encoder Value:");
-    Serial.print(encoderValue);
+    Serial.print(",");
 
-    Serial.print(" Distance:");
+    //Serial.print(" Encoder Value:");
+    //Serial.print(encoderValue);
+
+    //Serial.print(" Distance:");
     Serial.print(distance);
+    Serial.println(",");
 
-    Serial.print(" Direction:");
-    Serial.print(dir);
+    //Serial.print(" Direction:");
+    //Serial.print(dir);
 
-    Serial.print(" Turns:");
-    Serial.println(turns);
-  }*/
+    //Serial.print(" Turns:");
+    //Serial.println(turns);
+  }
 
   checkYaw();
 
