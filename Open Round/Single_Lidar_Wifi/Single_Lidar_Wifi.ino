@@ -42,8 +42,8 @@ int startYaw = 0;
 
 float distance = 0.0;
 
-char ssid[] = "Airtel_yolabs_apr";        // your network SSID (name)
-char pass[] = "yolabs4321";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "";        // your network SSID (name)
+char pass[] = "";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;                 // your network key index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
