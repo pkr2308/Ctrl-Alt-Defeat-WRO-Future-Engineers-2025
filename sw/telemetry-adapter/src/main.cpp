@@ -23,6 +23,7 @@ void blinkLED();
 void printDataStruct();
 void ledOn();
 void ledOff();
+void getCommandsFromSerial();
 
 
 void setup(){
@@ -56,8 +57,7 @@ void loop(){
 
     prevCommandSendTime = millis();
 
-    command.targetHeading = 20;
-    command.targetSpeed = 200;
+    getCommandsFromSerial();
 
     radio.stopListening();
     radio.openWritingPipe(VEHICLE_RX_ADDR);
@@ -143,6 +143,24 @@ void printDataStruct(){
   Serial.print(data.bnoMagCal);
   Serial.print(',');
 
+  Serial.print(data.millis);
+  Serial.print(',');
+
   Serial.println();
+
+}
+
+void getCommandsFromSerial(){
+
+  if(Serial.available()){
+
+    String commandString = Serial.readString();
+
+    int commaIndex = commandString.indexOf(',');
+
+    command.targetSpeed = commandString.substring(0, commaIndex).toInt();
+    command.targetHeading = commandString.substring(commaIndex + 1).toInt();
+
+  }
 
 }

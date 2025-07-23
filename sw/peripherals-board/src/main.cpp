@@ -60,6 +60,7 @@ void loop(){
   data.bnoGyroCal = gyroCal;
   data.bnoAccelCal = accelCal;
   data.bnoMagCal = magCal;
+  data.millis = millis();
 
   uint8_t pipe;
 

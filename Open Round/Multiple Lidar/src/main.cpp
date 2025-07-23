@@ -7,7 +7,13 @@
 #include <utility/imumaths.h>
 #include <Servo.h>
 #include <TFLI2C.h>
+#include <SoftwareSerial.h>
 
+const byte rxPin = 9;
+const byte txPin = 11;
+
+// Set up a new SoftwareSerial object
+SoftwareSerial mySerial (rxPin, txPin);
 TFLI2C lidar;
 Servo myservo;
 
@@ -27,7 +33,7 @@ float distance = 0.0;
 // About turning
 int turns = 0;
 bool turning = false;
-int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise
+int turnDir = 0;           // 1 for clockwise, -1 for counterclockwise
 
 // About IMU
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
@@ -43,8 +49,12 @@ int pos = 90;    // variable to store the servo position
 
 // About Lidar
 int threshold = 60;
-int16_t lidarDist;
-int16_t startDist = 50;
+int16_t front_lidarDist;
+int16_t left_lidarDist;
+int16_t right_lidarDist;
+int16_t front_startDist = 50;
+int16_t left_startDist = 50;
+int16_t right_startDist = 50;
 int stopDist = 5;
 
 // About Gyro straight follower
@@ -64,7 +74,7 @@ void pStraight();
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-
+  mySerial.begin(9600);
   Wire.begin(); 
   myservo.attach(9);
   myservo.write(90);
@@ -81,9 +91,9 @@ void setup() {
   
   while (true){
     int pinValue = digitalRead(startBtn);
-    Serial.println("Waiting");
+    mySerial.println("Waiting");
     if(pinValue != 1){
-      Serial.print("Started");
+      Serial.println("Started");
       break;
     }
   }
@@ -94,14 +104,16 @@ void setup() {
   }
   bno.setExtCrystalUse(true);
   Serial.println("Initializing...");
-
-  lidar.getData(startDist, 0x20);
+  
+  lidar.getData(left_startDist, 0x30);
+  lidar.getData(right_startDist, 0x10);
+  lidar.getData(front_startDist, 0x20);
   Serial.print("Start Distance: ");
-  Serial.println(startDist);
-  if (startDist > 140) stopDist = 0;
+  Serial.println(front_startDist);
+  if (front_startDist > 140) stopDist = 0;
   else stopDist = 80;
   
-  forward(275);
+  forward(240);
 }
 
 void loop() {
@@ -114,44 +126,50 @@ void loop() {
 
   distance = encoderValue / 45;
   
-
+  lidar.getData(left_lidarDist, 0x30);
+  lidar.getData(right_lidarDist, 0x10);
+  lidar.getData(front_lidarDist, 0x20); 
+  
   currentMillis = millis();
   if (currentMillis - startMillis >= period){
     startMillis = currentMillis;
     
-    //Serial.print("Lidar:");
-    Serial.print(lidarDist);
-    Serial.print(",");
-    
     //Serial.print(" Yaw:");
-    Serial.print(yaw);
-    Serial.print(",");
-
-    //Serial.print(" Target Yaw:");
+    mySerial.print(yaw);
+    mySerial.print(',');
+    //Serial.print("Front:");
+    mySerial.print(front_lidarDist);
+    mySerial.print(',');
+    //Serial.print("Left:");
+    mySerial.print(left_lidarDist);
+    mySerial.print(',');
+    //Serial.print("Right:");
+    mySerial.println(right_lidarDist);
+    
+    /*Serial.print(" Target Yaw:");
     Serial.print(targetYaw);
-    Serial.print(",");
+    
+    Serial.print(" Encoder Value:");
+    Serial.print(encoderValue);
 
-    //Serial.print(" Encoder Value:");
-    //Serial.print(encoderValue);
-
-    //Serial.print(" Distance:");
+    Serial.print(" Distance:");
     Serial.print(distance);
-    Serial.println(",");
 
-    //Serial.print(" Direction:");
-    //Serial.print(dir);
+    Serial.print(" Direction:");
+    Serial.print(dir);
 
-    //Serial.print(" Turns:");
-    //Serial.println(turns);
+    Serial.print(" Turns:");
+    Serial.println(turns);*/
   }
 
   checkYaw();
-
-  lidar.getData(lidarDist, 0x20); 
-  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){
+  
+  if ((front_lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){
     steer(90);
     turning = true;
   }
+  if ((left_lidarDist > left_startDist + 50) && (turnDir == 0)) turnDir = -1; // Turn left
+  else if ((right_lidarDist > right_startDist + 50) && (turnDir == 0)) turnDir = 1;
   
   if (turns == 12 && distance >= stopDist){ 
     stop();
@@ -224,7 +242,7 @@ void pStraight(){
     else if (correction < -45) correction = -45;
 
     myservo.write(90 + correction);
-    Serial.print("Correction: ");
-    Serial.println(correction);
+    //Serial.print("Correction: ");
+    //Serial.print(correction);
   }
 }
