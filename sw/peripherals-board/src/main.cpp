@@ -8,9 +8,11 @@
 #include <configuration.hpp>
 #include <PowertrainManager.hpp>
 
+#include <pb_hw_rev_2_includes.hpp>
 
+VehicleConfig config = getVehicleConfig();
 
-
+PowertrainManager powertrain(config);
 
 void setup(){
 

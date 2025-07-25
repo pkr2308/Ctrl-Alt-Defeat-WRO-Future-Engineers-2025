@@ -9,10 +9,10 @@
  #include "PowertrainManager.hpp"
  #include <cstdint>
 
-PowertrainManager::PowertrainManager(PowertrainDriver& ptd, VehicleConfig& cfg){
+PowertrainManager::PowertrainManager(VehicleConfig cfg){
 
-  _driver = ptd;
   _config = cfg;
+  _driver = cfg.
 
 }
 

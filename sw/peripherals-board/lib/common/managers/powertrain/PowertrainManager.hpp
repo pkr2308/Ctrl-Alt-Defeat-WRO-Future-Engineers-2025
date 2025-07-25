@@ -13,7 +13,7 @@
 class PowertrainManager{
 
 public:
-  PowertrainManager(PowertrainDriver& ptd, VehicleConfig& cfg);
+  PowertrainManager(VehicleConfig cfg);
   ~PowertrainManager() = default;
 
   void init();
@@ -21,8 +21,8 @@ public:
 
 
 private:
-  PowertrainDriver& _driver;
-  VehicleConfig& _config;
+  PowertrainDriver _driver;
+  VehicleConfig _config;
   uint16_t _absMaxMotorCommand = 1024;
 
 };
