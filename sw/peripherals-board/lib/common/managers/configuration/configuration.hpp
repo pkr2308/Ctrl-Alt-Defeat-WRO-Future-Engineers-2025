@@ -4,6 +4,8 @@
  * @author DIY Labs
  */
 
+ #pragma once
+
 #include <cstdint>
 
 /**

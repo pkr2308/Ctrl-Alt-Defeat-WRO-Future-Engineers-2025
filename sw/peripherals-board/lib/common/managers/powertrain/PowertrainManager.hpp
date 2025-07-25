@@ -4,13 +4,16 @@
  * @author DIY Labs
  */
 
+ #pragma once
+
 #include "driver.hpp"
 #include <configuration.hpp>
+#include <cstdint>
 
 class PowertrainManager{
 
 public:
-  PowertrainManager(PowertrainDriver ptd, VehicleConfig cfg);
+  PowertrainManager(PowertrainDriver& ptd, VehicleConfig& cfg);
   ~PowertrainManager() = default;
 
   void init();
@@ -18,7 +21,8 @@ public:
 
 
 private:
-  PowertrainDriver _driver;
-  VehicleConfig _config;
+  PowertrainDriver& _driver;
+  VehicleConfig& _config;
+  uint16_t _absMaxMotorCommand = 1024;
 
 };
