@@ -5,6 +5,7 @@
  */
 
  #include "Arduino.h"
+ #include <configuration.hpp>
 
 
  void setup(){
