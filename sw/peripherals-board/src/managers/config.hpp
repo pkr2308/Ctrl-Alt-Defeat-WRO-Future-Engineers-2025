@@ -36,18 +36,11 @@ struct PinConfig{
 
 };
 
-struct DriverConfig{
-
-  PowertrainDriver powertrainDriver;
-
-};
-
 /**
  * @brief One Config Struct To Rule Them All
  */
 struct VehicleConfig{
 
   PinConfig pinConfig;
-  DriverConfig drivers;
 
 };

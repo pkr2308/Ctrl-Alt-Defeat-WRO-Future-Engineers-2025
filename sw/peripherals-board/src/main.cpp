@@ -5,16 +5,16 @@
  */
 
 #include "Arduino.h"
-#include <configuration.hpp>
-#include <PowertrainManager.hpp>
+#include <hwrev1_motor_driver.hpp>
+#include <hwrev1_get_config.hpp>
 
-#include <pb_hw_rev_2_includes.hpp>
-
-VehicleConfig config = getVehicleConfig();
-
-PowertrainManager powertrain(config);
+hw_rev_1_MotorDriver motorDriver(hwrev1_getConfig());
 
 void setup(){
+
+  motorDriver.init();
+  motorDriver.armMotor();
+  motorDriver.driveMotor(512, true);
 
 }
 
