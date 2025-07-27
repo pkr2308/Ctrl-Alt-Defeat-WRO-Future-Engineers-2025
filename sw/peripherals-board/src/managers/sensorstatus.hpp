@@ -1,6 +1,6 @@
 #pragma once
 
-enum SensorStatus_t{
+enum status_t{
 
   STATUS_HEALTHY = 0,
   STATUS_FAULT = 1,

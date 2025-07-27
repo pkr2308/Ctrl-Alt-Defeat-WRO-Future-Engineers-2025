@@ -6,19 +6,6 @@
 #include <sensordata.hpp>
 #include "sensor.hpp"
 
-/*class SensorManager{
-
-public:
-  SensorManager(VehicleConfig cfg);
-  void addSensor(ISensor* sensor);
-  VehicleData update();
-
-private:
-  VehicleConfig _config;
-  std::vector<ISensor*> _sensors;
-
-};*/
-
 SensorManager::SensorManager(VehicleConfig cfg){
   _config = cfg;
 }
