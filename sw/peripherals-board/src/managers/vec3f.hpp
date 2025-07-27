@@ -6,4 +6,4 @@ struct Vec3f{
   float y = 0;
   float z = 0;
 
-}
+};

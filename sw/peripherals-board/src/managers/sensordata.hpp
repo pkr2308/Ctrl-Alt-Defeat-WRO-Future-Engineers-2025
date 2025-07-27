@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vector.hpp"
+#include "vec3f.hpp"
 #include <cstdint>
 
 struct SensorData{
