@@ -5,9 +5,7 @@
  */
 
 #include "Arduino.h"
-#include <hwrev1_get_config.hpp>
-#include <hwrev1_steering_driver.hpp>
-
+#include <hwrev1_includes.h>
 
 
 void setup(){
