@@ -5,16 +5,20 @@
  */
 
 #include "Arduino.h"
-#include <hwrev1_motor_driver.hpp>
 #include <hwrev1_get_config.hpp>
+#include <hwrev1_steering_driver.hpp>
 
-hw_rev_1_MotorDriver motorDriver(hwrev1_getConfig());
+hw_rev_1_SteeringDriver steeringDriver(hwrev1_getConfig());
 
 void setup(){
 
-  motorDriver.init();
-  motorDriver.armMotor();
-  motorDriver.driveMotor(512, true);
+  steeringDriver.init();
+  steeringDriver.steer(-90);
+  delay(500);
+  steeringDriver.steer(90);
+  delay(500);
+  steeringDriver.steer(0);
+  delay(500);
 
 }
 
