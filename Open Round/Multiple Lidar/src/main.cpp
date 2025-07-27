@@ -53,14 +53,16 @@ int16_t front_lidarDist;
 int16_t left_lidarDist;
 int16_t right_lidarDist;
 int16_t front_startDist = 50;
-int16_t left_startDist = 50;
-int16_t right_startDist = 50;
+int16_t left_startDist = 40;
+int16_t right_startDist = 40;
 int stopDist = 5;
 
 // About Gyro straight follower
 int correction = 0;
 float error = 0;
 float totalError = 0;             // Used for integral control
+float lateral_error = 0;          // Used for lateral correction
+float width = 80;                // Width of track as seen by Lidars
 
 // Function declarations
 void updateEncoder();
@@ -168,8 +170,8 @@ void loop() {
     steer(90);
     turning = true;
   }
-  if ((left_lidarDist > left_startDist + 50) && (turnDir == 0)) turnDir = -1; // Turn left
-  else if ((right_lidarDist > right_startDist + 50) && (turnDir == 0)) turnDir = 1;
+  if ((turnDir == 0) && (left_lidarDist > left_startDist + 50)) turnDir = -1; // Turning to left
+  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 50)) turnDir = 1; // Turning to right
   
   if (turns == 12 && distance >= stopDist){ 
     stop();
@@ -231,12 +233,21 @@ void checkYaw(){
 void pStraight(){
   if(turning == false){
     correction = 0;
+    lateral_error = 0;
     error = round(targetYaw - yaw);
+    width = right_lidarDist + left_lidarDist;
+    if (width > 80) width = 80;
+    lateral_error = right_lidarDist - left_lidarDist; // Calculate lateral error based on lidar readings
+    
     if (error > 180) error = error - 360;
-    else if (error < -180) error = error + 360;
-    totalError += error;
-    if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right
-    else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left
+    else if (error < -180) error = error + 360;                     // Normalize error to [-180, 180]
+    totalError += error;                                            // Accumulate error for integral control
+    
+    if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right based on yaw
+    else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left based on yaw
+
+    if (lateral_error > 0) correction += lateral_error * 0.55; // correction to left based on lateral error
+    else if (lateral_error < 0) correction += lateral_error * 0.5; // correction to right based on lateral error
 
     if (correction > 45) correction = 45;
     else if (correction < -45) correction = -45;
