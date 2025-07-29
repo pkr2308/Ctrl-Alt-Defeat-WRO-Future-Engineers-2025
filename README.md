@@ -3,14 +3,18 @@
 Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
 
-## The Team
-Adbhut, Pranav
+## About the Team
+Adbhut 
+
+Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC combination) and has been interested in Robotics for several years . He has participated in WRO in other categories in the past years. He was also part of Coding club in his school and built a few robotics projects for school events. His other interests include maths, physics, numismatics, history and Vedanta.
+
+Team Photo: 
 
 ## Project Overview
-This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python languages. This repository contains the programs, hardware description and design files of our model.
+This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python languages with use of PlatformIO extension for most microcontroller tests. This repository contains the programs, hardware description and design files of our model.
 
 ## Hardware Components
-- __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Pico, real-time control)
+- __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Pico, real-time control) (Use of Arduino for initial testing)
 - __Sensors:__ 1D and 2D LiDAR, IMU , rotary encoders motor, Picamera
 - __Actuators:__ N20 DC gear motor (with encoders), MG996R 180° servo (steering)
 - __Chassis:__ Commercially-available base, 3D-printable modifications (Links/STL files included)
