@@ -34,6 +34,9 @@ struct PinConfig{
   uint8_t spi0MISO = 0;
   uint8_t spi0SCK = 0;  
 
+  uint8_t uart1RX = 0;
+  uint8_t uart1TX = 0;
+
 };
 
 /**

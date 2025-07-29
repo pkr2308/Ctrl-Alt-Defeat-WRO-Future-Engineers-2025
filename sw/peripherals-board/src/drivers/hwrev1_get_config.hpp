@@ -9,6 +9,8 @@ VehicleConfig hwrev1_getConfig(){
   cfg.pinConfig.motorDriverPWM              = 26;
   cfg.pinConfig.motorDriverStandby          = 29;
   cfg.pinConfig.steeringServo               = 12;
+  cfg.pinConfig.uart1RX                     = 15;
+  cfg.pinConfig.uart1TX                     = 14;
 
   return cfg;
   

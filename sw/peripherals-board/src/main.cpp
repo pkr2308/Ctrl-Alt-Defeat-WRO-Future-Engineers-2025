@@ -5,7 +5,9 @@
  */
 
 #include "Arduino.h"
-#include <hwrev1_includes.h>
+
+#define VEHICLE_DRIVERSET_HWREV1
+#include <driverconfig.hpp>
 
 
 void setup(){
