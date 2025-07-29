@@ -1,3 +1,6 @@
+// This idea did not work
+// The wifi was too big a drain on the Arduino, so the round was not being well executed
+
 #include <Arduino.h>
 
 #include <Wire.h>
