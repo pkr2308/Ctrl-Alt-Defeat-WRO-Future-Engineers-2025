@@ -2,7 +2,6 @@
 
 #include <IRemoteCommunication.hpp>
 #include <config.hpp>
-#include <status.hpp>
 #include <vehiclecommand.hpp>
 #include <vehicledata.hpp>
 

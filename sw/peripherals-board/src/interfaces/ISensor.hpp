@@ -1,6 +1,5 @@
 #pragma once
 #include <sensordata.hpp>
-#include <status.hpp>
 
 class ISensor{
 public:  
