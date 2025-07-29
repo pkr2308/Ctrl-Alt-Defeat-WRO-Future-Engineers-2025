@@ -2,8 +2,8 @@
 
 ## Controllers
 - Raspberry Pi 4 and 5
-- Raspberry Pi Pico
-- Arduino Uno
+- Raspberry Pi 2040/Pico
+- Arduino Uno R3 and R4 Wifi
 ## Motors
 - TB6612FNG H-Bridge Motor Driver
 - L298 Motor Driver Shield
