@@ -12,6 +12,9 @@ VehicleConfig hwrev1_getConfig(){
   cfg.pinConfig.uart1RX                     = 15;
   cfg.pinConfig.uart1TX                     = 14;
 
+  cfg.limitsConfig.maxForwardSpeed          = 500;
+  cfg.limitsConfig.maxForwardSpeed          = 500;
+
   return cfg;
   
 }

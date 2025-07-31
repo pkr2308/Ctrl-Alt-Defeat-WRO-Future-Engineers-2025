@@ -14,6 +14,7 @@ void hw_rev_1_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* st
   // TODO: implement nullptr check and log
 
   _motorDriver->init();
+  _motorDriver->armMotor();
   _steeringDriver->init();
 
 }
@@ -23,6 +24,7 @@ void hw_rev_1_TargetControl::targetControl(VehicleCommand cmd){
   // implement PID
 
   _steeringDriver->steer(cmd.targetYaw);
+  _motorDriver->driveMotor(cmd.targetSpeed, true);
   _motorDriver->driveMotor(cmd.targetSpeed, true);
 
 }

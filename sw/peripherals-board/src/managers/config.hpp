@@ -39,11 +39,19 @@ struct PinConfig{
 
 };
 
+struct LimitsConfig{
+
+  uint16_t maxForwardSpeed = 0;
+  uint16_t maxReverseSpeed = 0;
+
+};
+
 /**
  * @brief One Config Struct To Rule Them All
  */
 struct VehicleConfig{
 
   PinConfig pinConfig;
+  LimitsConfig limitsConfig;
 
 };
