@@ -7,15 +7,10 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV1
-#include <driverconfig.hpp>
-
-VEHICLE_DRIVER_MOTOR motorDriver(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVER_STEERING steeringDriver(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
+#define VEHICLE_CONFIG DEBUG_DRIVE_FROM_RADIO // DEBUG_DRIVE_FROM_RADIO, DEBUG_DRIVE_FROM_SERIAL
+#include <driverconfig.hpp>         // *NOTE* All config #defines must be before this include
 
 void setup(){
-
-  targetControl.init(&motorDriver, &steeringDriver);
 
 }
 
