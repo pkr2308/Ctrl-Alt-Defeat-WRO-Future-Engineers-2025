@@ -70,3 +70,27 @@ void loop(){
   debugPrintVehicleData(vehicleData);
 
 }
+
+void debugPrintVehicleData(VehicleData data){
+
+  Serial.print("Orientation: ");
+  Serial.print(data.orientation.x);
+  Serial.print(", ");
+  Serial.print(data.orientation.y);
+  Serial.print(", ");
+  Serial.println(data.orientation.z);
+
+  Serial.print("Speed: ");
+  Serial.println(data.speed);
+
+  Serial.print("Encoder Position: ");
+  Serial.println(data.encoderPosition);
+
+  Serial.print("LiDAR: ");
+  Serial.print(data.lidar[270]);
+  Serial.print(", ");
+  Serial.print(data.lidar[0]);
+  Serial.print(", ");
+  Serial.println(data.lidar[90]);
+
+}
