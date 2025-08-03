@@ -20,6 +20,10 @@ double pidOutput = 0;
 double currentYaw = 0;
 double adjustedYawTarget = 0;
 
+double distance = 0;
+int encoderValue = 0;
+int direction = 1;    // 1 for forward, -1 for backward
+
 const double MAX_PID_OUTPUT = 200;
 const double MAX_STEERING_DEFLECTION = 45;
 const double STEERING_CENTER = 90;
@@ -32,6 +36,7 @@ double getShortestAngleError(double target, double current);
 void commandSteering(double pidCommand);
 void printDataToOLED();
 void drive(int speed);
+void updateEncoder();
 
 Adafruit_SSD1306 oled(128, 64, &Wire1, -1);
 Adafruit_BNO055 bno = Adafruit_BNO055(0x28);
@@ -54,6 +59,9 @@ void setup(){
   pinMode(PIN_TB6612_PWMB, OUTPUT);
   pinMode(PIN_TB6612_STBY, OUTPUT);
 
+  pinMode(PIN_MOTOR_ENCA, INPUT_PULLUP);
+  pinMode(PIN_MOTOR_ENCB, INPUT_PULLUP);
+
   steeringServo.attach(PIN_STEERING_SERVO);
 
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -70,6 +78,8 @@ void setup(){
   steeringPID.SetOutputLimits(-MAX_PID_OUTPUT, MAX_PID_OUTPUT);
   //steeringPID.SetSampleTime(loopInterval);
 
+  attachInterrupt(digitalPinToInterrupt(PIN_MOTOR_ENCA), updateEncoder, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(PIN_MOTOR_ENCB), updateEncoder, CHANGE);
 }
 
 void loop(){
@@ -100,9 +110,7 @@ void loop(){
     Serial.print(" currentYaw: ");
     Serial.print(currentYaw);
     Serial.print(" yawError: ");
-    Serial.print(yawError);
-
-    Serial.println();
+    Serial.println(yawError);
     
     steeringPID.Compute();
 
@@ -164,6 +172,8 @@ void printDataToOLED(){
   oled.println(servoAngle);
   oled.print("LiDAR Distance: ");
   oled.println(lidarDistance);
+  oled.print("Distance: ");
+  oled.println(distance);
 
   oled.display();
 
@@ -175,6 +185,7 @@ void drive(int speed){
 
   if(speed > 0){
 
+    direction = 1;
     digitalWrite(PIN_TB6612_BIN1, LOW);
     digitalWrite(PIN_TB6612_BIN2, HIGH);
     analogWrite(PIN_TB6612_PWMB, speed);
@@ -182,11 +193,23 @@ void drive(int speed){
   }
   else{
 
+    direction = -1;
     digitalWrite(PIN_TB6612_BIN1, HIGH);
     digitalWrite(PIN_TB6612_BIN2, LOW);
     analogWrite(PIN_TB6612_PWMB, speed);
 
   }
+
+  digitalWrite(PIN_TB6612_STBY, LOW);
+
+}
+
+void updateEncoder(){
+
+  if(direction == 1) encoderValue ++;
+  if(direction == -1) encoderValue --;
+
+  distance = encoderValue / 45;
 
 }
 
