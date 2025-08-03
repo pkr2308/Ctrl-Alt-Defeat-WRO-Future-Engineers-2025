@@ -58,7 +58,12 @@ void loop(){
 
   VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
 
-  targetControl.targetControl(vehicleCommand, vehicleData);
+  if(driveAlgorithm.isDirectControl()){
+    targetControl.directControl(vehicleCommand, vehicleData);
+  }
+  else{
+    targetControl.targetControl(vehicleCommand, vehicleData);
+  }
 
   delay(1);
 

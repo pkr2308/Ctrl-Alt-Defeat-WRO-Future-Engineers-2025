@@ -10,6 +10,7 @@ public:
     hw_rev_2_SingleLidarOpenRound(VehicleConfig cfg);
     void init() override;
     VehicleCommand drive(VehicleData vehicleData) override;
+    bool isDirectControl() override { return true; }
 
 private:
     VehicleConfig _config;

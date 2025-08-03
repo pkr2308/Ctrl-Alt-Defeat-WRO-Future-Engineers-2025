@@ -41,7 +41,14 @@ void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd, VehicleData data)
   steeringPID->Compute();
 
   _steeringDriver->steer(map(steeringPIDCommand, _config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
-  _motorDriver->driveMotor(cmd.targetSpeed, true); // temporary, implement PID speed control when reliable speed can be calculated from encoder
+  _motorDriver->driveMotor(abs(cmd.targetSpeed), cmd.targetSpeed); // temporary, implement PID speed control when reliable speed can be calculated from encoder
+
+}
+
+void hw_rev_2_TargetControl::directControl(VehicleCommand cmd, VehicleData data){
+
+  _steeringDriver->steer(map(cmd.targetYaw, 0, 180, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
+  _motorDriver->driveMotor(abs(cmd.targetSpeed), cmd.targetSpeed > 0);
 
 }
 

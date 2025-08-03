@@ -14,6 +14,7 @@ public:
 (VehicleConfig cfg);
   void init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver) override;
   void targetControl(VehicleCommand cmd, VehicleData data) override;
+  void directControl(VehicleCommand cmd, VehicleData data) override;
 
 private:
   VehicleConfig _config;
