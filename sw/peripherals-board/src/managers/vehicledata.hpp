@@ -8,5 +8,6 @@ struct VehicleData{
   Vec3f orientation;
   uint8_t lidar[360];
   uint16_t speed;
+  long encoderPosition;
 
 };

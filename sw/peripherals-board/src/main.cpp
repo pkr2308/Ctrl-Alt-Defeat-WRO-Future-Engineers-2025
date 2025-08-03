@@ -22,6 +22,9 @@ VEHICLE_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
+void debugPrintVehicleData(VehicleData data);
+
+
 void setup(){
 
   Serial.begin();
@@ -35,8 +38,8 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
-  attachInterrupt(digitalPinToInterrupt(2), updateEncoder, CHANGE); 
-  attachInterrupt(digitalPinToInterrupt(3), updateEncoder, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(2), updateEncoder, CHANGE); 
+  //attachInterrupt(digitalPinToInterrupt(3), updateEncoder, CHANGE);
 
   /*
   while (true){
@@ -65,11 +68,43 @@ void loop(){
     targetControl.targetControl(vehicleCommand, vehicleData);
   }
 
-  delay(1);
+  debugPrintVehicleData(vehicleData);
 
 }
-
+/*
 void updateEncoder(){
   if(dir == -1) encoderValue --;
   if(dir == 1) encoderValue ++;
+}
+  */
+
+
+void debugPrintVehicleData(VehicleData data){
+
+  Serial.print("Orientation: ");
+  Serial.print(data.orientation.x);
+  Serial.print(", ");
+  Serial.print(data.orientation.y);
+  Serial.print(", ");
+  Serial.print(data.orientation.z);
+
+  Serial.print("Speed: ");
+  Serial.print(data.speed);
+  Serial.print(", ");
+
+  Serial.print("Encoder Position: ");
+  Serial.print(data.encoderPosition);
+  Serial.print(", ");
+
+  Serial.print("LiDAR left: ");
+  Serial.print(data.lidar[270]);
+  Serial.print(", ");
+  Serial.print("LiDAR front: ");
+  Serial.print(data.lidar[0]);
+  Serial.print(", ");
+  Serial.print("LiDAR right: ");
+  Serial.print(data.lidar[90]);
+
+  Serial.println();
+
 }

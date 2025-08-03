@@ -5,6 +5,7 @@
 #include <vehicledata.hpp>
 #include <sensordata.hpp>
 #include "SensorManager.hpp"
+#include <Arduino.h>
 
 SensorManager::SensorManager(VehicleConfig cfg){
   _config = cfg;
@@ -47,6 +48,11 @@ VehicleData SensorManager::update(){
         vehicleData.lidar[i] = data.lidar[i];
       }
 
+    }
+
+    else if (data.sensorDataType == SENSOR_ENCODER){
+      vehicleData.encoderPosition = data.encoderPosition;
+      Serial.println(data.encoderPosition);
     }
 
   }
