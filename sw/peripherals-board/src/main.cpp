@@ -70,8 +70,3 @@ void loop(){
   debugPrintVehicleData(vehicleData);
 
 }
-
-void updateEncoder(){
-  if(dir == -1) encoderValue --;
-  if(dir == 1) encoderValue ++;
-}
