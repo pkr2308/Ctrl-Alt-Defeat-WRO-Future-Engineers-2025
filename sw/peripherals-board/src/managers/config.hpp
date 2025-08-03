@@ -56,6 +56,10 @@ struct LimitsConfig{
   uint16_t maxForwardSpeed = 0;
   uint16_t maxReverseSpeed = 0;
 
+  uint16_t servoMinOutput = 0;
+  uint16_t servoMaxOutput = 0;
+  uint16_t servoCenterOutput = 0;
+
 };
 
 struct ConstantsConfig{
@@ -89,6 +93,7 @@ struct ControlConfig{
 
   double maxSteeringAngle = 0;
 
+  float servoCommandToOutputRatio = 1; // 1 to avoid division by zero errors
 };
 
 /**

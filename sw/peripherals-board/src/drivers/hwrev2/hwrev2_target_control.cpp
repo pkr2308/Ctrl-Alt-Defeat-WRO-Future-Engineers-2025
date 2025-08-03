@@ -43,16 +43,6 @@ void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd, VehicleData data)
   _steeringDriver->steer(map(steeringPIDCommand, _config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
   _motorDriver->driveMotor(cmd.targetSpeed, true); // temporary, implement PID speed control when reliable speed can be calculated from encoder
 
-  Serial.print("Yaw:");
-  Serial.print(data.orientation.x);
-  Serial.print(" Target:");
-  Serial.print(adjustedYawTarget);
-  Serial.print(" Error:");
-  Serial.print(yawError);
-  Serial.print("Steering Command:");
-  Serial.println(map(steeringPIDCommand, _config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
-
-
 }
 
 double hw_rev_2_TargetControl::getShortestAngleError(double target, double current) {
