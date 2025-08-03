@@ -10,7 +10,8 @@ enum SensorDataType_t{
   SENSOR_MAGNETOMETER = 2,
   SENSOR_ORIENTATION = 3,
   SENSOR_LIDAR = 4,
-  SENSOR_SPEED = 5
+  SENSOR_SPEED = 5,
+  SENSOR_ENCODER = 6
 
 };
 
@@ -20,5 +21,6 @@ struct SensorData{
   int16_t lidar[360];
   float speed;
   SensorDataType_t sensorDataType;
+  long encoderPosition;
 
 };

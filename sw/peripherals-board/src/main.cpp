@@ -22,6 +22,9 @@ VEHICLE_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
+void debugPrintVehicleData(VehicleData data);
+
+
 void setup(){
 
   Serial.begin();
@@ -35,6 +38,7 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
+  
 
   /*
   while (true){
@@ -63,6 +67,11 @@ void loop(){
     targetControl.targetControl(vehicleCommand, vehicleData);
   }
 
-  delay(1);
+  debugPrintVehicleData(vehicleData);
 
+}
+
+void updateEncoder(){
+  if(dir == -1) encoderValue --;
+  if(dir == 1) encoderValue ++;
 }

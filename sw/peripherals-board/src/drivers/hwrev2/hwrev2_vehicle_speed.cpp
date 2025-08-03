@@ -49,8 +49,8 @@ void hw_rev_2_VehicleSpeed::init(){
 SensorData hw_rev_2_VehicleSpeed::update(){
 
   SensorData data;
-  data.sensorDataType = SENSOR_SPEED;
-
+  data.sensorDataType = SENSOR_ENCODER;
+/*
   unsigned long currentTime = millis();
   _encoderPosition = _encoder->getPosition();
   float speed = 0.0f;
@@ -67,8 +67,10 @@ SensorData hw_rev_2_VehicleSpeed::update(){
   _prevEncoderPosition = _encoderPosition;
   lastUpdateTime = currentTime;
 
-  data.speed = speed; 
 
+*/
+
+  data.encoderPosition = -_encoder->getPosition();
   return data;
  
 }
