@@ -1,3 +1,8 @@
+/* __ This Code Will Not Work __
+We later realised that the BNO055 IMU does not have a proper I2C protocol, so it can't be used on the same bus as the TFLuna LiDARs.
+The Arduino has only 1 I2C bus, while the RP2040, later used, has 2 enabling this system to work (with different PinOuts)
+*/
+
 #include <Arduino.h>
 
 #include <Wire.h>

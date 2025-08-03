@@ -28,6 +28,6 @@
 #define PIN_I2C0_SCL          1
 #define PIN_I2C0_SDA          0
 #define PIN_I2C1_SCL          11
-#define PIN_I2C1_SDA           10
+#define PIN_I2C1_SDA          10
 
 #define PIN_LIDAR_SERVO       4
