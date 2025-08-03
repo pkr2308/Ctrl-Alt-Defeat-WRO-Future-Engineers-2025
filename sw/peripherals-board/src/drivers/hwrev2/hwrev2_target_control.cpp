@@ -1,12 +1,12 @@
-#include <hwrev1_target_control.hpp>
+#include <hwrev2_target_control.hpp>
 
-hw_rev_1_TargetControl::hw_rev_1_TargetControl(VehicleConfig cfg){
+hw_rev_2_TargetControl::hw_rev_2_TargetControl(VehicleConfig cfg){
 
   _config =cfg;
 
 }
 
-void hw_rev_1_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver){
+void hw_rev_2_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver){
 
   _motorDriver = motorDriver;
   _steeringDriver = steeringDriver;
@@ -19,7 +19,7 @@ void hw_rev_1_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* st
 
 }
 
-void hw_rev_1_TargetControl::targetControl(VehicleCommand cmd){
+void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd){
 
   // implement PID
 

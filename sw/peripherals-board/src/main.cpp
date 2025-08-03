@@ -6,14 +6,48 @@
 
 #include "Arduino.h"
 
-#define VEHICLE_DRIVERSET_HWREV1
-#define VEHICLE_CONFIG DEBUG_DRIVE_FROM_RADIO // DEBUG_DRIVE_FROM_RADIO, DEBUG_DRIVE_FROM_SERIAL
-#include <driverconfig.hpp>         // *NOTE* All config #defines must be before this include
+#define VEHICLE_DRIVERSET_HWREV2                 // HWREV2, HWREV1 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
+#define VEHICLE_CONFIG DEBUG_DRIVE_FROM_RADIO    // DEBUG_DRIVE_FROM_RADIO, DEBUG_DRIVE_FROM_SERIAL
+#include <driverconfig.hpp>                      // *NOTE* All config #defines must be before this include
+#include <SensorManager.hpp>
+
+
+VEHICLE_DRIVER_IMU bno(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_LIDAR lidar(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_SPEED speed(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
+SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 void setup(){
+
+  Serial.begin();
+
+  targetControl.init(&motor, &steering);
+
+  sensorManager.addSensor(&bno);
+  sensorManager.addSensor(&lidar);
+  sensorManager.addSensor(&speed);
+  sensorManager.init();
 
 }
 
 void loop(){
+
+  VehicleData vehicleData = sensorManager.update();
+
+  Serial.print(vehicleData.orientation.x);
+  Serial.print(",");
+  Serial.print(vehicleData.orientation.y);
+  Serial.print(",");
+  Serial.print(vehicleData.orientation.z);
+  Serial.print(",");
+  Serial.print(vehicleData.lidar[270]);
+  Serial.print(",");
+  Serial.print(vehicleData.lidar[0]);
+  Serial.print(",");
+  Serial.print(vehicleData.lidar[90]);
+  Serial.print(",");
 
 }

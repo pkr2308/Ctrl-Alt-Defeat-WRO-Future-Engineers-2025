@@ -4,9 +4,9 @@
 #include <managers/config.hpp>
 #include <Arduino.h>
 
-class hw_rev_1_MotorDriver : public IMotorDriver{
+class hw_rev_2_MotorDriver : public IMotorDriver{
 public:
-  hw_rev_1_MotorDriver(VehicleConfig cfg);
+  hw_rev_2_MotorDriver(VehicleConfig cfg);
 
   void init() override;
   void driveMotor(int speed, bool dir) override;

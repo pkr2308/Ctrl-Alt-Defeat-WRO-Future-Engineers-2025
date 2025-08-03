@@ -5,9 +5,10 @@
 #include <ISteeringDriver.hpp>
 #include <ITargetControl.hpp>
 
-class hw_rev_1_TargetControl : public ITargetControl{
+class hw_rev_2_TargetControl : public ITargetControl{
 public:
-  hw_rev_1_TargetControl(VehicleConfig cfg);
+  hw_rev_2_TargetControl
+(VehicleConfig cfg);
   void init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver) override;
   void targetControl(VehicleCommand cmd) override;
 

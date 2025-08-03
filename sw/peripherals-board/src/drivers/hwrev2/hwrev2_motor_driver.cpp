@@ -1,15 +1,15 @@
-#include "hwrev1_motor_driver.hpp"
+#include "hwrev2_motor_driver.hpp"
 #include <interfaces/IMotorDriver.hpp>
 #include <managers/config.hpp>
 #include <Arduino.h>
 
-hw_rev_1_MotorDriver::hw_rev_1_MotorDriver(VehicleConfig cfg){
+hw_rev_2_MotorDriver::hw_rev_2_MotorDriver(VehicleConfig cfg){
 
   _config = cfg;
 
 }
 
-void hw_rev_1_MotorDriver::init(){
+void hw_rev_2_MotorDriver::init(){
 
   pinMode(_config.pinConfig.motorDriverPWM, OUTPUT);
   pinMode(_config.pinConfig.motorDriverDirA, OUTPUT);
@@ -22,19 +22,19 @@ void hw_rev_1_MotorDriver::init(){
 
 }
 
-void hw_rev_1_MotorDriver::disarmMotor(){
+void hw_rev_2_MotorDriver::disarmMotor(){
 
   digitalWrite(_config.pinConfig.motorDriverStandby, LOW);
 
 }
 
-void hw_rev_1_MotorDriver::armMotor(){
+void hw_rev_2_MotorDriver::armMotor(){
 
   digitalWrite(_config.pinConfig.motorDriverStandby, HIGH);
 
 }
 
-void hw_rev_1_MotorDriver::driveMotor(int speed, bool dir){
+void hw_rev_2_MotorDriver::driveMotor(int speed, bool dir){
 
   speed = constrain(abs(speed), 0, absMaxMotorCommand);
 

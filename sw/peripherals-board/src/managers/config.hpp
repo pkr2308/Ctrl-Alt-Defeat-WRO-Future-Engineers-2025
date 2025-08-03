@@ -20,6 +20,9 @@ struct PinConfig{
   uint8_t motorDriverDirB = 0; 
   uint8_t motorDriverStandby = 0;
 
+  uint8_t motorEncoderA = 0;
+  uint8_t motorEncoderB = 0;
+
   uint8_t steeringServo = 0;
   
   uint8_t nrfCS = 0;
@@ -34,8 +37,17 @@ struct PinConfig{
   uint8_t spi0MISO = 0;
   uint8_t spi0SCK = 0;  
 
+  uint8_t spi1MOSI = 0;
+  uint8_t spi1MISO = 0;
+  uint8_t spi1SCK = 0;  
+
+  uint8_t uart0RX = 0;
+  uint8_t uart0TX = 0;
+
   uint8_t uart1RX = 0;
   uint8_t uart1TX = 0;
+
+  uint8_t lidarMotorPWM = 0;
 
 };
 
@@ -46,6 +58,21 @@ struct LimitsConfig{
 
 };
 
+struct ConstantsConfig{
+
+  uint16_t ticksPerCM = 0;
+
+};
+
+struct AddressConfig{
+
+  uint8_t bnoAddr = 0;
+  uint8_t leftLidarAddr = 0;
+  uint8_t frontLidarAddr = 0;
+  uint8_t rightLidarAddr = 0;
+
+};
+
 /**
  * @brief One Config Struct To Rule Them All
  */
@@ -53,5 +80,7 @@ struct VehicleConfig{
 
   PinConfig pinConfig;
   LimitsConfig limitsConfig;
+  ConstantsConfig constantsConfig;
+  AddressConfig addressConfig;
 
 };

@@ -4,7 +4,7 @@
 #include <ISensor.hpp>
 #include <vehicledata.hpp>
 #include <sensordata.hpp>
-#include "sensor.hpp"
+#include "SensorManager.hpp"
 
 SensorManager::SensorManager(VehicleConfig cfg){
   _config = cfg;

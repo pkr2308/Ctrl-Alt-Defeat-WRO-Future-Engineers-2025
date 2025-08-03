@@ -5,9 +5,9 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-class hw_rev_1_SteeringDriver : public ISteeringDriver{
+class hw_rev_2_SteeringDriver : public ISteeringDriver{
 public:
-  hw_rev_1_SteeringDriver(VehicleConfig cfg);
+  hw_rev_2_SteeringDriver(VehicleConfig cfg);
 
   virtual void init() override;
   virtual void steer(int steeringAngle) override;  

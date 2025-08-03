@@ -1,1 +1,7 @@
 #include <hwrev2_get_config.hpp>
+#include <hwrev2_vehicle_speed.hpp>
+#include <hwrev2_imu.hpp>
+#include <hwrev2_lidar.hpp>
+#include <hwrev2_motor_driver.hpp>
+#include <hwrev2_steering_driver.hpp>
+#include <hwrev2_target_control.hpp>
