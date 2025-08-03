@@ -1,8 +1,10 @@
 #include <hwrev2_target_control.hpp>
+#include <Arduino.h>
+#include <PID_v1.h>
 
 hw_rev_2_TargetControl::hw_rev_2_TargetControl(VehicleConfig cfg){
 
-  _config =cfg;
+  _config = cfg;
 
 }
 
@@ -10,21 +12,61 @@ void hw_rev_2_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* st
 
   _motorDriver = motorDriver;
   _steeringDriver = steeringDriver;
-
   // TODO: implement nullptr check and log
 
+  steeringPID = new PID(&vehicleYaw, &steeringPIDCommand, &adjustedYawTarget, _config.controlConfig.steeringP, _config.controlConfig.steeringI, _config.controlConfig.steeringD, DIRECT);
+  steeringPID->SetMode(AUTOMATIC);
+  steeringPID->SetOutputLimits(_config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand);
+  
   _motorDriver->init();
   _motorDriver->armMotor();
   _steeringDriver->init();
 
 }
 
-void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd){
+void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd, VehicleData data){
 
-  // implement PID
+  adjustedYawTarget = cmd.targetYaw;
+  vehicleYaw = data.orientation.x;
 
-  _steeringDriver->steer(cmd.targetYaw);
-  _motorDriver->driveMotor(cmd.targetSpeed, true);
-  _motorDriver->driveMotor(cmd.targetSpeed, true);
+  yawError = getShortestAngleError(adjustedYawTarget, vehicleYaw);
+
+  if(data.orientation.z - adjustedYawTarget > 180){
+    adjustedYawTarget += 360;
+  }  
+  else if(data.orientation.z - adjustedYawTarget < -180){
+    adjustedYawTarget -= 360;
+  }
+  
+  steeringPID->Compute();
+
+  _steeringDriver->steer(map(steeringPIDCommand, _config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
+  _motorDriver->driveMotor(cmd.targetSpeed, true); // temporary, implement PID speed control when reliable speed can be calculated from encoder
+
+  Serial.print("Yaw:");
+  Serial.print(data.orientation.x);
+  Serial.print(" Target:");
+  Serial.print(adjustedYawTarget);
+  Serial.print(" Error:");
+  Serial.print(yawError);
+  Serial.print("Steering Command:");
+  Serial.println(map(steeringPIDCommand, _config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
+
+
+}
+
+double hw_rev_2_TargetControl::getShortestAngleError(double target, double current) {
+
+  double error = target - current;
+
+  if(error > 180){
+    error -= 360;
+  }
+
+  else if(error < -180){
+    error += 360;
+  }
+
+  return error;
 
 }

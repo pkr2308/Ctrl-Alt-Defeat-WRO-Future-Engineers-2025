@@ -44,6 +44,19 @@ VehicleConfig hwrev2_getConfig(){
   cfg.addressConfig.frontLidarAddr          = 0x20;
   cfg.addressConfig.rightLidarAddr          = 0x30;
 
+  cfg.controlConfig.steeringP              = 5.0;
+  cfg.controlConfig.steeringI              = 0.5;
+  cfg.controlConfig.steeringD              = 0.5;
+
+  cfg.controlConfig.speedP                 = 1.0;
+  cfg.controlConfig.speedI                 = 0.1;
+  cfg.controlConfig.speedD                 = 0.1;
+
+  cfg.controlConfig.maxSteeringPIDCommand  = 200.0;
+  cfg.controlConfig.minSteeringPIDCommand  = -200.0;
+
+  cfg.controlConfig.maxSteeringAngle       = 45.0; 
+
   return cfg;
   
 }

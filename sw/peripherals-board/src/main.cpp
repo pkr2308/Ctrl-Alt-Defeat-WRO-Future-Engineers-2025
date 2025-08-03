@@ -37,17 +37,9 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  Serial.print(vehicleData.orientation.x);
-  Serial.print(",");
-  Serial.print(vehicleData.orientation.y);
-  Serial.print(",");
-  Serial.print(vehicleData.orientation.z);
-  Serial.print(",");
-  Serial.print(vehicleData.lidar[270]);
-  Serial.print(",");
-  Serial.print(vehicleData.lidar[0]);
-  Serial.print(",");
-  Serial.print(vehicleData.lidar[90]);
-  Serial.print(",");
+  VehicleCommand cmd;
+  cmd.targetYaw = 90;
+
+  targetControl.targetControl(cmd, vehicleData);
 
 }

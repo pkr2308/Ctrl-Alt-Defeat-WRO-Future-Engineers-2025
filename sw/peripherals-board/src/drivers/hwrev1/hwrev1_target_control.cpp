@@ -1,3 +1,4 @@
+/*
 #include <hwrev1_target_control.hpp>
 
 hw_rev_1_TargetControl::hw_rev_1_TargetControl(VehicleConfig cfg){
@@ -28,3 +29,4 @@ void hw_rev_1_TargetControl::targetControl(VehicleCommand cmd){
   _motorDriver->driveMotor(cmd.targetSpeed, true);
 
 }
+*/

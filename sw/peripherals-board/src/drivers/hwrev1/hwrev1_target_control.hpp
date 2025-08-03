@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <config.hpp>
@@ -9,7 +10,7 @@ class hw_rev_1_TargetControl : public ITargetControl{
 public:
   hw_rev_1_TargetControl(VehicleConfig cfg);
   void init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver) override;
-  void targetControl(VehicleCommand cmd) override;
+  void targetControl(VehicleCommand cmd, VehicleData data) override;
 
 private:
   VehicleConfig _config;
@@ -17,3 +18,4 @@ private:
   ISteeringDriver* _steeringDriver;
 
 };
+*/

@@ -73,6 +73,24 @@ struct AddressConfig{
 
 };
 
+struct ControlConfig{
+
+  double steeringP = 0;
+  double steeringI = 0;
+  double steeringD = 0;
+  double maxSteeringPIDCommand = 0;
+  double minSteeringPIDCommand = 0;
+
+  double speedP = 0;
+  double speedI = 0;
+  double speedD = 0;
+  double maxSpeedPIDCommand = 0;
+  double minSpeedPIDCommand = 0;
+
+  double maxSteeringAngle = 0;
+
+};
+
 /**
  * @brief One Config Struct To Rule Them All
  */
@@ -82,5 +100,6 @@ struct VehicleConfig{
   LimitsConfig limitsConfig;
   ConstantsConfig constantsConfig;
   AddressConfig addressConfig;
+  ControlConfig controlConfig;
 
 };
