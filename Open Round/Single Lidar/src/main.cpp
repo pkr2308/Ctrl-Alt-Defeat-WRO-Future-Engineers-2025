@@ -186,7 +186,7 @@ void stop(){
   digitalWrite(motorDir,LOW);
 }
 
-void steer(int angle){
+void steer(int angle){            // Angle refers to the target yaw wrt current yaw
   myservo.write(90 + turnDir*42);
   forward(225);
   startYaw = yaw;

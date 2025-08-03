@@ -35,6 +35,21 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
+  attachInterrupt(digitalPinToInterrupt(2), updateEncoder, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(3), updateEncoder, CHANGE);
+
+  /*
+  while (true){
+    int pinValue = digitalRead(startBtn);
+    Serial.println("Waiting");
+    if(pinValue != 1){
+      Serial.print("Started");
+      break;
+    }
+  }
+  delay(1500);*/
+
+  
 }
 
 void loop(){
@@ -45,4 +60,11 @@ void loop(){
 
   targetControl.targetControl(vehicleCommand, vehicleData);
 
+  delay(1);
+
+}
+
+void updateEncoder(){
+  if(dir == -1) encoderValue --;
+  if(dir == 1) encoderValue ++;
 }

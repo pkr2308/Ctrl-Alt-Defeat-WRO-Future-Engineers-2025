@@ -4,7 +4,7 @@
 
 struct VehicleCommand{
 
-  uint16_t targetSpeed;
-  uint8_t targetYaw;
+  uint16_t targetSpeed; // PWM Speed for moor
+  uint8_t targetYaw; // Target yaw angle for after steering managed by PID controller
 
 };
