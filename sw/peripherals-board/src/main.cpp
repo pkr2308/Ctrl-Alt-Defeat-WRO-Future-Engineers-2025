@@ -35,8 +35,6 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
-  attachInterrupt(digitalPinToInterrupt(2), updateEncoder, CHANGE); 
-  attachInterrupt(digitalPinToInterrupt(3), updateEncoder, CHANGE);
 
   /*
   while (true){
@@ -67,9 +65,4 @@ void loop(){
 
   delay(1);
 
-}
-
-void updateEncoder(){
-  if(dir == -1) encoderValue --;
-  if(dir == 1) encoderValue ++;
 }

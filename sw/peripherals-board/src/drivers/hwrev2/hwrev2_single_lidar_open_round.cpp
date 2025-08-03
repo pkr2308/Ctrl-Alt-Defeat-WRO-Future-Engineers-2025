@@ -26,7 +26,8 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     distance = 0;
     turns ++;
     command.targetSpeed = speed;
-    command.targetYaw = targetYaw;
+    pos = 90; // Reset servo position
+    command.targetYaw = pos;
   }
 
   // Starting turn logic
@@ -35,36 +36,35 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     speed = 225;
     turning = true;
     command.targetSpeed = speed;
-    command.targetYaw = targetYaw;
+    pos = 90 + turnDir * 42; // Set servo position for turning
+    command.targetYaw = pos;
   }
   
   // Stop after 3 rounds
   if (turns == 12 && distance >= stopDist){
     completed = true;
-    speed = 0;
+    speed = 0; // Stop the vehicle
     command.targetSpeed = speed;
-    command.targetYaw = uint8_t(yaw);
+    pos = 90; // Reset servo position
+    command.targetYaw = pos;
   }
 
-// Not turning - Gyro straight follower
-if(turning == false){
-  speed = 275;
-  command.targetSpeed = speed;
-  command.targetYaw = targetYaw;
-  /*
-  correction = 0;
-  error = round(targetYaw - yaw);
-  if (error > 180) error = error - 360;
-  else if (error < -180) error = error + 360;
-  totalError += error;
-  if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right
-  else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left
+  // Not turning - Gyro straight follower
+  if(turning == false){
+    speed = 275;
+    correction = 0;
+    error = round(targetYaw - yaw);
+    if (error > 180) error = error - 360;
+    else if (error < -180) error = error + 360;
+    totalError += error;
+    if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right
+    else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left
 
-  if (correction > 45) correction = 45;
-  else if (correction < -45) correction = -45;
-
-  myservo.write(90 + correction);
-  */
+    if (correction > 45) correction = 45;
+    else if (correction < -45) correction = -45;
+    command.targetSpeed = speed;
+    command.targetYaw = 90 + correction; // Set servo position based on correction
+    
   } 
 
   return command;

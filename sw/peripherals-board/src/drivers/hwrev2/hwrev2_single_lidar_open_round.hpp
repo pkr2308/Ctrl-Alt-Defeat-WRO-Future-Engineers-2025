@@ -26,6 +26,8 @@ private:
     int turns = 0;
     bool turning = false;
     int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise
+    
+    int pos = 90;    // variable to store the servo position  
 
     // About IMU
     float yaw;
@@ -36,7 +38,6 @@ private:
     unsigned long currentMillis;
     const unsigned long period = 200;
 
-    int pos = 90;    // variable to store the servo position  
 
     // About Lidar
     int threshold = 60;
