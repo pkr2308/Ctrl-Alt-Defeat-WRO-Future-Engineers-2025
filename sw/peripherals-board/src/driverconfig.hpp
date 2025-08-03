@@ -19,4 +19,9 @@
 #define VEHICLE_DRIVER_TARGET_CONTROL hw_rev_2_TargetControl
 #define VEHICLE_GET_CONFIG hwrev2_getConfig()
 
+#if VEHICLE_DRIVE_ALGORITHM == SINGLE_LIDAR_OPEN_ROUND
+#include <hwrev2_single_lidar_open_round.hpp>
+#endif
+
+
 #endif

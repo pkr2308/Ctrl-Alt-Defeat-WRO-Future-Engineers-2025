@@ -6,9 +6,9 @@
 
 #include "Arduino.h"
 
-#define VEHICLE_DRIVERSET_HWREV2                 // HWREV2, HWREV1 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define VEHICLE_CONFIG DEBUG_DRIVE_FROM_RADIO    // DEBUG_DRIVE_FROM_RADIO, DEBUG_DRIVE_FROM_SERIAL
-#include <driverconfig.hpp>                      // *NOTE* All config #defines must be before this include
+#define VEHICLE_DRIVERSET_HWREV2                        // HWREV2, HWREV1 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
+#define VEHICLE_DRIVE_ALGORITHM SINGLE_LIDAR_OPEN_ROUND // SINGLE_LIDAR_OPEN_ROUND
+#include <driverconfig.hpp>                             // *NOTE* All config #defines must be before this include
 #include <SensorManager.hpp>
 
 
@@ -36,6 +36,7 @@ void setup(){
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();
+
 
   VehicleCommand cmd;
   cmd.targetYaw = 90;
