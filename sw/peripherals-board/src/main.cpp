@@ -28,6 +28,8 @@ void setup(){
 
   targetControl.init(&motor, &steering);
 
+  driveAlgorithm.init();
+
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
