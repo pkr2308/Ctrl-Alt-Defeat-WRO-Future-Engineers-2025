@@ -33,10 +33,7 @@ void hw_rev_2_MotorDriver::armMotor(){
 }
 
 void hw_rev_2_MotorDriver::driveMotor(int speed, bool dir){
-
-  Serial.println("speed: " + String(speed) + ", dir: " + String(dir));
-  Serial.println("constrained speed: " + String(constrain(abs(speed), 0, absMaxMotorCommand)));
-
+  
   speed = constrain(abs(speed), 0, absMaxMotorCommand);
 
   digitalWrite(_config.pinConfig.motorDriverDirA, dir);
