@@ -1,3 +1,8 @@
+/**
+ * @brief Interface for drive algorithms
+ * @author DIY Labs
+ */
+
 #pragma once
 #include <vehiclecommand.hpp>
 #include <vehicledata.hpp>

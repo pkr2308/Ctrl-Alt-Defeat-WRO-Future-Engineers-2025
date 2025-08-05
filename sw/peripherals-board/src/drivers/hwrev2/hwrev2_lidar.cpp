@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 lidar driver
+ * @author DIY Labs
+ */
+
 #include "hwrev2_lidar.hpp"
 #include <Adafruit_BNO055.h>
 

@@ -1,3 +1,8 @@
+/**
+ * @brief Header for hwrev2 IMU driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <config.hpp>

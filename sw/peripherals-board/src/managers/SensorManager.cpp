@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of SensorManager class
+ * @author DIY Labs
+ */
+
 #include "vec3f.hpp"
 #include <vector>
 #include <config.hpp>

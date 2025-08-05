@@ -1,3 +1,8 @@
+/**
+ * @brief File containing includes for hwrev2 drivers
+ * @author DIY Labs
+ */
+
 #include <hwrev2_get_config.hpp>
 #include <hwrev2_vehicle_speed.hpp>
 #include <hwrev2_imu.hpp>

@@ -1,3 +1,8 @@
+/**
+ * @brief Enum for representing status. Will be dreprecated when FailureManager is implemented
+ * @author DIY Labs
+ */
+
 #pragma once
 
 enum status_t{

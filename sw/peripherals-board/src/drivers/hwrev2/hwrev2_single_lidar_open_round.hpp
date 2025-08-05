@@ -1,3 +1,8 @@
+/**
+ * @brief Header for Single Lidar Open Round drive algorithm
+ * @author Pranav
+ */
+
 #pragma once
 #include <IDriveAlgorithm.hpp>
 #include <vehiclecommand.hpp>

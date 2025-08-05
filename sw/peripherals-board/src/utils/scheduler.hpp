@@ -1,7 +1,15 @@
+/**
+ * @brief Scheduler utility for managing periodic tasks with non-blocking execution
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <vector>
 
+/**
+ * @brief Class representing a task in the scheduler. This task can be used directly, or added to a Scheduler.
+ */
 class SchedulerTask{
 public:
   SchedulerTask(void(*)(), unsigned long periodMS);
@@ -14,6 +22,9 @@ private:
 
 };
 
+/**
+ * @brief Class for managing a collection of SchedulerTasks.
+ */
 class Scheduler{
 
 public:

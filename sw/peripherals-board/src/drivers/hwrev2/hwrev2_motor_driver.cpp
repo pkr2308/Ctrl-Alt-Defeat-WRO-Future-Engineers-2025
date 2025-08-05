@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 motor driver
+ * @author DIY Labs
+ */
+
 #include "hwrev2_motor_driver.hpp"
 #include <interfaces/IMotorDriver.hpp>
 #include <managers/config.hpp>
@@ -33,7 +38,7 @@ void hw_rev_2_MotorDriver::armMotor(){
 }
 
 void hw_rev_2_MotorDriver::driveMotor(int speed, bool dir){
-  
+
   speed = constrain(abs(speed), 0, absMaxMotorCommand);
 
   digitalWrite(_config.pinConfig.motorDriverDirA, dir);

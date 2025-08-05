@@ -1,3 +1,8 @@
+/**
+ * @brief Interface for sensors
+ * @author DIY Labs
+ */
+
 #pragma once
 #include <sensordata.hpp>
 

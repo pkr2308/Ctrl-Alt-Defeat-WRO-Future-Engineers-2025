@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 IMU driver
+ * @author DIY Labs
+ */
+
 #include "hwrev2_imu.hpp"
 #include <Adafruit_BNO055.h>
 

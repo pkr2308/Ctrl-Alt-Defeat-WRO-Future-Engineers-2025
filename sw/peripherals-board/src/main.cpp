@@ -6,9 +6,9 @@
 
 #include "Arduino.h"
 
-#define VEHICLE_DRIVERSET_HWREV2                        // HWREV2, HWREV1 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define SINGLE_LIDAR_OPEN_ROUND 
-#include <driverconfig.hpp>                             // *NOTE* All config #defines must be before this include
+#define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
+#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp     
+#include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
 
 
@@ -24,7 +24,10 @@ SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 void debugPrintVehicleData(VehicleData data);
 
-
+/**
+ * @brief Initialises sensor manager, target controller, and drive algorithm
+ * @author DIY Labs
+ */
 void setup(){
 
   Serial.begin();
@@ -56,6 +59,10 @@ void setup(){
   
 }
 
+/**
+ * @brief Reads data from sensors, passes drive commands from drive algorithm to target controller
+ * @author DIY Labs
+ */
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();

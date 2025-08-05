@@ -1,3 +1,8 @@
+/**
+ * @brief Struct for storing data collected from sensors
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include "vec3f.hpp"

@@ -1,8 +1,6 @@
 /**
- * @file hwrev2_get_config.hpp
- * @brief Implents function to get configuration struct
+ * @brief Implements function to get configuration struct
  * @author DIY Labs
- * @date 2024-01-01
  */
 
 #pragma once

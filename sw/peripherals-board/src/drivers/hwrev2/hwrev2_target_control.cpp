@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 target control driver
+ * @author DIY Labs
+ */
+
 #include <hwrev2_target_control.hpp>
 #include <Arduino.h>
 #include <PID_v1.h>

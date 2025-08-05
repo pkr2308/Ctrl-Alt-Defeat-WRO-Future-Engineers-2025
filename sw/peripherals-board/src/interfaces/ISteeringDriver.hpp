@@ -1,3 +1,8 @@
+/**
+ * @brief Interface for steering driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 class ISteeringDriver{

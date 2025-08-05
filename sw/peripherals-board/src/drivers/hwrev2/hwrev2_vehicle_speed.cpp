@@ -1,20 +1,7 @@
-/*
-#pragma once
-
-#include <config.hpp>
-#include <ISensor.hpp>
-#include <sensordata.hpp>
-
-class hw_rev_2_VehicleSpeed : public ISensor{
-public:
-  hw_rev_2_VehicleSpeed(VehicleConfig cfg);
-  void init() override;
-  SensorData update() override;
-
-private:
-  VehicleConfig _config;
-
-};*/
+/**
+ * @brief Implementation of hwrev2 speed sensor driver
+ * @author DIY Labs
+ */
 
 #include "hwrev2_vehicle_speed.hpp"
 #include <RotaryEncoder.h>
