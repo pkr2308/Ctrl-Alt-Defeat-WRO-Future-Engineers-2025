@@ -20,7 +20,7 @@
 #define VEHICLE_GET_CONFIG hwrev2_getConfig()
 
 #ifdef SINGLE_LIDAR_OPEN_ROUND
-#define VEHICLE_DRIVE_ALGORITHM hw_rev_2_SingleLidarOpenRound
+#define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_SingleLidarOpenRound
 #endif
 
 
