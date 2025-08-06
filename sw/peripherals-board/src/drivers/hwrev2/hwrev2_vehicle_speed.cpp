@@ -33,8 +33,9 @@ void hw_rev_2_VehicleSpeed::init(){
 
 }
 
-SensorData hw_rev_2_VehicleSpeed::update(){
+std::vector<SensorData> hw_rev_2_VehicleSpeed::update(){
 
+  std::vector<SensorData> dataVector;
   SensorData data;
   data.sensorDataType = SENSOR_ENCODER;
 /*
@@ -58,7 +59,10 @@ SensorData hw_rev_2_VehicleSpeed::update(){
 */
 
   data.encoderPosition = -_encoder->getPosition();
-  return data;
+  
+  dataVector.push_back(data);
+
+  return dataVector;
  
 }
 

@@ -32,32 +32,37 @@ void SensorManager::init(){
 
 VehicleData SensorManager::update(){
 
-  std::vector<SensorData> sensorData;
+  std::vector<std::vector<SensorData>> sensorDataVector;
   VehicleData vehicleData;
 
   for(ISensor* sensor : _sensors){
 
-    sensorData.push_back(sensor->update()); // TODO: nullptr and failure check
+    sensorDataVector.push_back(sensor->update()); // TODO: nullptr and failure check
 
   }
 
-  for(SensorData data : sensorData){
+  for(std::vector<SensorData> dataVector : sensorDataVector){
 
-    if(data.sensorDataType == SENSOR_ORIENTATION){
-      vehicleData.orientation = data.orientation;
-    }
+    for(SensorData data : dataVector){
 
-    else if(data.sensorDataType == SENSOR_LIDAR){
-      
-      for(int i = 0; i < 360; i++){
-        vehicleData.lidar[i] = data.lidar[i];
+      if(data.sensorDataType == SENSOR_IMU){
+        vehicleData.orientation = data.orientation;
+        vehicleData.angularVelocity = data.angularVelocity;
+        vehicleData.acceleration = data.acceleration;
       }
 
-    }
+      else if(data.sensorDataType == SENSOR_LIDAR){
+        
+        for(int i = 0; i < 360; i++){
+          vehicleData.lidar[i] = data.lidar[i];
+        }
 
-    else if (data.sensorDataType == SENSOR_ENCODER){
-      vehicleData.encoderPosition = data.encoderPosition;
-      Serial.println(data.encoderPosition);
+      }
+
+      else if (data.sensorDataType == SENSOR_ENCODER){
+        vehicleData.encoderPosition = data.encoderPosition;
+      }
+
     }
 
   }

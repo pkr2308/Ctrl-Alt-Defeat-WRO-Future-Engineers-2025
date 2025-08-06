@@ -14,7 +14,7 @@ class hw_rev_2_imu : public ISensor{
 public:
   hw_rev_2_imu(VehicleConfig cfg);
   void init() override;
-  SensorData update() override;
+  std::vector<SensorData> update() override;
 
 private:
   VehicleConfig _config;

@@ -5,6 +5,7 @@
 
 #pragma once
 #include <sensordata.hpp>
+#include <vector>
 
 class ISensor{
 public:  
@@ -12,6 +13,6 @@ public:
   virtual ~ISensor() = default;
 
   virtual void init() = 0;            // todo: return status
-  virtual SensorData update() = 0;
+  virtual std::vector<SensorData> update() = 0;
 
 };

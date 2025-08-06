@@ -18,8 +18,9 @@ void hw_rev_2_lidar::init(){
 
 }
 
-SensorData hw_rev_2_lidar::update(){
+std::vector<SensorData> hw_rev_2_lidar::update(){
 
+  std::vector<SensorData> dataVector;
   SensorData data;
   data.sensorDataType = SENSOR_LIDAR;
 
@@ -28,6 +29,8 @@ SensorData hw_rev_2_lidar::update(){
   _lidar->getData(data.lidar[0], _config.addressConfig.frontLidarAddr);
   _lidar->getData(data.lidar[90], _config.addressConfig.rightLidarAddr);
 
-  return data;
+  dataVector.push_back(data);
+
+  return dataVector;
  
 }

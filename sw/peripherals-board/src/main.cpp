@@ -67,58 +67,45 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  //VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
+  VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
 
-  // Temporarily read from radio receiver for testing
-  int radioSpeed = map(pulseIn(0, HIGH), 1000, 2000, -1024, 1024);
-  int radioSteering = map(pulseIn(1, HIGH), 1000, 2000, 0, 180);
-
-  radioSpeed = constrain(radioSpeed, -1024, 1024);
-  radioSteering = constrain(radioSteering, 0, 180);
-
-  VehicleCommand radioCommand;
-
-  radioCommand.targetSpeed = -radioSpeed;
-  radioCommand.targetYaw = radioSteering;
-
-  targetControl.directControl(radioCommand, vehicleData);
-
-  Serial.print("Radio Speed: ");
-  Serial.print(radioSpeed);
-  Serial.print(", Radio Steering: ");
-  Serial.println(radioSteering);
-/*
-  if(driveAlgorithm.isDirectControl()){
-    targetControl.directControl(vehicleCommand, vehicleData);
-  }
-  else{
-    targetControl.targetControl(vehicleCommand, vehicleData);
-  }
-*/
-  // debugPrintVehicleData(vehicleData);
+  debugPrintVehicleData(vehicleData);
 
 }
 
 void debugPrintVehicleData(VehicleData data){
 
-  Serial.print("Orientation: ");
   Serial.print(data.orientation.x);
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");
-  Serial.println(data.orientation.z);
+  Serial.print(data.orientation.z);
+  Serial.print(", ");
 
-  Serial.print("Speed: ");
-  Serial.println(data.speed);
+  Serial.print(data.acceleration.x);
+  Serial.print(", ");
+  Serial.print(data.acceleration.y);
+  Serial.print(", ");
+  Serial.print(data.acceleration.z);
+  Serial.print(", ");
 
-  Serial.print("Encoder Position: ");
-  Serial.println(data.encoderPosition);
+  Serial.print(data.angularVelocity.x);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.y);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.z);
+  Serial.print(", ");
 
-  Serial.print("LiDAR: ");
+  Serial.print(data.encoderPosition);
+  Serial.print(", ");
+
   Serial.print(data.lidar[270]);
   Serial.print(", ");
   Serial.print(data.lidar[0]);
   Serial.print(", ");
-  Serial.println(data.lidar[90]);
+  Serial.print(data.lidar[90]);
+  Serial.print(", ");
+
+  Serial.println();
 
 }
