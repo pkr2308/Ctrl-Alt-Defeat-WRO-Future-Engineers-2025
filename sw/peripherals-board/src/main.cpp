@@ -40,8 +40,8 @@ void setup(){
   targetControl.init(&motor, &steering);
   driveAlgorithm.init();
 
-  sensorManager.addSensor(&bno);
-  sensorManager.addSensor(&lidar);
+  //sensorManager.addSensor(&bno);
+  //sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
@@ -88,6 +88,9 @@ void debugPrintVehicleData(VehicleData data){
   Serial.print(", ");
 
   Serial.print(data.encoderPosition);
+  Serial.print(", ");
+
+  Serial.print(data.speed);
   Serial.print(", ");
 
   Serial.print(data.lidar[270]);

@@ -64,7 +64,7 @@ struct LimitsConfig{
 
 struct ConstantsConfig{
 
-  uint16_t ticksPerCM = 0;
+  uint8_t ticksPerCM = 0;
 
 };
 

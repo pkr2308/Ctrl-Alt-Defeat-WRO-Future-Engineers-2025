@@ -35,36 +35,40 @@ void hw_rev_2_VehicleSpeed::init(){
 
 std::vector<SensorData> hw_rev_2_VehicleSpeed::update(){
 
-  std::vector<SensorData> dataVector;
-  SensorData data;
-  data.sensorDataType = SENSOR_ENCODER;
-/*
-  unsigned long currentTime = millis();
-  _encoderPosition = _encoder->getPosition();
-  float speed = 0.0f;
+    std::vector<SensorData> dataVector;
+    SensorData encPos;
+    SensorData calcSpeed;
+    long currentMillis = 0;
+    long currentEncPos = 0;
+    float speed = 0.0f;
+    unsigned long deltaTime = 0;
+    long deltaTicks = 0;
 
-  unsigned long deltaTime = currentTime - lastUpdateTime;
-  long deltaTicks = _encoderPosition - _prevEncoderPosition;
+    encPos.sensorDataType = SENSOR_ENCODER;
+    calcSpeed.sensorDataType = SENSOR_SPEED;
 
-  if (deltaTime > 0) {
-    float distanceCM = deltaTicks / (float)_ticksPerCM;
-    float speedCMperS = (distanceCM * 1000.0f) / (float)deltaTime;
-    speed = speedCMperS;
-  }
+    currentMillis = millis();
+    currentEncPos = -_encoder->getPosition(); // invert encPos since power transfer gears invert rotation
 
-  _prevEncoderPosition = _encoderPosition;
-  lastUpdateTime = currentTime;
+    deltaTime = currentMillis - _prevMillis;
+    deltaTicks = currentEncPos - _prevEncPos;
+    
+    if(deltaTime > 0){
+        float distanceCM = static_cast<float>(deltaTicks) / static_cast<float>(_ticksPerCM);
+        speed = (distanceCM * 1000.0f) / static_cast<float>(deltaTime);
+    }
 
+    _prevEncPos = currentEncPos;
+    _prevMillis = currentMillis;
 
-*/
+    encPos.encoderPosition = currentEncPos;
+    calcSpeed.speed = speed;
+    dataVector.push_back(encPos);
+    dataVector.push_back(calcSpeed);
 
-  data.encoderPosition = -_encoder->getPosition();
-  
-  dataVector.push_back(data);
+    return dataVector;
 
-  return dataVector;
- 
-}
+}  
 
 void hw_rev_2_VehicleSpeed::_encoderISR(){
 
