@@ -12,7 +12,12 @@ hw_rev_2_SingleLidarOpenRound::hw_rev_2_SingleLidarOpenRound(VehicleConfig cfg){
 
 void hw_rev_2_SingleLidarOpenRound::init() {
   
+  if (front_startDist > 140) stopDist = 0;
+  else stopDist = 80;
   
+  speed = 275; // Initial speed
+  VehicleCommand{.targetSpeed = speed, .targetYaw = 90}; // Set initial speed, steering
+
 }
 
 VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
@@ -36,8 +41,8 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   }
 
   // Starting turn logic
-  lidarDist = vehicleData.lidar[0];
-  if ((lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){ // Checking to turn
+  front_lidarDist = vehicleData.lidar[0];
+  if ((front_lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){ // Checking to turn
     speed = 225;
     turning = true;
     command.targetSpeed = speed;
@@ -69,8 +74,11 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     else if (correction < -45) correction = -45;
     command.targetSpeed = speed;
     command.targetYaw = 90 + correction; // Set servo position based on correction
-    
+
   } 
+
+  if ((turnDir == 0) && (left_lidarDist > left_startDist + 50)) turnDir = -1; // Turning to left
+  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 50)) turnDir = 1; // Turning to right
 
   return command;
 

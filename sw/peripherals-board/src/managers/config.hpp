@@ -23,6 +23,8 @@ struct PinConfig{
   uint8_t motorEncoderA = 0;
   uint8_t motorEncoderB = 0;
 
+  uint8_t startBtn = 0;
+
   uint8_t steeringServo = 0;
   
   uint8_t nrfCS = 0;
