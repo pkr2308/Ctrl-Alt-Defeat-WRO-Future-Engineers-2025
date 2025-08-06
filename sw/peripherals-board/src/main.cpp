@@ -69,28 +69,34 @@ void loop(){
 
   debugPrintVehicleData(vehicleData);
 
+  delay(1); // Small delay to allow other tasks to run, and not overwhelm microcontroller
 }
 
 void debugPrintVehicleData(VehicleData data){
 
   Serial.print("Orientation: ");
   Serial.print(data.orientation.x);
+  /*
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");
   Serial.println(data.orientation.z);
+  */
 
   Serial.print("Speed: ");
   Serial.println(data.speed);
 
-  Serial.print("Encoder Position: ");
-  Serial.println(data.encoderPosition);
+  Serial.print("Distance: ");
+  Serial.println(data.encoderPosition/45);
 
-  Serial.print("LiDAR: ");
+  Serial.print("Servo Position: ");
+  Serial.print(' ');
+
+  Serial.print("LiDAR: Left- ");
   Serial.print(data.lidar[270]);
-  Serial.print(", ");
+  Serial.print(", Centre- ");
   Serial.print(data.lidar[0]);
-  Serial.print(", ");
+  Serial.print(", Right- ");
   Serial.println(data.lidar[90]);
 
 }

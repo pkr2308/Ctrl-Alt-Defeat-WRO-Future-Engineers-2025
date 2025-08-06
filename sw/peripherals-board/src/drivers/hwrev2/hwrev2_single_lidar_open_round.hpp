@@ -14,6 +14,7 @@ public:
 
 private:
     VehicleConfig _config;
+    VehicleData vehicleData;
 
     // About driving
     int dir = 1;
@@ -25,7 +26,7 @@ private:
     // About turning
     int turns = 0;
     bool turning = false;
-    int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise
+    int turnDir = 0;           // 1 for clockwise, -1 for counterclockwise. Not known at start
     
     int pos = 90;    // variable to store the servo position  
 
@@ -41,8 +42,12 @@ private:
 
     // About Lidar
     int threshold = 60;
-    int16_t lidarDist;
-    int16_t startDist = 50;
+    int16_t front_lidarDist;
+    int16_t left_lidarDist;
+    int16_t right_lidarDist;
+    int16_t front_startDist = vehicleData.lidar[0];
+    int16_t left_startDist = vehicleData.lidar[270];
+    int16_t right_startDist = vehicleData.lidar[90];
     int stopDist = 5;
 
     // About Gyro straight follower
