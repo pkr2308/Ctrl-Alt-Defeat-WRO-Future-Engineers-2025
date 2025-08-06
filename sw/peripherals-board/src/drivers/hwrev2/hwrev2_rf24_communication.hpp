@@ -4,6 +4,7 @@
 #include <vehiclecommand.hpp>
 #include <vehicledata.hpp>
 #include <config.hpp>
+#include "hwrev2_rf24_shared.hpp"
 #include <RF24.h>
 
 class hw_rev_2_RF24Communication : public ICommunication{

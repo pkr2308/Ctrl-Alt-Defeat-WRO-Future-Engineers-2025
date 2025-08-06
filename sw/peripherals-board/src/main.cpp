@@ -27,18 +27,15 @@ void debugPrintVehicleData(VehicleData data);
 
 /**
  * @brief Initialises sensor manager, target controller, and drive algorithm
- * @author DIY Labs
  */
 void setup(){
 
-  SPI.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi0SCK);
-  SPI.setRX(VEHICLE_GET_CONFIG.pinConfig.spi0MISO);
-  SPI.setTX(VEHICLE_GET_CONFIG.pinConfig.spi0MOSI);
-
+  SPI1.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi1SCK);
+  SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
+  SPI1.setTX(VEHICLE_GET_CONFIG.pinConfig.spi1MOSI);
+  SPI1.begin();
 
   Serial.begin();
-
-  delay(3000);
 
   targetControl.init(&motor, &steering);
   driveAlgorithm.init();
@@ -54,13 +51,14 @@ void setup(){
 
 /**
  * @brief Reads data from sensors, passes drive commands from drive algorithm to target controller
- * @author DIY Labs
  */
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
+  //VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
+
+  remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
 
