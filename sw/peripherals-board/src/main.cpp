@@ -19,6 +19,7 @@ VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
@@ -30,10 +31,16 @@ void debugPrintVehicleData(VehicleData data);
  */
 void setup(){
 
+  SPI.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi0SCK);
+  SPI.setRX(VEHICLE_GET_CONFIG.pinConfig.spi0MISO);
+  SPI.setTX(VEHICLE_GET_CONFIG.pinConfig.spi0MOSI);
+
+
   Serial.begin();
 
-  targetControl.init(&motor, &steering);
+  delay(3000);
 
+  targetControl.init(&motor, &steering);
   driveAlgorithm.init();
 
   sensorManager.addSensor(&bno);
@@ -41,21 +48,7 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
-  
-
-  /*
-  while (true){
-    int pinValue = digitalRead(startBtn);
-    Serial.println("Waiting");
-    if(pinValue != 1){
-      Serial.print("Started");
-      break;
-    }
-  }
-  delay(1500);*/
-
-  pinMode(0, INPUT);
-  pinMode(1, INPUT);
+  remoteCommunication.init();
   
 }
 
