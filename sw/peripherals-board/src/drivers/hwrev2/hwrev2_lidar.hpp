@@ -1,3 +1,8 @@
+/**
+ * @brief Header for hwrev2 lidar driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <config.hpp>
@@ -9,7 +14,7 @@ class hw_rev_2_lidar : public ISensor{
 public:
   hw_rev_2_lidar(VehicleConfig cfg);
   void init() override;
-  SensorData update() override;
+  std::vector<SensorData> update() override;
 
 private:
   VehicleConfig _config;

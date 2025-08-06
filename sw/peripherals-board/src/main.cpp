@@ -6,9 +6,9 @@
 
 #include "Arduino.h"
 
-#define VEHICLE_DRIVERSET_HWREV2                        // HWREV2, HWREV1 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define SINGLE_LIDAR_OPEN_ROUND 
-#include <driverconfig.hpp>                             // *NOTE* All config #defines must be before this include
+#define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
+#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp     
+#include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
 
 
@@ -18,19 +18,26 @@ VEHICLE_DRIVER_SPEED speed(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
 void debugPrintVehicleData(VehicleData data);
 
-
+/**
+ * @brief Initialises sensor manager, target controller, and drive algorithm
+ */
 void setup(){
+
+  SPI1.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi1SCK);
+  SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
+  SPI1.setTX(VEHICLE_GET_CONFIG.pinConfig.spi1MOSI);
+  SPI1.begin();
 
   Serial.begin();
 
   targetControl.init(&motor, &steering);
-
   driveAlgorithm.init();
 
   sensorManager.addSensor(&bno);
@@ -38,34 +45,20 @@ void setup(){
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
-  
-
-  /*
-  while (true){
-    int pinValue = digitalRead(startBtn);
-    Serial.println("Waiting");
-    if(pinValue != 1){
-      Serial.print("Started");
-      break;
-    }
-  }
-  delay(1500);*/
-
+  remoteCommunication.init();
   
 }
 
+/**
+ * @brief Reads data from sensors, passes drive commands from drive algorithm to target controller
+ */
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
+  //VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
 
-  if(driveAlgorithm.isDirectControl()){
-    targetControl.directControl(vehicleCommand, vehicleData);
-  }
-  else{
-    targetControl.targetControl(vehicleCommand, vehicleData);
-  }
+  remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
 
@@ -74,23 +67,21 @@ void loop(){
 
 void debugPrintVehicleData(VehicleData data){
 
-  Serial.print("Orientation: ");
   Serial.print(data.orientation.x);
-  /*
+  
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");
   Serial.println(data.orientation.z);
-  */
 
   Serial.print("Speed: ");
   Serial.println(data.speed);
 
+  Serial.print("Encoder Position: ");
+  Serial.print(data.encoderPosition);
+
   Serial.print("Distance: ");
   Serial.println(data.encoderPosition/45);
-
-  Serial.print("Servo Position: ");
-  Serial.print(' ');
 
   Serial.print("LiDAR: Left- ");
   Serial.print(data.lidar[270]);

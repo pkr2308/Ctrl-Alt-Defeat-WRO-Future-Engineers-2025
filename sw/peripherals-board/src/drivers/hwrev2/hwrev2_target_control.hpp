@@ -1,3 +1,8 @@
+/**
+ * @brief Header for hwrev2 target control driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <config.hpp>

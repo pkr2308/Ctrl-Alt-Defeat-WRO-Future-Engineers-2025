@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 steering driver
+ * @author DIY Labs
+ */
+
 #include "hwrev2_steering_driver.hpp"
 #include <interfaces/ISteeringDriver.hpp>
 #include <managers/config.hpp>

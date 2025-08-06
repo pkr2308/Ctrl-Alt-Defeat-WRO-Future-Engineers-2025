@@ -1,3 +1,8 @@
+/**
+ * @brief Interface for target control system
+ * @author DIY Labs
+ */
+
 #pragma once
 #include <IMotorDriver.hpp>
 #include <ISteeringDriver.hpp>

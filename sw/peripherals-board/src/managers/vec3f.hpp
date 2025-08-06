@@ -1,3 +1,8 @@
+/**
+ * @brief Struct for representing a 3D vector with doubles
+ * @author DIY Labs
+ */
+
 #pragma once
 
 struct Vec3f{

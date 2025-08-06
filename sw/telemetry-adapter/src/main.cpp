@@ -2,10 +2,7 @@
 #include <RF24.h>
 #include <Adafruit_NeoPixel.h>
 #include "pindefs.h"
-#include "datastruct.h"
-#include "cmdstruct.h"
-#include "vector.h"
-#include "pipeaddr.h"
+#include "hwrev2_rf24_shared.hpp"
 
 
 RF24 radio(RF_CE, RF_CSN);
@@ -15,15 +12,13 @@ Adafruit_NeoPixel pixel(1, PIN_RGB_LED, NEO_RGB + NEO_KHZ800);
 unsigned long prevCommandSendTime = 0;
 unsigned long commandSendIntervalMS = 10;
 
-RFCommand command;
-RFData data;
+hwrev2_rf24_telem_block1 dataBlock1;
 
 
 void blinkLED();
 void printDataStruct();
 void ledOn();
 void ledOff();
-void getCommandsFromSerial();
 
 
 void setup(){
@@ -53,33 +48,14 @@ void setup(){
 
 void loop(){
 
-  if(millis() - prevCommandSendTime >= commandSendIntervalMS){
+  radio.openReadingPipe(1, TLM_PIPE_0);
+  radio.startListening();
 
-    prevCommandSendTime = millis();
+  if(radio.available()){
 
-    getCommandsFromSerial();
+    radio.read(&dataBlock1, sizeof(dataBlock1));
 
-    radio.stopListening();
-    radio.openWritingPipe(VEHICLE_RX_ADDR);
-
-    bool sent = radio.write(&command, sizeof(command));
-
-    if(sent){
-
-      ledOff();
-
-      if(radio.available()){
-        
-        radio.read(&data, sizeof(data));
-
-        printDataStruct();
-
-      }
-
-    }
-    else{
-      ledOn();
-    }
+    printDataStruct();
 
   }
 
@@ -101,66 +77,24 @@ void ledOff(){
 
 void printDataStruct(){
 
-  Serial.print(data.orientation.x);
+  Serial.print(dataBlock1.oriX);
   Serial.print(',');
 
-  Serial.print(data.orientation.y);
+  Serial.print(dataBlock1.oriY);
   Serial.print(',');
 
-  Serial.print(data.orientation.z);
+  Serial.print(dataBlock1.oriZ);
   Serial.print(',');
 
-  Serial.print(data.speed);
+  Serial.print(dataBlock1.lidarLeft);
   Serial.print(',');  
 
-  Serial.print(data.steeringAngle);
+  Serial.print(dataBlock1.lidarFront);
   Serial.print(',');  
 
-  Serial.print(data.targetSpeed);
+  Serial.print(dataBlock1.lidarRight);
   Serial.print(',');  
-
-  Serial.print(data.targetYaw);
-  Serial.print(',');  
-
-  Serial.print(data.lidarData[0]);
-  Serial.print(',');  
-
-  Serial.print(data.lidarData[1]);
-  Serial.print(',');  
-
-  Serial.print(data.lidarData[2]);
-  Serial.print(',');  
-
-  Serial.print(data.bnoSysCal);
-  Serial.print(',');
-
-  Serial.print(data.bnoGyroCal);
-  Serial.print(',');
-
-  Serial.print(data.bnoAccelCal);
-  Serial.print(',');
-
-  Serial.print(data.bnoMagCal);
-  Serial.print(',');
-
-  Serial.print(data.millis);
-  Serial.print(',');
 
   Serial.println();
-
-}
-
-void getCommandsFromSerial(){
-
-  if(Serial.available()){
-
-    String commandString = Serial.readString();
-
-    int commaIndex = commandString.indexOf(',');
-
-    command.targetSpeed = commandString.substring(0, commaIndex).toInt();
-    command.targetHeading = commandString.substring(commaIndex + 1).toInt();
-
-  }
 
 }

@@ -23,13 +23,22 @@
 
 ### Telemetry blocks
 
-#### Block 0 (total size: 25 bytes)
+#### Block 0 (total size: 24 bytes, sent on pipe 0)
 |Type|Name|Description|Size|
 |----|----|-----------|----|
-|uint8_t|Block ID|Describes what block to parse data as|1 byte|
 |float|Orientation X|X-axis vehicle orientation|4 bytes|
 |float|Orientation Y|Y-axis vehicle orientation|4 bytes|
 |float|Orientation Z|Z-axis vehicle orientation|4 bytes|
 |float|Left LiDAR distance|Distance measured from left LiDAR in centimeters|4 bytes|
 |float|Front LiDAR distance|Distance measured from front LiDAR in centimeters|4 bytes|
 |float|Right LiDAR distance|Distance measured from right LiDAR in centimeters|4 bytes|
+
+#### Block 1 (total size: 24 bytes, sent on pipe 1)
+|Type|Name|Description|Size|
+|----|----|-----------|----|
+|float|Acceleration X|X-axis vehicle acceleration|4 bytes|
+|float|Acceleration Y|Y-axis vehicle acceleration|4 bytes|
+|float|Acceleration Z|Z-axis vehicle acceleration|4 bytes|
+|float|Gyroscope Z|Z-axis vehicle angular rates|4 bytes|
+|float|Gyroscope Z|Z-axis vehicle angular rates|4 bytes|
+|float|Gyroscope Z|Z-axis vehicle angular rates|4 bytes|

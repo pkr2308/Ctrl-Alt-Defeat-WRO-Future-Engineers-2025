@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of hwrev2 motor driver
+ * @author DIY Labs
+ */
+
 #include "hwrev2_motor_driver.hpp"
 #include <interfaces/IMotorDriver.hpp>
 #include <managers/config.hpp>
@@ -17,8 +22,6 @@ void hw_rev_2_MotorDriver::init(){
   pinMode(_config.pinConfig.motorDriverStandby, OUTPUT);
 
   disarmMotor();
-
-  analogWriteResolution(absMaxMotorCommand);
 
 }
 

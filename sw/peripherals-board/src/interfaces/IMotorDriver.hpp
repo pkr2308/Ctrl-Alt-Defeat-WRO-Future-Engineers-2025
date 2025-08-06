@@ -1,3 +1,8 @@
+/**
+ * @brief Interface for motor driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 class IMotorDriver{

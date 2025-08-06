@@ -1,3 +1,8 @@
+/**
+ * @brief Class for updating sensors and transforming sensor data into VehicleData
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include "vec3f.hpp"

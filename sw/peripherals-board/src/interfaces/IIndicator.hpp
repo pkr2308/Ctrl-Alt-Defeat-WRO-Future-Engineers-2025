@@ -1,5 +1,5 @@
 /**
- * @brief Interface for drive algorithms
+ * @brief Interface for vehicle indicators
  * @author DIY Labs
  */
 

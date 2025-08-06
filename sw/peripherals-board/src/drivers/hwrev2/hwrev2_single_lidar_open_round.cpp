@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of Single Lidar Open Round drive algorithm
+ * @author Pranav
+ */
+
 #include "hwrev2_single_lidar_open_round.hpp"
 #include <utility/imumaths.h>
 

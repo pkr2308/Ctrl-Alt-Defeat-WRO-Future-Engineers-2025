@@ -1,3 +1,8 @@
+/**
+ * @brief Headerfor hwrev2 steering driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <interfaces/ISteeringDriver.hpp>

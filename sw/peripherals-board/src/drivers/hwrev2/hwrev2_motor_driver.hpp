@@ -1,3 +1,8 @@
+/**
+ * @brief Header for hwrev2 motor driver
+ * @author DIY Labs
+ */
+
 #pragma once
 
 #include <interfaces/IMotorDriver.hpp>

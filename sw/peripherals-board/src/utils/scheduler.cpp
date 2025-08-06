@@ -1,3 +1,8 @@
+/**
+ * @brief Implementation of Schedular and SchedulerTask classes
+ * @author DIY Labs
+ */
+
 #include <scheduler.hpp>
 #include <Arduino.h>
 
