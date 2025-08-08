@@ -20,6 +20,7 @@ VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
@@ -34,6 +35,11 @@ void setup(){
   SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
   SPI1.setTX(VEHICLE_GET_CONFIG.pinConfig.spi1MOSI);
   SPI1.begin();
+
+  Serial1.setRX(VEHICLE_GET_CONFIG.pinConfig.uart0RX);
+  Serial1.setTX(VEHICLE_GET_CONFIG.pinConfig.uart0TX);  
+
+  debugLogger.init();  
 
   Serial.begin();
 
@@ -56,19 +62,19 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+  //VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
 
   VehicleCommand radioCommand = remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
 
-  //delay(1); // Small delay to allow other tasks to run, and not overwhelm microcontroller
-}             // -did this cause any specific problems? doesn't seem like something we should worry about
+}
 
 void debugPrintVehicleData(VehicleData data){
 
-  Serial.print(data.orientation.x);
-  
+  debugLogger.sendMessage("debugPrintVehicleData", debugLogger.INFO, "I HAVE BEEN SUMMONED");
+
+  Serial.print(data.orientation.x);  
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");

@@ -5,9 +5,17 @@
 class ILogger{
 public:  
 
+  enum LogType{
+
+    INFO,
+    WARNING,
+    ERROR
+
+  };
+
   virtual ~ILogger() = default;
 
   virtual void init() = 0;
-  virtual void sendMessage(String sender, String message);
+  virtual void sendMessage(String sender, LogType type, String message);
 
 };

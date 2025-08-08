@@ -34,10 +34,14 @@ VehicleConfig hwrev2_getConfig(){
   cfg.pinConfig.i2c0SDA                     = 4;
   cfg.pinConfig.i2c0SCL                     = 5;
 
+  cfg.pinConfig.uart0RX                     = 1;
+  cfg.pinConfig.uart0TX                     = 0;
+
   cfg.limitsConfig.maxForwardSpeed          = 500;
   cfg.limitsConfig.maxForwardSpeed          = 500;
 
   cfg.constantsConfig.ticksPerCM            = 40;
+  cfg.constantsConfig.debugSerialBaudRate   = 115200;
 
   cfg.addressConfig.bnoAddr                 = 0x28;
   cfg.addressConfig.leftLidarAddr           = 0x10;

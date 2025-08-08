@@ -12,3 +12,4 @@
 #include <hwrev2_target_control.hpp>
 #include <hwrev2_single_lidar_open_round.hpp>
 #include <hwrev2_rf24_communication.hpp>
+#include <hwrev2_uart_logger.hpp>

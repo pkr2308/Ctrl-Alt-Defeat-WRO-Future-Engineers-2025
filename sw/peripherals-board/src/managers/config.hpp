@@ -67,6 +67,7 @@ struct LimitsConfig{
 struct ConstantsConfig{
 
   uint8_t ticksPerCM = 0;
+  uint32_t debugSerialBaudRate = 0;
 
 };
 
