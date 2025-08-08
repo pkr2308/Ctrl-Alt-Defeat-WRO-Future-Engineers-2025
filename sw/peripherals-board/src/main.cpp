@@ -70,31 +70,46 @@ void loop(){
 
 }
 
+/**
+ * @brief Function for printing all collected vehicle data without names for use with SerialPlot
+ * @note Do not modify order or add name print to variables
+ */
 void debugPrintVehicleData(VehicleData data){
 
-  debugLogger.sendMessage("debugPrintVehicleData", debugLogger.INFO, "I HAVE BEEN SUMMONED");
-
-  Serial.print(data.orientation.x);  
+  Serial.print(data.orientation.x);
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");
-  Serial.println(data.orientation.z);
+  Serial.print(data.orientation.z);
+  Serial.print(", ");
 
-  Serial.print("Speed: ");
-  Serial.println(data.speed);
+  Serial.print(data.acceleration.x);
+  Serial.print(", ");
+  Serial.print(data.acceleration.y);
+  Serial.print(", ");
+  Serial.print(data.acceleration.z);
+  Serial.print(", ");
 
-  Serial.print("Encoder Position: ");
+  Serial.print(data.angularVelocity.x);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.y);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.z);
+  Serial.print(", ");
+
   Serial.print(data.encoderPosition);
   Serial.print(", ");
 
   Serial.print(data.speed);
   Serial.print(", ");
 
-  Serial.print("LiDAR: Left- ");
   Serial.print(data.lidar[270]);
-  Serial.print(", Centre- ");
+  Serial.print(", ");
   Serial.print(data.lidar[0]);
-  Serial.print(", Right- ");
-  Serial.println(data.lidar[90]);
+  Serial.print(", ");
+  Serial.print(data.lidar[90]);
+  Serial.print(", ");
 
+  Serial.println();
+  
 }
