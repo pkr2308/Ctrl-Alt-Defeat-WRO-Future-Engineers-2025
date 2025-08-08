@@ -44,7 +44,7 @@ void setup(){
   Serial.begin();
 
   targetControl.init(&motor, &steering);
-  driveAlgorithm.init();
+  driveAlgorithm.init(&debugLogger);
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
@@ -62,8 +62,7 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  //VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
-
+  VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
   VehicleCommand radioCommand = remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
@@ -111,5 +110,5 @@ void debugPrintVehicleData(VehicleData data){
   Serial.print(", ");
 
   Serial.println();
-  
+
 }

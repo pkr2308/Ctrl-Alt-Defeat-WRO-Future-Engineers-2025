@@ -5,6 +5,7 @@
 
 #pragma once
 #include <IDriveAlgorithm.hpp>
+#include <ILogger.hpp>
 #include <vehiclecommand.hpp>
 #include <vehicledata.hpp>
 #include <config.hpp>
@@ -13,13 +14,14 @@ class hw_rev_2_SingleLidarOpenRound: public IDriveAlgorithm{
 
 public:
     hw_rev_2_SingleLidarOpenRound(VehicleConfig cfg);
-    void init() override;
+    void init(ILogger* logger) override;
     VehicleCommand drive(VehicleData vehicleData) override;
     bool isDirectControl() override { return true; }
 
 private:
     VehicleConfig _config;
     VehicleData vehicleData;
+    ILogger *_debugLogger;
 
     // About driving
     int dir = 1;
