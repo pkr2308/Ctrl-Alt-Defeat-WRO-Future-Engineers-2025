@@ -27,6 +27,7 @@
 #define VEHICLE_DRIVER_STEERING hw_rev_2_SteeringDriver
 #define VEHICLE_DRIVER_TARGET_CONTROL hw_rev_2_TargetControl
 #define VEHICLE_DRIVER_REMOTE_COMMUNICATION hw_rev_2_RF24Communication
+#define VEHICLE_DRIVER_DEBUG_LOG hw_rev_2_UARTLogger
 #define VEHICLE_GET_CONFIG hwrev2_getConfig()
 
 #if defined(SINGLE_LIDAR_OPEN_ROUND)

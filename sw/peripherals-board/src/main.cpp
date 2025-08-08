@@ -20,6 +20,7 @@ VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
@@ -35,10 +36,15 @@ void setup(){
   SPI1.setTX(VEHICLE_GET_CONFIG.pinConfig.spi1MOSI);
   SPI1.begin();
 
+  Serial1.setRX(VEHICLE_GET_CONFIG.pinConfig.uart0RX);
+  Serial1.setTX(VEHICLE_GET_CONFIG.pinConfig.uart0TX);  
+
+  debugLogger.init();  
+
   Serial.begin();
 
   targetControl.init(&motor, &steering);
-  driveAlgorithm.init();
+  driveAlgorithm.init(&debugLogger);
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
@@ -50,44 +56,59 @@ void setup(){
 }
 
 /**
- * @brief Reads data from sensors, passes drive commands from drive algorithm to target controller
+ * @brief Reads data from sensors, passes drive commands from drive algorithm/RPi/radio to target controller
  */
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  //VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
-
-  remoteCommunication.update(vehicleData);
+  VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+  VehicleCommand radioCommand = remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
 
-  delay(1); // Small delay to allow other tasks to run, and not overwhelm microcontroller
 }
 
+/**
+ * @brief Function for printing all collected vehicle data without names for use with SerialPlot
+ * @note Do not modify order or add name print to variables
+ */
 void debugPrintVehicleData(VehicleData data){
 
   Serial.print(data.orientation.x);
-  
   Serial.print(", ");
   Serial.print(data.orientation.y);
   Serial.print(", ");
-  Serial.println(data.orientation.z);
+  Serial.print(data.orientation.z);
+  Serial.print(", ");
 
-  Serial.print("Speed: ");
-  Serial.println(data.speed);
+  Serial.print(data.acceleration.x);
+  Serial.print(", ");
+  Serial.print(data.acceleration.y);
+  Serial.print(", ");
+  Serial.print(data.acceleration.z);
+  Serial.print(", ");
 
-  Serial.print("Encoder Position: ");
+  Serial.print(data.angularVelocity.x);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.y);
+  Serial.print(", ");
+  Serial.print(data.angularVelocity.z);
+  Serial.print(", ");
+
   Serial.print(data.encoderPosition);
+  Serial.print(", ");
 
-  Serial.print("Distance: ");
-  Serial.println(data.encoderPosition/45);
+  Serial.print(data.speed);
+  Serial.print(", ");
 
-  Serial.print("LiDAR: Left- ");
   Serial.print(data.lidar[270]);
-  Serial.print(", Centre- ");
+  Serial.print(", ");
   Serial.print(data.lidar[0]);
-  Serial.print(", Right- ");
-  Serial.println(data.lidar[90]);
+  Serial.print(", ");
+  Serial.print(data.lidar[90]);
+  Serial.print(", ");
+
+  Serial.println();
 
 }

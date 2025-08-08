@@ -10,8 +10,11 @@ hw_rev_2_SingleLidarOpenRound::hw_rev_2_SingleLidarOpenRound(VehicleConfig cfg){
   _config = cfg;
 }
 
-void hw_rev_2_SingleLidarOpenRound::init() {
+void hw_rev_2_SingleLidarOpenRound::init(ILogger* logger) {
   
+  _debugLogger = logger;
+  _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Initialising drive algorithm");
+
   if (front_startDist > 140) stopDist = 0;
   else stopDist = 80;
   

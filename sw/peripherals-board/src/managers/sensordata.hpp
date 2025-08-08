@@ -27,7 +27,7 @@ struct SensorData{
   Vec3f acceleration;
   Vec3f angularVelocity;
   int16_t lidar[360];
-  float speed;
+  int16_t speed;
   SensorDataType_t sensorDataType;
   long encoderPosition;
 

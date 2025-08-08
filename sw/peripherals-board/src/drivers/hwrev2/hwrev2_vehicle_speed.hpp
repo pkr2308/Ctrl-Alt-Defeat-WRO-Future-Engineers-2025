@@ -21,11 +21,9 @@ public:
 private:
   VehicleConfig _config;
   RotaryEncoder *_encoder;
-  long _encoderPosition; 
-  long _prevEncoderPosition; 
-  unsigned long lastUpdateTime = 0;
-  long prevEncoderPosition = 0;
-  uint16_t _speed; 
-  uint16_t _ticksPerCM;
+  long _prevEncPos = 0;
+  long _prevMillis = 0;
+  uint8_t _ticksPerCM = 0;
+
 
 };

@@ -63,6 +63,10 @@ VehicleData SensorManager::update(){
         vehicleData.encoderPosition = data.encoderPosition;
       }
 
+      else if (data.sensorDataType == SENSOR_SPEED){
+        vehicleData.speed = data.speed;
+      }
+
     }
 
   }
