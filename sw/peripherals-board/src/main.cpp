@@ -40,8 +40,8 @@ void setup(){
   targetControl.init(&motor, &steering);
   driveAlgorithm.init();
 
-  //sensorManager.addSensor(&bno);
-  //sensorManager.addSensor(&lidar);
+  sensorManager.addSensor(&bno);
+  sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
   sensorManager.init();
 
@@ -50,20 +50,20 @@ void setup(){
 }
 
 /**
- * @brief Reads data from sensors, passes drive commands from drive algorithm to target controller
+ * @brief Reads data from sensors, passes drive commands from drive algorithm/RPi/radio to target controller
  */
 void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  //VehicleCommand vehicleCommand = driveAlgorithm.drive(vehicleData);
+  VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
 
-  remoteCommunication.update(vehicleData);
+  VehicleCommand radioCommand = remoteCommunication.update(vehicleData);
 
   debugPrintVehicleData(vehicleData);
 
-  delay(1); // Small delay to allow other tasks to run, and not overwhelm microcontroller
-}
+  //delay(1); // Small delay to allow other tasks to run, and not overwhelm microcontroller
+}             // -did this cause any specific problems? doesn't seem like something we should worry about
 
 void debugPrintVehicleData(VehicleData data){
 
