@@ -12,8 +12,9 @@ hw_rev_2_imu::hw_rev_2_imu(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_imu::init(){
+void hw_rev_2_imu::init(ILogger *logger){
 
+  _logger = logger;
   _bno = new Adafruit_BNO055(12345, _config.addressConfig.bnoAddr, &Wire);
   _bno->begin();
 

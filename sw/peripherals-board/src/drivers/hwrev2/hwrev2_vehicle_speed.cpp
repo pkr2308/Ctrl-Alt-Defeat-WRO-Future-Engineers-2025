@@ -22,7 +22,9 @@ hw_rev_2_VehicleSpeed::hw_rev_2_VehicleSpeed(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_VehicleSpeed::init(){
+void hw_rev_2_VehicleSpeed::init(ILogger* logger){
+
+  _logger = logger;
 
   _encoder = new RotaryEncoder(_config.pinConfig.motorEncoderA, _config.pinConfig.motorEncoderB, RotaryEncoder::LatchMode::TWO03);
   _isrEncoder = _encoder;

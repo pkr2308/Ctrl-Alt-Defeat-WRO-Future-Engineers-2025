@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <interfaces/IMotorDriver.hpp>
@@ -18,3 +19,4 @@ private:
   const int absMaxMotorCommand = 1024;
 
 };
+*/

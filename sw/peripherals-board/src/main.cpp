@@ -43,15 +43,15 @@ void setup(){
 
   Serial.begin();
 
-  targetControl.init(&motor, &steering);
+  targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
-  sensorManager.init();
+  sensorManager.init(&debugLogger);
 
-  remoteCommunication.init();
+  remoteCommunication.init(&debugLogger);
   
 }
 

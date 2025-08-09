@@ -8,7 +8,9 @@ hw_rev_2_RF24Communication::hw_rev_2_RF24Communication(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_RF24Communication::init(){
+void hw_rev_2_RF24Communication::init(ILogger *logger){
+
+  _logger = logger;
 
   _radio->begin(&SPI1);
   _radio->setPALevel(RF24_PA_HIGH);

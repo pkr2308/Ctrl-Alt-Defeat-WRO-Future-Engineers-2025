@@ -14,12 +14,13 @@ class hw_rev_2_SteeringDriver : public ISteeringDriver{
 public:
   hw_rev_2_SteeringDriver(VehicleConfig cfg);
 
-  virtual void init() override;
+  virtual void init(ILogger* logger) override;
   virtual void steer(int steeringAngle) override;  
 
 private:
   VehicleConfig _config;
   Servo _steeringServo;
+  ILogger* _logger;
   const float _ratio = 1;
   const int _SERVO_MIN = 0;
   const int _SERVO_CENTER = 90;

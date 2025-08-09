@@ -1,3 +1,4 @@
+/*
 #include "hwrev1_motor_driver.hpp"
 #include <interfaces/IMotorDriver.hpp>
 #include <managers/config.hpp>
@@ -43,3 +44,4 @@ void hw_rev_1_MotorDriver::driveMotor(int speed, bool dir){
   analogWrite(_config.pinConfig.motorDriverPWM, speed);
 
 }
+  */

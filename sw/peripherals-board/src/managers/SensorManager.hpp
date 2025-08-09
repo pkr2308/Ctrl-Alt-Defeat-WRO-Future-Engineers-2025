@@ -9,6 +9,7 @@
 #include <vector>
 #include <config.hpp>
 #include <ISensor.hpp>
+#include <ILogger.hpp>
 #include <vehicledata.hpp>
 #include <sensordata.hpp>
 
@@ -17,11 +18,12 @@ class SensorManager{
 public:
   SensorManager(VehicleConfig cfg);
   void addSensor(ISensor* sensor);
-  void init();
+  void init(ILogger *logger);
   VehicleData update();
 
 private:
   VehicleConfig _config;
   std::vector<ISensor*> _sensors;
+  ILogger *_logger;
 
 };

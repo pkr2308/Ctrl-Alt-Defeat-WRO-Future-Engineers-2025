@@ -14,7 +14,9 @@ hw_rev_2_MotorDriver::hw_rev_2_MotorDriver(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_MotorDriver::init(){
+void hw_rev_2_MotorDriver::init(ILogger *logger){
+
+  _logger = logger;
 
   pinMode(_config.pinConfig.motorDriverPWM, OUTPUT);
   pinMode(_config.pinConfig.motorDriverDirA, OUTPUT);

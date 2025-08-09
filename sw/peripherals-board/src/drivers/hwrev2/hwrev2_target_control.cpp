@@ -13,7 +13,9 @@ hw_rev_2_TargetControl::hw_rev_2_TargetControl(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver){
+void hw_rev_2_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* steeringDriver, ILogger* logger){
+
+  _logger = logger;
 
   _motorDriver = motorDriver;
   _steeringDriver = steeringDriver;
@@ -23,9 +25,9 @@ void hw_rev_2_TargetControl::init(IMotorDriver* motorDriver, ISteeringDriver* st
   steeringPID->SetMode(AUTOMATIC);
   steeringPID->SetOutputLimits(_config.controlConfig.minSteeringPIDCommand, _config.controlConfig.maxSteeringPIDCommand);
   
-  _motorDriver->init();
+  _motorDriver->init(_logger);
   _motorDriver->armMotor();
-  _steeringDriver->init();
+  _steeringDriver->init(_logger);
 
 }
 

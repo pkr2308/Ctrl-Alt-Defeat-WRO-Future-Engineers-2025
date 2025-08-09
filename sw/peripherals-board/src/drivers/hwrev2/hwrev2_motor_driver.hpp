@@ -13,7 +13,7 @@ class hw_rev_2_MotorDriver : public IMotorDriver{
 public:
   hw_rev_2_MotorDriver(VehicleConfig cfg);
 
-  void init() override;
+  void init(ILogger* logger) override;
   void driveMotor(int speed, bool dir) override;
   void disarmMotor() override;
   void armMotor() override;
@@ -21,5 +21,6 @@ public:
 private:
   VehicleConfig _config;
   const int absMaxMotorCommand = 1024;
+  ILogger* _logger;
 
 };

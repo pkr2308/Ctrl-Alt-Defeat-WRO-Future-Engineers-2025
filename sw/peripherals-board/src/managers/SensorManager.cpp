@@ -20,11 +20,13 @@ void SensorManager::addSensor(ISensor* sensor){
   _sensors.push_back(sensor); //  todo: implement nullptr and invalid sensor check
 }
 
-void SensorManager::init(){
+void SensorManager::init(ILogger *logger){
+
+  _logger = logger;
 
   for(ISensor* sensor : _sensors){
 
-    sensor->init();
+    sensor->init(_logger);
 
   }
 

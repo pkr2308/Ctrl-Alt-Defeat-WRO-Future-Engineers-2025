@@ -15,8 +15,9 @@ hw_rev_2_SteeringDriver::hw_rev_2_SteeringDriver(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_SteeringDriver::init(){
+void hw_rev_2_SteeringDriver::init(ILogger* logger){
 
+  ILogger* _logger;
   _steeringServo.attach(_config.pinConfig.steeringServo);
   _steeringServo.write(_SERVO_CENTER);
 
