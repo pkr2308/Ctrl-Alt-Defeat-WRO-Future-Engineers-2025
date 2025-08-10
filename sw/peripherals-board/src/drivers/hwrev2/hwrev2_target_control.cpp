@@ -54,7 +54,7 @@ void hw_rev_2_TargetControl::targetControl(VehicleCommand cmd, VehicleData data)
 
 void hw_rev_2_TargetControl::directControl(VehicleCommand cmd, VehicleData data){
 
-  _steeringDriver->steer(map(cmd.targetYaw, 0, 180, -_config.controlConfig.maxSteeringAngle, _config.controlConfig.maxSteeringAngle));
+  _steeringDriver->steer(map(cmd.targetYaw, 0, 180, -90, 90));
   _motorDriver->driveMotor(abs(cmd.targetSpeed), cmd.targetSpeed > 0);
 
 }
