@@ -39,7 +39,7 @@ private:
 
     // About IMU
     float yaw;
-    uint8_t targetYaw = 0;
+    uint16_t targetYaw = 0;
     int startYaw = 0;
 
     unsigned long startMillis;
