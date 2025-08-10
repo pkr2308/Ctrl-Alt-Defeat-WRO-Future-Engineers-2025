@@ -85,8 +85,8 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
 
   } 
 
-  if (left_lidarDist - right_lidarDist > 100) turnDir = 1;
-  else if (left_lidarDist - right_lidarDist < -100) turnDir = -1;
+  if (left_lidarDist - right_lidarDist > 100 && turnDir == 0) turnDir = 1;
+  else if (left_lidarDist - right_lidarDist < -100 && turnDir == 0) turnDir = -1;
 
 
   left_lidarDist = vehicleData.lidar[270];
