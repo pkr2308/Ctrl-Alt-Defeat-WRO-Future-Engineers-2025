@@ -1,3 +1,7 @@
+# A virtual envirnment with the Adafruit RPLidar library installed is required to run this code.
+# Instructions for intro to RPLidar with Adafruit RPLidar:
+# https://cdn-learn.adafruit.com/downloads/pdf/slamtec-rplidar-on-pi.pdf
+
 import time
 from math import floor
 from adafruit_rplidar import RPLidar

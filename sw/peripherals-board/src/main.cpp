@@ -67,6 +67,7 @@ void loop(){
 
   debugPrintVehicleData(vehicleData);
 
+  delay(1);
 }
 
 /**
@@ -75,39 +76,40 @@ void loop(){
  */
 void debugPrintVehicleData(VehicleData data){
 
+  Serial.print("Yaw: ");
   Serial.print(data.orientation.x);
-  Serial.print(", ");
-  Serial.print(data.orientation.y);
-  Serial.print(", ");
+  Serial.print(" Pitch: ");
+  Serial.print(-data.orientation.y);
+  Serial.print(" Roll: ");
   Serial.print(data.orientation.z);
-  Serial.print(", ");
+  Serial.print(" Accel X: ");
 
   Serial.print(data.acceleration.x);
-  Serial.print(", ");
+  Serial.print(" Accel Y: ");
   Serial.print(data.acceleration.y);
-  Serial.print(", ");
+  Serial.print(" Accel Z: ");
   Serial.print(data.acceleration.z);
-  Serial.print(", ");
+  Serial.print(" Angular X: ");
 
   Serial.print(data.angularVelocity.x);
-  Serial.print(", ");
+  Serial.print(" Angular Y: ");
   Serial.print(data.angularVelocity.y);
-  Serial.print(", ");
-  Serial.print(data.angularVelocity.z);
-  Serial.print(", ");
+  Serial.print(" Angular Z: ");
+  Serial.println(data.angularVelocity.z);
+  Serial.print("Encoder: ");
 
   Serial.print(data.encoderPosition);
-  Serial.print(", ");
+  Serial.print(" Speed: ");
 
-  Serial.print(data.speed);
-  Serial.print(", ");
+  Serial.println(data.speed);
+  Serial.print("Lidar Left: ");
 
   Serial.print(data.lidar[270]);
-  Serial.print(", ");
+  Serial.print(" Front: ");
   Serial.print(data.lidar[0]);
-  Serial.print(", ");
+  Serial.print(" Right: ");
   Serial.print(data.lidar[90]);
-  Serial.print(", ");
+  Serial.print(" ");
 
   Serial.println();
 
