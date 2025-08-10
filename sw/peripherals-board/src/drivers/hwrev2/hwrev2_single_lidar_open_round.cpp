@@ -32,7 +32,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   
   // Stopping turn logic
   float difference = targetYaw - yaw;
-  if (abs(difference) <= 6 && turning == true){   // Return to straight after turning for ~84°
+  if ((abs(difference) <= 6) && (turning == true)){   // Return to straight after turning for ~84°
     speed = 225;
     turning = false;
     encoderValue = 0;
@@ -41,7 +41,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     command.targetSpeed = speed;
     pos = 90; // Reset servo position
     command.targetYaw = pos;
-    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Stopping turn" + String(targetYaw) + " deg");
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Stopping turn TY:" + String(targetYaw) + " deg Yaw" + String(yaw) + " deg");
     
   }
 
