@@ -52,6 +52,12 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     turning = true;
     command.targetSpeed = speed;
     pos = 90 + turnDir * 42; // Set servo position for turning
+    targetYaw = yaw + turnDir * 90;
+    if (targetYaw > 360) targetYaw = targetYaw - 360;
+    if (targetYaw > 75 && targetYaw < 105) targetYaw = 90;
+    else if (targetYaw > 165 && targetYaw < 195) targetYaw = 180;
+    else if (targetYaw > 255 && targetYaw < 285) targetYaw = 270;
+    else if (targetYaw > 345 or targetYaw < 15) targetYaw = 0;
     command.targetYaw = pos;
     _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn" + String(yaw) + " deg" + String(front_lidarDist) + " cm");
 
