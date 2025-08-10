@@ -85,8 +85,15 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
 
   } 
 
-  if ((turnDir == 0) && (left_lidarDist > left_startDist + 50)) turnDir = -1; // Turning to left
-  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 50)) turnDir = 1; // Turning to right
+  if (left_lidarDist - right_lidarDist > 100) turnDir = 1;
+  else if (left_lidarDist - right_lidarDist < -100) turnDir = -1;
+
+  else {
+    left_lidarDist = vehicleData.lidar[270];
+    right_lidarDist = vehicleData.lidar[90];
+  }
+  //if ((turnDir == 0) && (left_lidarDist > left_startDist + 50)) turnDir = -1; // Turning to left
+  //else if ((turnDir == 0) && (right_lidarDist > right_startDist + 50)) turnDir = 1; // Turning to right
   command.targetSpeed = speed;
   command.targetYaw = pos; // Set target yaw based on servo position
   return command;
