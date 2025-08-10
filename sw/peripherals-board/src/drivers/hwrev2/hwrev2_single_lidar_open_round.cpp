@@ -41,7 +41,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     command.targetSpeed = speed;
     pos = 90; // Reset servo position
     command.targetYaw = pos;
-    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Stopping turn" + String(yaw) + " deg");
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Stopping turn" + String(targetYaw) + " deg");
     
   }
 
@@ -59,7 +59,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     else if (targetYaw > 255 && targetYaw < 285) targetYaw = 270;
     else if (targetYaw > 345 or targetYaw < 15) targetYaw = 0;
     command.targetYaw = pos;
-    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn" + String(yaw) + " deg" + String(front_lidarDist) + " cm");
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn" + String(targetYaw) + " deg" + String(front_lidarDist) + " cm");
 
   }
   
