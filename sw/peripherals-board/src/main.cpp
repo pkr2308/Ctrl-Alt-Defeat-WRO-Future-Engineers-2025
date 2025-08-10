@@ -25,6 +25,7 @@ SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 
 void debugPrintVehicleData(VehicleData data);
+void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 
 /**
  * @brief Initialises sensor manager, target controller, and drive algorithm
@@ -63,9 +64,10 @@ void loop(){
   VehicleData vehicleData = sensorManager.update();
 
   VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
-  VehicleCommand radioCommand = remoteCommunication.update(vehicleData);
 
-  debugPrintVehicleData(vehicleData);
+  targetControl.directControl(driveAlgorithmCommand, vehicleData);
+
+  debugLogDataCommand(vehicleData, driveAlgorithmCommand);
 
   delay(1);
 }
@@ -112,5 +114,50 @@ void debugPrintVehicleData(VehicleData data){
   Serial.print(" ");
 
   Serial.println();
+
+}
+
+void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
+
+  debugLogger.sendString(String(data.orientation.x));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.orientation.y));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.orientation.z));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(data.acceleration.x));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.acceleration.y));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.acceleration.z));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(data.angularVelocity.x));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.angularVelocity.y));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.angularVelocity.z));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(data.encoderPosition));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(data.speed));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(data.lidar[270]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[0]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[90]));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString(String(cmd.targetSpeed));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(cmd.targetYaw));
+  debugLogger.sendString(", ");
+
+  debugLogger.sendString("\n");
 
 }

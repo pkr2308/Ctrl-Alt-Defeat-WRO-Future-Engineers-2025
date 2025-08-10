@@ -37,6 +37,12 @@ void hw_rev_2_UARTLogger::sendMessage(String sender, LogType type, String messag
 
 }
 
+void hw_rev_2_UARTLogger::sendString(String string){
+
+  Serial1.print(string);
+
+}
+
 String hw_rev_2_UARTLogger::_stringFromType(LogType type){
 
   String typeString;

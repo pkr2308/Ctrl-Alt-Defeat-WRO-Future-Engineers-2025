@@ -17,5 +17,6 @@ public:
 
   virtual void init() = 0;
   virtual void sendMessage(String sender, LogType type, String message);
+  virtual void sendString(String string);
 
 };

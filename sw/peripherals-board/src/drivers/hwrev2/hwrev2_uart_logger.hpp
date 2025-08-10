@@ -14,6 +14,7 @@ public:
   hw_rev_2_UARTLogger(VehicleConfig cfg);
   void init() override;
   void sendMessage(String sender, LogType type, String message) override;
+  void sendString(String string) override;
 
 private:
   VehicleConfig _config;
