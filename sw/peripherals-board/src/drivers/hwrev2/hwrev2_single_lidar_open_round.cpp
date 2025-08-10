@@ -28,7 +28,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   VehicleCommand command;
 
   yaw = vehicleData.orientation.x;
-  distance = encoderValue / 45;
+  distance = vehicleData.encoderPosition / 45;
   
   // Stopping turn logic
   float difference = targetYaw - yaw;
