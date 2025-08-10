@@ -41,6 +41,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     command.targetSpeed = speed;
     pos = 90; // Reset servo position
     command.targetYaw = pos;
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Stopping turn");
   }
 
   // Starting turn logic
@@ -51,6 +52,8 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     command.targetSpeed = speed;
     pos = 90 + turnDir * 42; // Set servo position for turning
     command.targetYaw = pos;
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn");
+
   }
   
   // Stop after 3 rounds
@@ -60,6 +63,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     command.targetSpeed = speed;
     pos = 90; // Reset servo position
     command.targetYaw = pos;
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Completed 3 rounds");
   }
 
   // Not turning - Gyro straight follower
