@@ -63,10 +63,10 @@ std::vector<SensorData> hw_rev_2_VehicleSpeed::update(){
     _prevEncPos = currentEncPos;
     _prevMillis = currentMillis;
 
-    encPos.encoderPosition = currentEncPos;
+    encPos.encoderPosition = -currentEncPos;
     calcSpeed.speed = speed;
     dataVector.push_back(encPos);
-    dataVector.push_back(calcSpeed);
+    //dataVector.push_back(calcSpeed);
 
     return dataVector;
 
