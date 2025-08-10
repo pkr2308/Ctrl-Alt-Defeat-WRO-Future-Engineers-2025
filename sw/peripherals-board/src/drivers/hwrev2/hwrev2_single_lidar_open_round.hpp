@@ -33,7 +33,7 @@ private:
     // About turning
     int turns = 0;
     bool turning = false;
-    int turnDir = 1;           // 1 for clockwise, -1 for counterclockwise. Not known at start
+    int turnDir = 0;           // 1 for clockwise, -1 for counterclockwise. Not known at start
     
     uint8_t pos = 90;    // variable to store the servo position  
 
