@@ -68,7 +68,7 @@ void loop(){
   targetControl.directControl(driveAlgorithmCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
-
+  debugPrintVehicleData(vehicleData);
   delay(1);
 }
 
@@ -80,24 +80,24 @@ void debugPrintVehicleData(VehicleData data){
 
   Serial.print("Yaw: ");
   Serial.print(data.orientation.x);
-  Serial.print(" Pitch: ");
+  /*Serial.print(" Pitch: ");
   Serial.print(-data.orientation.y);
   Serial.print(" Roll: ");
-  Serial.print(data.orientation.z);
+  Serial.print(data.orientation.z);*/
   Serial.print(" Accel X: ");
 
   Serial.print(data.acceleration.x);
-  Serial.print(" Accel Y: ");
+  /*Serial.print(" Accel Y: ");
   Serial.print(data.acceleration.y);
   Serial.print(" Accel Z: ");
-  Serial.print(data.acceleration.z);
+  Serial.print(data.acceleration.z);*/
   Serial.print(" Angular X: ");
 
   Serial.print(data.angularVelocity.x);
-  Serial.print(" Angular Y: ");
+  /*Serial.print(" Angular Y: ");
   Serial.print(data.angularVelocity.y);
   Serial.print(" Angular Z: ");
-  Serial.println(data.angularVelocity.z);
+  Serial.println(data.angularVelocity.z);*/
   Serial.print("Encoder: ");
 
   Serial.print(data.encoderPosition);

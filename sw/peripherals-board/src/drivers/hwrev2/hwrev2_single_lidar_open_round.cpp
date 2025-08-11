@@ -68,6 +68,10 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Completed 3 rounds");
   }
 
+  // Get data from side LiDARs
+  left_lidarDist = vehicleData.lidar[270];
+  right_lidarDist = vehicleData.lidar[90];
+
   // Not turning - Gyro straight follower
   if(turning == false){
     speed = 225;
@@ -85,14 +89,12 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
 
   } 
 
-  if (left_lidarDist - right_lidarDist > 100 && turnDir == 0) turnDir = 1;
-  else if (left_lidarDist - right_lidarDist < -100 && turnDir == 0) turnDir = -1;
+  //if (left_lidarDist - right_lidarDist > 100 && turnDir == 0) turnDir = -1; // Turning to left
+  //else if (left_lidarDist - right_lidarDist < -100 && turnDir == 0) turnDir = 1; // Turning to right
 
+  if ((turnDir == 0) && (left_lidarDist > left_startDist + 60)) turnDir = -1; // Turning to left
+  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 60)) turnDir = 1; // Turning to right
 
-  left_lidarDist = vehicleData.lidar[270];
-  right_lidarDist = vehicleData.lidar[90];
-  //if ((turnDir == 0) && (left_lidarDist > left_startDist + 50)) turnDir = -1; // Turning to left
-  //else if ((turnDir == 0) && (right_lidarDist > right_startDist + 50)) turnDir = 1; // Turning to right
   command.targetSpeed = speed;
   command.targetYaw = pos; // Set target yaw based on servo position
   return command;
