@@ -37,3 +37,89 @@ See <link> for more details about sensors on the peripherals interface board, an
 -	LiDARs: Used for detecting direction, obstacles and parking area
 -	IMU: Gives yaw (and other orientations) of the robot in [0,360).
 -	Motor/Servos: PWM and PI controls respectively for movement using sensor data, coordinated by the RP2040.
+
+## Peripherals Board for Control
+
+The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds
+
+### Drivers
+
+Revision 2 drivers are referred to here. Header files contain the necessary declerations of variables, controls and other headers for the implementation file. The have public and private sections depending on whether the data is needed in the main file along with the implementation file. Implementation files are where the actual logic/algorithms are carried out. 
+The following are the drivers used:
+- Get config : 
+- IMU :
+- Lidar :
+- Motor driver :
+- RF24 communication : 
+- Single lidar open round :
+- Steering driver :
+- Target control :
+- UART logger : 
+- Vehicle speed :
+
+
+### Interfaces
+
+- Drive algorithm :
+- Logger :
+- Motor driver :
+- Sensor :
+- Steering driver :
+- Target control :
+
+### Managers
+
+- Config :
+- Sensor data :
+- Sensor manager :
+- Status :
+- Vec3f :
+- Vehicle command :
+- Vehicle data :
+
+### Utilities
+
+- Scheduler :
+
+## Open Round
+
+Refer to `peripherals_board/src/drivers/hwrev2/hwrev2_single_lidar_open_round.cpp and .hpp` files for program.
+
+### Header File
+
+Public includes the logger (for debugging), vehicle command (for driving) and sets direct control of servo (A target yaw value is generally given). Private includes setup of variables for driving, turning, servo, IMU, 1D LiDARs and IMU-based straight follower. 
+
+### Implementation File
+
+#### Initialisation
+- Sets up logging
+- Determines stopping distance based on initial front LiDAR reading.
+- Sets initial speed and steering
+
+#### Turn Detection & Execution:
+- Uses front LiDAR to detect when to start a turn (if obstacle is close).
+- Decides turn direction (left/right) based on side LiDARs (First turn only)
+- Turns are started considering factors of distance available, yaw, current section and distance travelled. 
+- Adjusts steering (servo position) and target yaw for smooth turns.
+- After each turn, resets variables and prepares for the next segment. Target yaw and threshold distance may be altered for better accuracy
+- The idea to stick to the outer wall, so even with randomisation, the extended inner wall is not hit
+
+#### Straight Movement:
+- When not turning, uses gyro (yaw) to follow a straight path.
+- Applies proportional-integral correction to steering for accurate straight-line travel.
+
+#### Turn Direction Logic:
+- Chooses clockwise or anticlockwise based on which side has more open space (LiDAR difference).
+- Sets different thresholds for smoother turns depending on direction.
+
+#### Stopping 
+- Counts turns; after 12 turns (3 rounds), slows down and stops at the start section.
+
+### Flow
+1. Start moving straight.
+2. Decide turn direction using side LiDARs. (For first turn only)
+3. Detect distance to wall ahead with front LiDAR.
+4. Execute turn when condition are met, adjust steering and target yaw.
+5. After turn, resume straight movement with PI control.
+6. Repeat for 3 rounds (12 turns).
+7. After final round, slow down and stop in the start section.
