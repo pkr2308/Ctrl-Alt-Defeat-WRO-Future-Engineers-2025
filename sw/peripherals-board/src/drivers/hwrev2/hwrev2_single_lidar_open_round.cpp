@@ -35,7 +35,14 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   if (difference > 180) difference = 360 - difference;
   else if (difference < -180) difference = 360 + difference;
   if (turning == true){
-    if (abs(difference) <= 1){   // Return to straight after turning for ~89°
+    if ((turns == 11) and (abs(difference) < 20) and (stopDist == 0)){
+        speed = 0;
+        distance = 0;
+        pos = 90;
+        encoderValue = 0;
+        turns += 1;
+    }
+    else if (abs(difference) <= 1){   // Return to straight after turning for ~89°
         speed = 225;
         turning = false;
         encoderValue = 0;
@@ -82,7 +89,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   }
 
   // Not turning - Gyro straight follower
-  if(turning == false){
+  if(turning == false and (turns < 12 or stopDist != 0)){
     speed = 225;
     correction = 0;
     error = round(targetYaw - yaw);
