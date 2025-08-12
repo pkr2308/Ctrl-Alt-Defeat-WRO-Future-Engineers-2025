@@ -55,7 +55,6 @@ private:
     int16_t front_startDist = vehicleData.lidar[0];
     int16_t left_startDist = vehicleData.lidar[270];
     int16_t right_startDist = vehicleData.lidar[90];
-    int stopDist = 5;          // The distance at which the robot should stop after final turn
 
     // About Gyro straight follower
     int correction = 0;
