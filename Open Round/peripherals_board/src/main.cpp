@@ -8,11 +8,10 @@
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
 #define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp
-// #define MULTIPLE_LIDAR_OPEN_ROUND                        // Defines what drive algorithm to use. Add more in driverconfig.hpp     
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
 
-
+// Include all required drivers and managers
 VEHICLE_DRIVER_IMU bno(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_LIDAR lidar(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SPEED speed(VEHICLE_GET_CONFIG);
@@ -49,7 +48,7 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
-  delay(2000);
+  delay(2000); // Delay for initialisation of IMU
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
@@ -75,11 +74,9 @@ void loop(){
   
   // Currently used for debugging and starting to drive
   if(BOOTSEL){
-   
     while(BOOTSEL);
     enableDriveAlgorithm = !enableDriveAlgorithm;
-    delay(1500);
-    
+    delay(1500); 
   }
     
   if(enableDriveAlgorithm){
@@ -88,10 +85,10 @@ void loop(){
 
   Serial.println(enableDriveAlgorithm);
 
-  targetControl.directControl(driveAlgorithmCommand, vehicleData);
+  targetControl.directControl(driveAlgorithmCommand, vehicleData);  // Controls motors and steering based on drive algorithm command
 
   //debugLogDataCommand(vehicleData, driveAlgorithmCommand);
-  remoteCommunication.update(vehicleData, driveAlgorithmCommand);
+  remoteCommunication.update(vehicleData, driveAlgorithmCommand); // Done with NRF24L01 wireless transceiver
 
   //Serial.println(vehicleData.speed);
 
