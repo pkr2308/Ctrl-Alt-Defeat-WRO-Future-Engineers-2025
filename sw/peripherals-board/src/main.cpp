@@ -73,11 +73,12 @@ void loop(){
   driveAlgorithmCommand.targetSpeed = 0;
   driveAlgorithmCommand.targetYaw = 90;
   
+  // Currently used for debugging and starting to drive
   if(BOOTSEL){
    
     while(BOOTSEL);
     enableDriveAlgorithm = !enableDriveAlgorithm;
-    delay(750);
+    delay(1500);
     
   }
     

@@ -48,7 +48,7 @@ private:
 
 
     // About Lidar
-    int threshold = 72;         // The distance at which the robot should start turning
+    int threshold = 75;         // The distance at which the robot should start turning
     int16_t front_lidarDist;
     int16_t left_lidarDist;
     int16_t right_lidarDist;
