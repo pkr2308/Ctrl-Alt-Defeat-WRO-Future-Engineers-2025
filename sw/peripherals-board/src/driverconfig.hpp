@@ -34,5 +34,8 @@
 #define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_SingleLidarOpenRound
 #endif
 
+// #if defined(MULTIPLE_LIDAR_OPEN_ROUND)      // Check if this is correct
+// #define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_MultipleLidarOpenRound
+// #endif
 
 #endif

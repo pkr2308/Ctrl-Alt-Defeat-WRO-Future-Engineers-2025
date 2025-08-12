@@ -7,7 +7,8 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp     
+#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp
+// #define MULTIPLE_LIDAR_OPEN_ROUND                        // Defines what drive algorithm to use. Add more in driverconfig.hpp     
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
 
@@ -47,6 +48,9 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
+  delay(2000); // Wait for operator to leave once power is turned on
+  // This delay is important for calibration of the IMU
+
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
@@ -69,7 +73,8 @@ void loop(){
 
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
   debugPrintVehicleData(vehicleData);
-  delay(1);
+  
+  delay(1); // Allows other tasks to run
 }
 
 /**
@@ -83,28 +88,28 @@ void debugPrintVehicleData(VehicleData data){
   /*Serial.print(" Pitch: ");
   Serial.print(-data.orientation.y);
   Serial.print(" Roll: ");
-  Serial.print(data.orientation.z);*/
+  Serial.print(data.orientation.z);
+  
   Serial.print(" Accel X: ");
-
   Serial.print(data.acceleration.x);
-  /*Serial.print(" Accel Y: ");
+  Serial.print(" Accel Y: ");
   Serial.print(data.acceleration.y);
   Serial.print(" Accel Z: ");
-  Serial.print(data.acceleration.z);*/
+  Serial.print(data.acceleration.z);
+  
   Serial.print(" Angular X: ");
-
   Serial.print(data.angularVelocity.x);
   /*Serial.print(" Angular Y: ");
   Serial.print(data.angularVelocity.y);
   Serial.print(" Angular Z: ");
   Serial.println(data.angularVelocity.z);*/
-  Serial.print("Encoder: ");
-
+  
+  Serial.print(" Encoder: ");
   Serial.print(data.encoderPosition);
   Serial.print(" Speed: ");
-
   Serial.println(data.speed);
-  Serial.print("Lidar Left: ");
+
+  Serial.print(" Lidar Left: ");
 
   Serial.print(data.lidar[270]);
   Serial.print(" Front: ");
