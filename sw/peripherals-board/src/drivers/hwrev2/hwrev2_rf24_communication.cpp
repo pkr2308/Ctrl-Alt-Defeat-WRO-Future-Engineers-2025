@@ -31,16 +31,20 @@ VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleComma
   telemBlock1.oriY = data.orientation.y;
   telemBlock1.oriZ = data.orientation.z;
   telemBlock1.imuCalib = data.imuCalib;
+  telemBlock1.gyroCalib = data.gyroCalib;
+  telemBlock1.accelCalib = data.accelCalib;
+  telemBlock1.magCalib = data.magCalib;
   telemBlock1.lidarLeft = data.lidar[270];
   telemBlock1.lidarFront = data.lidar[0];
   telemBlock1.lidarRight = data.lidar[90];
   telemBlock1.commandedSpeed = cmd.targetSpeed;
   telemBlock1.commandedSteer = cmd.targetYaw;
 
-
   _radio->openWritingPipe(TLM_PIPE_0);
   _radio->stopListening();
   _radio->write(&telemBlock1, sizeof(telemBlock1));
+
+  Serial.println("size of telemBlock1: " + String(sizeof(telemBlock1)));
 
   return returnCommand;
   

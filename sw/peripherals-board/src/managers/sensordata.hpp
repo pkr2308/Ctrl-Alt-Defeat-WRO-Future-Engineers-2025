@@ -18,7 +18,7 @@ enum SensorDataType_t{
   SENSOR_LIDAR = 5,
   SENSOR_SPEED = 6,
   SENSOR_ENCODER = 7,
-  SENSOR_CALIBRATION_STATUS = 8
+  SENSOR_IMU_CALIBRATION = 8
 
 };
 
@@ -32,6 +32,10 @@ struct SensorData{
   int16_t speed;
   SensorDataType_t sensorDataType;
   long encoderPosition;
-  uint8_t calibrationStatus;
+
+  uint8_t gyroCalib;
+  uint8_t accelCalib;
+  uint8_t magCalib;
+  uint8_t sysCalib;
 
 };
