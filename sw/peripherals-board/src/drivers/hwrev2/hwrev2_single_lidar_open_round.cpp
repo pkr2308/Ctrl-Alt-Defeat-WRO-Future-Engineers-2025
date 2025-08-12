@@ -16,7 +16,7 @@ void hw_rev_2_SingleLidarOpenRound::init(ILogger* logger) {
   _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Initialising drive algorithm");
 
   if (front_startDist > 140) stopDist = 0;
-  else stopDist = 60;
+  else stopDist = 50;
   
   speed = 225;                      // Initial speed
   VehicleCommand{.targetSpeed = speed, .targetYaw = 90}; // Set initial speed, steering
@@ -32,7 +32,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   
   // Stopping turn logic
   float difference = targetYaw - yaw;
-  if ((abs(difference) <= 6.5) && (turning == true)){   // Return to straight after turning for ~84°
+  if ((abs(difference) <= 7.5) && (turning == true)){   // Return to straight after turning for ~84°
     speed = 225;
     turning = false;
     encoderValue = 0;
@@ -46,7 +46,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
 
   // Starting turn logic
   front_lidarDist = vehicleData.lidar[0];
-  if ((front_lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 110)){ // Checking to turn
+  if ((front_lidarDist < threshold) and (turning == false) and (turns == 0 or distance > 115)){ // Checking to turn
     speed = 180;
     turning = true;
     pos = 90 + turnDir * 43; // Set servo position for turning
