@@ -44,7 +44,7 @@ The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG99
 
 ### Drivers
 
-Revision 2 drivers are referred to here. Header files contain the necessary declerations of variables, controls and other headers for the implementation file. The have public and private sections depending on whether the data is needed in the main file along with the implementation file. Implementation files are where the actual logic/algorithms are carried out. 
+Revision 2 drivers are referred to here. 
 The following are the drivers used:
 - Get config : 
 - IMU :
@@ -93,7 +93,6 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 
 #### Initialisation
 - Sets up logging
-- Determines stopping distance based on initial front LiDAR reading.
 - Sets initial speed and steering
 
 #### Turn Detection & Execution:
