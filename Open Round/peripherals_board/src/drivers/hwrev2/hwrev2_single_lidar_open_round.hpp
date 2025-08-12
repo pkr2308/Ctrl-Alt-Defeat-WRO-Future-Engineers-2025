@@ -22,13 +22,15 @@ private:
     VehicleConfig _config;
     VehicleData vehicleData;
     ILogger *_debugLogger;
+    
+    // All distances are in cm
 
     // About driving
     int dir = 1;
     int16_t speed = 225;  // Motor PWM speed 
     int lastEncoded = 0; 
-    long encoderValue = 0;
-    float distance = 0.0;
+    long encoderValue = 0;  // Count of encoder ticks
+    float distance = 0.0;   // Distance travelled based on encoder ticks
 
     // About turning
     int turns = 0;
@@ -48,7 +50,7 @@ private:
 
 
     // About Lidar
-    int threshold = 74;         // The distance at which the robot should start turning
+    int threshold = 74;         // The distance from wall at which the robot should start turning
     int16_t front_lidarDist;
     int16_t left_lidarDist;
     int16_t right_lidarDist;
@@ -57,7 +59,7 @@ private:
     int16_t right_startDist = vehicleData.lidar[90];
     int stopDist = 5;          // The distance at which the robot should stop after final turn
 
-    // About Gyro straight follower
+    // About IMU-based straight follower
     int correction = 0;
     float error = 0;
     float totalError = 0;            // Used for integral control
