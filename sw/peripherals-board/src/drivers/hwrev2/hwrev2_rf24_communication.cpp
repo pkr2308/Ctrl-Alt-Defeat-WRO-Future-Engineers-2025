@@ -44,8 +44,6 @@ VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleComma
   _radio->stopListening();
   _radio->write(&telemBlock1, sizeof(telemBlock1));
 
-  Serial.println("size of telemBlock1: " + String(sizeof(telemBlock1)));
-
   return returnCommand;
   
 }

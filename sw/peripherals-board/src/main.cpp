@@ -68,7 +68,7 @@ void loop(){
   VehicleCommand driveAlgorithmCommand;
   driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
 
-  /*driveAlgorithmCommand.targetSpeed = 0;
+  driveAlgorithmCommand.targetSpeed = 0;
   driveAlgorithmCommand.targetYaw = 90;
   
   if(BOOTSEL){
@@ -82,14 +82,12 @@ void loop(){
     driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
   }
 
-  Serial.println(enableDriveAlgorithm);*/
+  Serial.println(enableDriveAlgorithm);
 
   targetControl.directControl(driveAlgorithmCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
   remoteCommunication.update(vehicleData, driveAlgorithmCommand);
-
-  debugPrintVehicleData(vehicleData, driveAlgorithmCommand);
 
 }
 
