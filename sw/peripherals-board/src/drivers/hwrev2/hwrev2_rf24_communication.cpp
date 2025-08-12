@@ -39,12 +39,11 @@ VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleComma
   telemBlock1.lidarRight = data.lidar[90];
   telemBlock1.commandedSpeed = cmd.targetSpeed;
   telemBlock1.commandedSteer = cmd.targetYaw;
+  telemBlock1.speed = data.speed;
 
   _radio->openWritingPipe(TLM_PIPE_0);
   _radio->stopListening();
   _radio->write(&telemBlock1, sizeof(telemBlock1));
-
-  Serial.println("size of telemBlock1: " + String(sizeof(telemBlock1)));
 
   return returnCommand;
   
