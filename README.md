@@ -30,6 +30,7 @@ See <link> for more details about sensors on the peripherals interface board, an
 - [sw](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/sw) : Contains PlatformIO project for the peripherals interface board.
 - [Open Round](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/Open%20Round) : It contains all the program files for the open round over various iterations and hardware setups.
 - Obstacle Round : 
+- [test-data-recordings/open-round](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/test-data-recordings/open-round) : It contains data logs from various open round tests
 
 ## System Architecture 
 -	Raspberry Pi 5: It uses ROS2 and handles more complex tasks like object and colour detection, route planning, and the 2D LiDAR.
@@ -37,6 +38,14 @@ See <link> for more details about sensors on the peripherals interface board, an
 -	LiDARs: Used for detecting direction, obstacles and parking area
 -	IMU: Gives yaw (and other orientations) of the robot in [0,360).
 -	Motor/Servos: PWM and PI controls respectively for movement using sensor data, coordinated by the RP2040.
+
+### Mobility
+
+### Power
+
+### Sensors
+
+### Obstacle Management
 
 ## Peripherals Board for Control
 
