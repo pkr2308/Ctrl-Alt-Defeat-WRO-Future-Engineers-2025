@@ -12,7 +12,7 @@ Team Photo:
 <TODO>
 
 ## Project Overview
-This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. This repository contains the programs, hardware description and design files of our model.
+This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. ROS is used with the Raspberry Pi for object detection and navigation. This repository contains the programs, hardware description and design files of our model.
 
 ## Hardware Components
 - __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Waveshare RP2040-Zero, real-time control) (Use of Arduino for initial testing)

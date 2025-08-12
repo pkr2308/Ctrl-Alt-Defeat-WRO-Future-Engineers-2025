@@ -1,0 +1,31 @@
+/**
+ * @brief Implementation of hwrev2 steering driver
+ * @author DIY Labs
+ */
+
+#include "hwrev2_steering_driver.hpp"
+#include <interfaces/ISteeringDriver.hpp>
+#include <managers/config.hpp>
+#include <Arduino.h>
+#include <Servo.h>
+
+hw_rev_2_SteeringDriver::hw_rev_2_SteeringDriver(VehicleConfig cfg){
+
+  _config = cfg;
+
+}
+
+void hw_rev_2_SteeringDriver::init(ILogger* logger){
+
+  ILogger* _logger;
+  _steeringServo.attach(_config.pinConfig.steeringServo);
+  _steeringServo.write(_SERVO_CENTER);
+
+}
+
+void hw_rev_2_SteeringDriver::steer(int steeringAngle){
+
+  int servoCommand = map((steeringAngle * _ratio), _COMMAND_MIN, _COMMAND_MAX, _SERVO_MIN, _SERVO_MAX);
+  _steeringServo.write(servoCommand);
+
+}
