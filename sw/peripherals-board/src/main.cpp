@@ -24,6 +24,7 @@ VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
+bool enableDriveAlgorithm = false;
 
 void debugPrintVehicleData(VehicleData data);
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
@@ -67,13 +68,30 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+  VehicleCommand driveAlgorithmCommand;
+  driveAlgorithmCommand.targetSpeed = 0;
+  driveAlgorithmCommand.targetYaw = 90;
+  
+  if(BOOTSEL){
+   
+    while(BOOTSEL);
+    enableDriveAlgorithm = !enableDriveAlgorithm;
+    
+  }
+    
+  if(enableDriveAlgorithm){
+    driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+  }
+
+  Serial.println(enableDriveAlgorithm);
 
   targetControl.directControl(driveAlgorithmCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
+  remoteCommunication.update(vehicleData, driveAlgorithmCommand);
+
   debugPrintVehicleData(vehicleData);
-  
+
   delay(1); // Allows other tasks to run
 }
 

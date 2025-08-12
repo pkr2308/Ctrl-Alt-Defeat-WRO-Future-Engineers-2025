@@ -8,9 +8,14 @@ struct hwrev2_rf24_telem_block1{
   float oriY;
   float oriZ;
 
-  uint8_t lidarLeft;
-  uint8_t lidarFront;
-  uint8_t lidarRight;
+  uint16_t lidarLeft;
+  uint16_t lidarFront;
+  uint16_t lidarRight;
+
+  uint16_t commandedSpeed;
+  uint16_t commandedSteer;
+
+  uint8_t imuCalib;
 
 };
 

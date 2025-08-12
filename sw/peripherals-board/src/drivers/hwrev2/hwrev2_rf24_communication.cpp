@@ -21,22 +21,27 @@ void hw_rev_2_RF24Communication::init(ILogger *logger){
 
 }
 
-VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data){
+VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleCommand cmd){
 
-  VehicleCommand cmd;
+  VehicleCommand returnCommand;
 
   hwrev2_rf24_telem_block1 telemBlock1;
+
   telemBlock1.oriX = data.orientation.x;
   telemBlock1.oriY = data.orientation.y;
   telemBlock1.oriZ = data.orientation.z;
+  telemBlock1.imuCalib = data.imuCalib;
   telemBlock1.lidarLeft = data.lidar[270];
   telemBlock1.lidarFront = data.lidar[0];
   telemBlock1.lidarRight = data.lidar[90];
+  telemBlock1.commandedSpeed = cmd.targetSpeed;
+  telemBlock1.commandedSteer = cmd.targetYaw;
+
 
   _radio->openWritingPipe(TLM_PIPE_0);
   _radio->stopListening();
   _radio->write(&telemBlock1, sizeof(telemBlock1));
 
-  return cmd;
+  return returnCommand;
   
 }

@@ -69,6 +69,10 @@ VehicleData SensorManager::update(){
         vehicleData.speed = data.speed;
       }
 
+      else if (data.sensorDataType == SENSOR_CALIBRATION_STATUS){
+        vehicleData.imuCalib = data.calibrationStatus;
+      }
+
     }
 
   }

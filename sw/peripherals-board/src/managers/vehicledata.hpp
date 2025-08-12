@@ -16,5 +16,6 @@ struct VehicleData{
   uint16_t lidar[360];
   int16_t speed;
   long encoderPosition;
+  uint8_t imuCalib;
 
 };
