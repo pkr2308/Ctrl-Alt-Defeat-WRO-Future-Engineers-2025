@@ -77,6 +77,7 @@ void loop(){
    
     while(BOOTSEL);
     enableDriveAlgorithm = !enableDriveAlgorithm;
+    delay(750);
     
   }
     
@@ -88,10 +89,10 @@ void loop(){
 
   targetControl.directControl(driveAlgorithmCommand, vehicleData);
 
-  debugLogDataCommand(vehicleData, driveAlgorithmCommand);
+  //debugLogDataCommand(vehicleData, driveAlgorithmCommand);
   remoteCommunication.update(vehicleData, driveAlgorithmCommand);
 
-  Serial.println(vehicleData.speed);
+  //Serial.println(vehicleData.speed);
 
 }
 
