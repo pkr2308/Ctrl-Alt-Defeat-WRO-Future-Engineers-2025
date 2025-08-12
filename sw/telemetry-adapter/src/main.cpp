@@ -35,6 +35,8 @@ void setup(){
     pixel.show();
     while(true);
   }
+  pixel.setPixelColor(0, pixel.Color(0, 255, 0));
+  pixel.show();
 
   Serial.begin();  
 
@@ -93,6 +95,15 @@ void printDataStruct(){
   Serial.print(',');  
 
   Serial.print(dataBlock1.lidarRight);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.commandedSpeed);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.commandedSteer);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.imuCalib);
   Serial.print(',');  
 
   Serial.println();

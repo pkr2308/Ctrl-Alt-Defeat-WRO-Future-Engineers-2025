@@ -12,7 +12,7 @@ class hw_rev_2_RF24Communication : public ICommunication{
 public:
   hw_rev_2_RF24Communication(VehicleConfig cfg);
   void init(ILogger *logger) override;
-  VehicleCommand update(VehicleData data) override;  
+  VehicleCommand update(VehicleData data, VehicleCommand cmd) override;  
 
 private:
   VehicleConfig _config;
