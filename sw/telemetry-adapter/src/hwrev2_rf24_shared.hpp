@@ -24,6 +24,8 @@ struct hwrev2_rf24_telem_block1{
   uint8_t accelCalib;
   uint8_t magCalib;
 
+  int16_t speed;
+
 };
 
 const uint8_t TLM_PIPE_0[] = "TLM00";

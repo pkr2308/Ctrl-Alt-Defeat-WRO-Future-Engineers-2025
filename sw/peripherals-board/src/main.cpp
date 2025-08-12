@@ -89,6 +89,8 @@ void loop(){
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
   remoteCommunication.update(vehicleData, driveAlgorithmCommand);
 
+  Serial.println(vehicleData.speed);
+
 }
 
 /**
