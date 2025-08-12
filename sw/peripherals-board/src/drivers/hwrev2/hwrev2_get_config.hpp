@@ -20,8 +20,6 @@ VehicleConfig hwrev2_getConfig(){
   cfg.pinConfig.motorEncoderA               = 13;
   cfg.pinConfig.motorEncoderB               = 14;
 
-  cfg.pinConfig.startBtn                    = 3;
-
   cfg.pinConfig.uart0RX                     = 1;
   cfg.pinConfig.uart0TX                     = 0;
 
