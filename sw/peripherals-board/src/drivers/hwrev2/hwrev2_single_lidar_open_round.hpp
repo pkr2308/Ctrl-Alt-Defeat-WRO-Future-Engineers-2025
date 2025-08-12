@@ -25,7 +25,7 @@ private:
 
     // About driving
     int dir = 1;
-    int16_t speed = 275;  // Motor PWM speed 
+    int16_t speed = 225;  // Motor PWM speed 
     int lastEncoded = 0; 
     long encoderValue = 0;
     float distance = 0.0;
@@ -35,7 +35,7 @@ private:
     bool turning = false;
     int turnDir = 0;           // 1 for clockwise, -1 for counterclockwise. Not known at start
     
-    uint8_t pos = 90;    // variable to store the servo position  
+    uint8_t pos = 90;          // variable to store the servo position  
 
     // About IMU
     float yaw;
@@ -48,19 +48,19 @@ private:
 
 
     // About Lidar
-    int threshold = 60;
+    int threshold = 60;         // The distance at which the robot should start turning
     int16_t front_lidarDist;
     int16_t left_lidarDist;
     int16_t right_lidarDist;
     int16_t front_startDist = vehicleData.lidar[0];
     int16_t left_startDist = vehicleData.lidar[270];
     int16_t right_startDist = vehicleData.lidar[90];
-    int stopDist = 5;
+    int stopDist = 5;          // The distance at which the robot should stop after final turn
 
     // About Gyro straight follower
     int correction = 0;
     float error = 0;
-    float totalError = 0;             // Used for integral control
+    float totalError = 0;            // Used for integral control
 
-    bool completed = false; // Indicates if the 3 rounds are completed
+    bool completed = false;          // Indicates if the 3 rounds are completed
 };

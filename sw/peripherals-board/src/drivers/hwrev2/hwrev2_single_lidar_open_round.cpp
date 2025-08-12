@@ -18,7 +18,7 @@ void hw_rev_2_SingleLidarOpenRound::init(ILogger* logger) {
   if (front_startDist > 140) stopDist = 0;
   else stopDist = 80;
   
-  speed = 225; // Initial speed
+  speed = 225;                      // Initial speed
   VehicleCommand{.targetSpeed = speed, .targetYaw = 90}; // Set initial speed, steering
 
 }
@@ -77,9 +77,11 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     speed = 225;
     correction = 0;
     error = round(targetYaw - yaw);
+
     if (error > 180) error = error - 360;
     else if (error < -180) error = error + 360;
-    totalError += error;
+    totalError += error;                            // Used for integral control
+
     if (error > 0) correction = error * 2.3 - totalError * 0.001; // correction to the right
     else if (error < 0) correction = error * 2.2 - totalError * 0.001; // correction to the left
 
@@ -96,7 +98,10 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   else if ((turnDir == 0) && (right_lidarDist > right_startDist + 60)) turnDir = 1; // Turning to right
 
   command.targetSpeed = speed;
-  command.targetYaw = pos; // Set target yaw based on servo position
+  // This sets servo position not yaw since this system is currently on direct control
+  // Ref .hpp file with line 19 - bool isDirectControl() override { return true; }
+  command.targetYaw = pos;
+
   return command;
 
 }
