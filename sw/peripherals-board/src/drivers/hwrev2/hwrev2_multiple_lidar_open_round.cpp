@@ -16,7 +16,7 @@ void hw_rev_2_MultipleLidarOpenRound::init(ILogger* logger) {
   _debugLogger->sendMessage("hw_rev_2_MultipleLidarOpenRound::init()", _debugLogger->INFO, "Initialising drive algorithm");
 
   if (front_startDist > 140) stopDist = 0;
-  else stopDist = 80;
+  else stopDist = 60;
   
   speed = 225; // Initial speed
   VehicleCommand{.targetSpeed = speed, .targetYaw = 90}; // Set initial speed, steering
@@ -47,9 +47,9 @@ VehicleCommand hw_rev_2_MultipleLidarOpenRound::drive(VehicleData vehicleData){
   // Starting turn logic
   front_lidarDist = vehicleData.lidar[0];
   if ((front_lidarDist < threshold) && (turning == false) && (turns == 0 or distance > 100)){ // Checking to turn
-    speed = 200;
+    speed = 180;
     turning = true;
-    pos = 90 + turnDir * 42; // Set servo position for turning
+    pos = 90 + turnDir * 43; // Set servo position for turning
     targetYaw = yaw + turnDir * 90;
     if (targetYaw > 360) targetYaw = targetYaw - 360;
     if (targetYaw > 75 && targetYaw < 105) targetYaw = 90;
@@ -103,9 +103,13 @@ VehicleCommand hw_rev_2_MultipleLidarOpenRound::drive(VehicleData vehicleData){
   //if (left_lidarDist - right_lidarDist > 100 && turnDir == 0) turnDir = -1; // Turning to left
   //else if (left_lidarDist - right_lidarDist < -100 && turnDir == 0) turnDir = 1; // Turning to right
 
-  if ((turnDir == 0) && (left_lidarDist > left_startDist + 60)) turnDir = -1; // Turning to left
-  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 60)) turnDir = 1; // Turning to right
-
+  if ((turnDir == 0) && (left_lidarDist > left_startDist + 60)){
+    turnDir = -1; // Turning to left
+  }
+  else if ((turnDir == 0) && (right_lidarDist > right_startDist + 60)){
+    turnDir = 1; // Turning to right
+  }
+  
   command.targetSpeed = speed;
   // This sets servo position not yaw since this system is on direct control
   // Ref .hpp file with line 19 - bool isDirectControl() override { return true; }

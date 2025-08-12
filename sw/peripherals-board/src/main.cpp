@@ -26,7 +26,7 @@ SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 bool enableDriveAlgorithm = false;
 
-void debugPrintVehicleData(VehicleData data);
+void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 
 /**
@@ -69,7 +69,9 @@ void loop(){
   VehicleData vehicleData = sensorManager.update();
 
   VehicleCommand driveAlgorithmCommand;
-  driveAlgorithmCommand.targetSpeed = 0;
+  driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+
+  /*driveAlgorithmCommand.targetSpeed = 0;
   driveAlgorithmCommand.targetYaw = 90;
   
   if(BOOTSEL){
@@ -83,14 +85,14 @@ void loop(){
     driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
   }
 
-  Serial.println(enableDriveAlgorithm);
+  Serial.println(enableDriveAlgorithm);*/
 
   targetControl.directControl(driveAlgorithmCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, driveAlgorithmCommand);
   remoteCommunication.update(vehicleData, driveAlgorithmCommand);
 
-  debugPrintVehicleData(vehicleData);
+  debugPrintVehicleData(vehicleData, driveAlgorithmCommand);
 
   delay(1); // Allows other tasks to run
 }
@@ -99,7 +101,7 @@ void loop(){
  * @brief Function for printing all collected vehicle data without names for use with SerialPlot
  * @note Do not modify order or add name print to variables
  */
-void debugPrintVehicleData(VehicleData data){
+void debugPrintVehicleData(VehicleData data, VehicleCommand cmd){
 
   Serial.print("Yaw: ");
   Serial.print(data.orientation.x);
@@ -124,11 +126,12 @@ void debugPrintVehicleData(VehicleData data){
   
   Serial.print(" Encoder: ");
   Serial.print(data.encoderPosition);
+  Serial.print(" Distance: ");
+  Serial.print(data.encoderPosition / 43);
   Serial.print(" Speed: ");
   Serial.println(data.speed);
 
   Serial.print(" Lidar Left: ");
-
   Serial.print(data.lidar[270]);
   Serial.print(" Front: ");
   Serial.print(data.lidar[0]);
@@ -136,6 +139,8 @@ void debugPrintVehicleData(VehicleData data){
   Serial.print(data.lidar[90]);
   Serial.print(" ");
 
+  Serial.print(" Target Servo ");
+  Serial.print(cmd.targetYaw);
   Serial.println();
 
 }
