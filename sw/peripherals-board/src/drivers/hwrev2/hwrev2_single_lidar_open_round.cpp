@@ -16,7 +16,7 @@ void hw_rev_2_SingleLidarOpenRound::init(ILogger* logger) {
   _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::init()", _debugLogger->INFO, "Initialising drive algorithm");
 
   if (front_startDist > 120) stopDist = 0;
-  else stopDist = 30;
+  else stopDist = 45;
   
   speed = 225;                      // Initial speed
   VehicleCommand{.targetSpeed = speed, .targetYaw = 90}; // Set initial speed, steering
@@ -35,20 +35,23 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   if (difference > 180) difference = 360 - difference;
   else if (difference < -180) difference = 360 + difference;
   if (turning == true){
-    if (abs(difference) <= 3){   // Return to straight after turning for ~85°
+    if (abs(difference) <= 1){   // Return to straight after turning for ~89°
         speed = 225;
         turning = false;
         encoderValue = 0;
         distance = 0;
         turns += 1;
-        targetYaw = targetYaw - turns*0.5; // Adjust targetYaw for next turn
-        threshold -= 1.2; // Decrease threshold for next turn, there are drifting tendencies; Ref Logs
+        if (turnDir == 1){
+            targetYaw = targetYaw - turnDir*turns*0.6; // Adjust targetYaw for next turn
+            threshold -= 0.8; // Decrease threshold for next turn, there are drifting tendencies; Ref Logs
+        }
         pos = 90; // Reset servo position
         command.targetYaw = pos;
         _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Stopping turn TY:" + String(targetYaw) + " deg Yaw" + String(yaw) + " deg");   
     }
-    else if (abs(difference) > 8 && abs(difference) < 78){ // Continue turning
-        pos = 90 + turnDir * (47 - (90-abs(difference))/3); // Set servo position for turning
+    else if (abs(difference) > 10 && abs(difference) < 75){ // Continue turning
+        if(turnDir == 1)pos = 90 + (47 - (90-abs(difference))/3); // Set servo position for turning
+        else if (turnDir == -1) pos = 90 - (54 - (90-abs(difference))/3.4); // Set servo position for turning
         _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "steering" + String(pos) + " " + String(yaw));
     }
   }
@@ -62,14 +65,19 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
     speed = 190;
     if (turns == 11) speed = 180; // Slow down for final turn
     turning = true;
-    pos = 90 + turnDir * 47; // Set servo position for turning
+    if (turnDir == 1) pos = 90 + 47; // Set servo position for turning
+    else if (turnDir == -1) pos = 90 - 55;
     targetYaw = yaw + turnDir * 90;
     if (targetYaw > 360) targetYaw = targetYaw - 360;
+    else if (targetYaw < 0) targetYaw = 360 + targetYaw;
+
+    if ((turns % 4 == 0) and (turnDir == -1)) targetYaw = 270; // First turn in anticlockwise
+
     if (targetYaw > 75 && targetYaw < 105) targetYaw = 90;
     else if (targetYaw > 165 && targetYaw < 195) targetYaw = 180;
-    else if (targetYaw > 255 && targetYaw < 285) targetYaw = 270;
+    else if (targetYaw > 255 && targetYaw < 290) targetYaw = 270;
     else if (targetYaw > 345 or targetYaw < 15) targetYaw = 0;
-    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn" + String(targetYaw) + " deg" + String(front_lidarDist) + " cm");
+    _debugLogger->sendMessage("hw_rev_2_SingleLidarOpenRound::drive()", _debugLogger->INFO, "Start turn " + String(targetYaw) + " deg " + String(front_lidarDist));
 
   }
 
@@ -93,8 +101,14 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   } 
 
   if (turnDir == 0){ // Determine turn direction based on side LiDARs
-    if (left_lidarDist - right_lidarDist > 100) turnDir = -1; // Turning to left
-    else if (left_lidarDist - right_lidarDist < -100) turnDir = 1; // Turning to right
+    if (left_lidarDist - right_lidarDist > 100){ 
+        turnDir = -1; // Turning to left
+        threshold = 78;
+    }
+    else if (left_lidarDist - right_lidarDist < -100){ 
+        turnDir = 1; // Turning to right
+        threshold = 74;
+    }
   }
 
   //if ((turnDir == 0) && (left_lidarDist > left_startDist + 60)) turnDir = -1; // Turning to left
