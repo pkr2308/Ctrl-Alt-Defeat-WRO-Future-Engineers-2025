@@ -106,6 +106,15 @@ void printDataStruct(){
   Serial.print(dataBlock1.imuCalib);
   Serial.print(',');  
 
+  Serial.print(dataBlock1.gyroCalib);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.accelCalib);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.magCalib);
+  Serial.print(',');  
+
   Serial.println();
 
 }

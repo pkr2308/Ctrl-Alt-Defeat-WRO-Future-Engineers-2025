@@ -26,7 +26,7 @@ std::vector<SensorData> hw_rev_2_imu::update(){
   SensorData data;
   SensorData calibration;
   data.sensorDataType = SENSOR_IMU;
-  calibration.sensorDataType = SENSOR_CALIBRATION_STATUS;
+  calibration.sensorDataType = SENSOR_IMU_CALIBRATION;
 
   sensors_event_t bnoData;
   _bno->getEvent(&bnoData);
@@ -43,7 +43,11 @@ std::vector<SensorData> hw_rev_2_imu::update(){
 
   uint8_t sysCal, gyroCal, accelCal, magCal;
   _bno->getCalibration(&sysCal, &gyroCal, &accelCal, &magCal);
-  calibration.calibrationStatus = sysCal;
+
+  calibration.gyroCalib = gyroCal;
+  calibration.accelCalib = accelCal;
+  calibration.magCalib = magCal;
+  calibration.sysCalib = sysCal;
 
   dataVector.push_back(data);
   dataVector.push_back(calibration);

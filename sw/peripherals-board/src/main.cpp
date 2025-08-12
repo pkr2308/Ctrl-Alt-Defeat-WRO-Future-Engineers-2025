@@ -49,9 +49,6 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
-  delay(2000); // Wait for operator to leave once power is turned on
-  // This delay is important for calibration of the IMU
-
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
@@ -94,7 +91,6 @@ void loop(){
 
   debugPrintVehicleData(vehicleData, driveAlgorithmCommand);
 
-  delay(1); // Allows other tasks to run
 }
 
 /**
