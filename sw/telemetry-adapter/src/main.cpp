@@ -115,7 +115,7 @@ void printDataStruct(){
   Serial.print(dataBlock1.magCalib);
   Serial.print(',');  
 
-  Serial.print(dataBlock1.speed);
+  Serial.print(dataBlock1.distance);
   Serial.print(',');  
 
   Serial.println();
