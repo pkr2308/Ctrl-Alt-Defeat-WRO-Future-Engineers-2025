@@ -39,7 +39,8 @@ See <link> for more details about sensors on the peripherals interface board, an
 -	Motor/Servos: PWM and PI controls respectively for movement using sensor data, coordinated by the RP2040.
 
 ## Peripherals Board for Control
-![Uploading image190.png…]()
+<img width="1188" height="872" alt="image190" src="https://github.com/user-attachments/assets/d8f7f7db-53c8-4a3a-be43-41cf2c5d87ea" />
+
 
 
 
