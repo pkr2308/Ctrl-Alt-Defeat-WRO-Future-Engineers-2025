@@ -69,6 +69,7 @@ It will be helpful to refer to the pictures of the completed model for the follo
 
 - The RP2040 system runs on a pair of 3.7V 18650 batteries outputting 7.4V for the IMU, N20 motor, servo and 1D-LiDARs.
 - The Raspberry Pi uses a pair of 3.6V 21700 batteries with a UPS Hat for power
+- This way both the sets of batteries can be neatly fit in the spaces in the model at the base and below the RPi.
 
 ### Sensors
 
@@ -89,7 +90,9 @@ The obstacle is initially detected by the Raspberry Pi using data from the RPLid
 
 
 
-The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds
+The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds.
+
+The code for the peripherals board is compiled and uploaded via the PlatformIO extension in VSCode. The other required files along with the alorithm file are included in the main file.
 
 ### Drivers
 
@@ -148,8 +151,8 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 - Uses front LiDAR to detect when to start a turn (if obstacle is close).
 - Decides turn direction (left/right) based on side LiDARs (First turn only)
 - Turns are started considering factors of distance available, yaw, current section and distance travelled. 
-- Adjusts steering (servo position) and target yaw for smooth turns.
-- After each turn, resets variables and prepares for the next segment. Target yaw and threshold distance may be altered for better accuracy
+- Adjusts steering (servo position) during turn based on yaw and for greater smoothness.
+- After each turn, resets variables and prepares for the next segment. Target yaw and threshold distance may be altered for better accuracy and counter drifting.
 - The idea to stick to the outer wall, so even with randomisation, the extended inner wall is not hit
 
 #### Straight Movement:
