@@ -23,6 +23,24 @@ This project is our official entry for the Future Engineers category at the Worl
 
 See <link> for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
 
+## Robot Assembly
+
+It will be helpful to refer to the pictures of the completed model for the following steps.
+1. Add the front wheels and steering link to the robot
+2. Attach the servo motor and connect it to the steering link
+3. Print all design files
+4. Attach the N20 motor onto the rear drive with brackets. Fit a gear onto the motor.
+5. Cut the rear axle to the appropriate length (around 96mm) and attach the rear axle with wheels and gear onto the rear drive.
+6. Mount the rear drive onto the chassis.
+7. Attach 6 pillar screws of length 26mm in the back and 2 of length 22mm in the front (adjacent to the servo)
+8. Attach the middle plate at the 6 rear points, but not at the front. The peripherals board may be screwed on using 4 pillar screws.
+9. Attach the TFLuna LiDARs to the front LiDAR holder section, followed by the RPLiDAR (remember to connect the USB adapter) with 22/24 mm screw pillars. Screw in the front points.
+10. Attach the LiDAR holder section to the front of the chassis.
+11. Attach the additional support section for the LiDAR holder to the 2 front middle plate points and 2 rear RPLidar points. A longer screw (at least 10mm) is needed for this.
+12. Attach the top-most Raspberry Pi platform to the rear with 18 mm screw pillars.
+13. Attach the Raspberry Pi with the UPS Hat to the top.
+14. Make all necessary connections.
+
 ## Repository Structure
 - [Design Files](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/Design%20Files) : Contains the Bill of Materials, 3D-printable design files and hardware. Pictures and description of the robot and components are included.
 - [Initial Tests](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/Initial%20Tests) : Intial tests on various sensors to ensure accurate data collection and basic object detection algorithm.
@@ -41,11 +59,29 @@ See <link> for more details about sensors on the peripherals interface board, an
 
 ### Mobility
 
+- Configuration: Front-wheel steering (MG996R) with a single axle DC rear drive motor (N20).
+- Chassis: A commercially available metal chassis base with custom 3D-printed additions.
+- Control: PWM-based speed control, servo-based steering.
+- Turning Radius: Optimized for narrow WRO track corners, and is 32-33 cm.
+- Build Choice Reasoning: Offers realistic car-like dynamics, ideal for FE challenge simulation.
+
 ### Power
+
+- The RP2040 system runs on a pair of 3.7V 18650 batteries outputting 7.4V for the IMU, N20 motor, servo and 1D-LiDARs.
+- The Raspberry Pi uses a pair of 3.6V 21700 batteries with a UPS Hat for power
 
 ### Sensors
 
+- __TFLuna LiDAR:__ These are 1D-LiDARs that are used to measure distances to the front, left and right of the robot. They are connected to the RP2040.
+- __BNO055:__ This is the IMU we are using for orientation due to its high accuracy and simplicity of use. It is connected to the RP2040.
+- __nRF24L01:__ This is the wireless module used for wireless communication during testing and debugging with the RP2040. Another custom module (telemetry board) is made for receiving the data.
+- __Motor encoders:__ These give ticks each time they are trigerred by rotation. It is connected to the RP2040 and used for distance calculations.
+- __RPLidar A1:__ It is a 2D-LiDAR connected to the Raspberry Pi 5/4B for mapping, localisation and obstacle detection.
+- __Raspberry Pi Camera Module 3:__ It is used with the Raspberry Pi 5/4B for recognising the colour of an obstacle once detected with the RPLidar
+
 ### Obstacle Management
+
+The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left). 
 
 ## Peripherals Board for Control
 
@@ -92,7 +128,7 @@ The following are the drivers used:
 
 ## Open Round
 
-Refer to `peripherals_board/src/drivers/hwrev2/hwrev2_single_lidar_open_round.cpp and .hpp` files for program.
+Refer to `sw/peripherals-board/src/drivers/hwrev2/hwrev2_single_lidar_open_round.cpp and .hpp` files for program.
 
 ### Header File
 
