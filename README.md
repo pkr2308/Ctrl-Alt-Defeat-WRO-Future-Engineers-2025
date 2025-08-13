@@ -39,6 +39,8 @@ See <link> for more details about sensors on the peripherals interface board, an
 -	Motor/Servos: PWM and PI controls respectively for movement using sensor data, coordinated by the RP2040.
 
 ## Peripherals Board for Control
+<img width="1177" height="868" alt="Peripherals Board PCB Traces" src="https://github.com/user-attachments/assets/1f7e4a10-dcd2-41a8-807f-0c8aab45681f" />
+
 
 The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds
 
