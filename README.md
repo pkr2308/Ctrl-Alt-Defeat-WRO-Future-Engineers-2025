@@ -84,6 +84,10 @@ It will be helpful to refer to the pictures of the completed model for the follo
 The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left). 
 
 ## Peripherals Board for Control
+<img width="1188" height="872" alt="image190" src="https://github.com/user-attachments/assets/d8f7f7db-53c8-4a3a-be43-41cf2c5d87ea" />
+
+
+
 
 The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds
 
