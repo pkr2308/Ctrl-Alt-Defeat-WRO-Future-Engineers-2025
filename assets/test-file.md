@@ -3,8 +3,9 @@
 ![Raspberry Pi 4B Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/rpi4B-top.jpg)
 ## Bottom
 ![Raspberry Pi 4B Bottom](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/rpi4B-bottom.jpg)
+## Top Rotated
 ![Raspberry Pi 4B Top Rotated](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/rpi4B-top-rotated.jpg)
-## Bottom
+## Bottom Rotated
 ![Raspberry Pi 4B Bottom Rotated](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/rpi4B-bottom-rotated.jpg)
 # N20 Geared Motor With Encoder
 ## Top
