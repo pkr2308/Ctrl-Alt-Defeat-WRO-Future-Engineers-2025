@@ -26,6 +26,7 @@ VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleComma
   VehicleCommand returnCommand;
 
   hwrev2_rf24_telem_block1 telemBlock1;
+  hwrev2_rf24_cmd_block1 cmdBlock1;
 
   telemBlock1.oriX = data.orientation.x;
   telemBlock1.oriY = data.orientation.y;
@@ -44,6 +45,19 @@ VehicleCommand hw_rev_2_RF24Communication::update(VehicleData data, VehicleComma
   _radio->openWritingPipe(TLM_PIPE_0);
   _radio->stopListening();
   _radio->write(&telemBlock1, sizeof(telemBlock1));
+
+  uint8_t ackPipeNum;
+  if(_radio->available(&ackPipeNum)){
+
+    _radio->read(&cmdBlock1, sizeof(cmdBlock1));
+    returnCommand.targetSpeed = cmdBlock1.targetSpeed;
+    returnCommand.targetYaw = cmdBlock1.targetYaw;
+
+  }
+  else{
+    returnCommand.targetSpeed = 0;
+    returnCommand.targetYaw = 90;
+  }
 
   return returnCommand;
   

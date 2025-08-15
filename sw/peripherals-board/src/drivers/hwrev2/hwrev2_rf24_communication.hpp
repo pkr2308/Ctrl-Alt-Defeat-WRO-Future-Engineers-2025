@@ -18,5 +18,7 @@ private:
   VehicleConfig _config;
   RF24 *_radio;
   ILogger* _logger;
+  int16_t _targetSpeed = 0;
+  uint16_t _targetYaw = 90;
 
 };

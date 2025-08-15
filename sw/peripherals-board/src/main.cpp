@@ -72,9 +72,9 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  //VehicleCommand driveCommand = remoteCommunication.update(vehicleData, driveAlgorithmCommand);
   VehicleCommand driveCommand;
-  driveCommand = serialCommunication.update(vehicleData, driveCommand);
+  driveCommand = remoteCommunication.update(vehicleData, driveCommand);
+  //driveCommand = serialCommunication.update(vehicleData, driveCommand);
 
   targetControl.directControl(driveCommand, vehicleData);
   
