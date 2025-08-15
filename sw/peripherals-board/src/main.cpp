@@ -28,10 +28,8 @@ VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
-bool enableDriveAlgorithm = false;
-
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
-void debugLogInitialisation();
+void debugLogHeader();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 
 /**
@@ -48,7 +46,7 @@ void setup(){
   Serial1.setTX(VEHICLE_GET_CONFIG.pinConfig.uart0TX);  
 
   debugLogger.init();  
-  debugLogInitialisation();
+  debugLogHeader();
 
 
   Serial.begin();
@@ -179,11 +177,11 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
 
 }
 
-void debugLogInitialisation(){
+void debugLogHeader(){
 
-  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "CTRL+ALT+DEFEAT Peripherals Board Debug Port");
-  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Software status: " + String(VEHICLE_SW_STATUS));
-  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
-  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "CTRL+ALT+DEFEAT Peripherals Board Debug Port");
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Software status: " + String(VEHICLE_SW_STATUS));
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
 
 }
