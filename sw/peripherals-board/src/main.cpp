@@ -1,3 +1,5 @@
+// TODO: Figure out a clean way of switching between target control sources, ICommunication and IDriveAlgorithm, combine?
+
 /**
  * @file main.cpp
  * @brief Initialises drivers and managers, handles interaction between managers
@@ -8,7 +10,8 @@
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
 #define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp
-// #define MULTIPLE_LIDAR_OPEN_ROUND                        // Defines what drive algorithm to use. Add more in driverconfig.hpp     
+#define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
+
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
 
@@ -21,12 +24,14 @@ VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 
 bool enableDriveAlgorithm = false;
 
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
+void debugLogInitialisation();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 
 /**
@@ -43,6 +48,8 @@ void setup(){
   Serial1.setTX(VEHICLE_GET_CONFIG.pinConfig.uart0TX);  
 
   debugLogger.init();  
+  debugLogInitialisation();
+
 
   Serial.begin();
 
@@ -67,39 +74,21 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand driveAlgorithmCommand;
-  driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
+  //VehicleCommand driveCommand = remoteCommunication.update(vehicleData, driveAlgorithmCommand);
+  VehicleCommand driveCommand;
+  driveCommand = serialCommunication.update(vehicleData, driveCommand);
 
-  driveAlgorithmCommand.targetSpeed = 0;
-  driveAlgorithmCommand.targetYaw = 90;
+  targetControl.directControl(driveCommand, vehicleData);
   
-  // Currently used for debugging and starting to drive
-  if(BOOTSEL){
-   
-    while(BOOTSEL);
-    enableDriveAlgorithm = !enableDriveAlgorithm;
-    delay(1500);
-    
-  }
-    
-  if(enableDriveAlgorithm){
-    driveAlgorithmCommand = driveAlgorithm.drive(vehicleData);
-  }
-
-  Serial.println(enableDriveAlgorithm);
-
-  targetControl.directControl(driveAlgorithmCommand, vehicleData);
-
-  //debugLogDataCommand(vehicleData, driveAlgorithmCommand);
-  remoteCommunication.update(vehicleData, driveAlgorithmCommand);
-
-  //Serial.println(vehicleData.speed);
+  Serial.print(driveCommand.targetSpeed);
+  Serial.print(" ");
+  Serial.println(driveCommand.targetYaw);
 
 }
 
 /**
  * @brief Function for printing all collected vehicle data without names for use with SerialPlot
- * @note Do not modify order or add name print to variables
+ * @note Do not modify order or add name print to variables 
  */
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd){
 
@@ -187,5 +176,14 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
   debugLogger.sendString(", ");
 
   debugLogger.sendString("\n");
+
+}
+
+void debugLogInitialisation(){
+
+  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "CTRL+ALT+DEFEAT Peripherals Board Debug Port");
+  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Software status: " + String(VEHICLE_SW_STATUS));
+  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
+  debugLogger.sendMessage("debugLogInitialisation()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
 
 }
