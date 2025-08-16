@@ -84,30 +84,50 @@ It will be helpful to refer to the pictures of the completed model for the follo
 
 The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left). 
 
-## Peripherals Board for Control
+## Peripherals Interface Board
 ![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/periph-board-pcb-top.jpg)
 
-The peripherals board, includes connections to TFLuna 1D-LiDAR, BNO055 IMU, MG996R servo, 200 RPM N20 motor and motor encoders from the RP2040. There are several drivers, interfaces and managers created to make control of the robot more structured for both open and obstacle rounds.
+The peripherals interface board goes between the Raspberry Pi and vehicle hardware. The board talks to three 1d TFLuna LiDARs, a 9-axis BNO055 IMU, the motor encoder, the drive motor, and the steering servo. It talks to the Pi over USB.
 
-The code for the peripherals board is compiled and uploaded via the PlatformIO extension in VSCode. The other required files along with the alorithm file are included in the main file.
+### Hardware
+The board is a two-layer, 1.6 mm thick PCB designed in [KiCad](https://kicad.org) and manufactured by [Robu](https://robu.in).
+TODO: Expand
 
-### Drivers
+### Software
+The interface board was programmed in C++, with the C++ SDK from Raspberry Pi for the RP2040 chip. Code was flashed using the PlatformIO extension for the VSCode editor.
 
-Revision 2 drivers are referred to here. 
-The following are the drivers used:
-- Get config : 
-- IMU :
-- Lidar :
-- Motor driver :
-- RF24 communication : 
-- Single lidar open round :
-- Steering driver :
-- Target control :
-- UART logger : 
-- Vehicle speed :
+The codebase is designed to be modular, with easily swappable drivers for hardware abstraction. Algorithms do not need to know about specific hardware protocols or constraints
+
+`main.cpp` loads in drivers, which implement virtual interface classes. `main.cpp` then initialises everything, and in a loop, gets data from the `SensoorManager`, passes that data to our drive algorithm, and outputs it to the `TargetController`, which commands the motor and steering servo.
+Drivers are in `/src/drivers`, Interfaces are in `/src/interfaces/`, and utilities are in `/src/utils/`.
+
+#### Code Development Standards
+To ensure easily testable, upgradeable, and clean code, a few standards were adhered to when writing code for the interface board.
+
+- `main.cpp` must be as clean as possible.
+  - Logic and code flow must be easy to understand.
+- All hardware-specific things should be done inside a driver.
+- Drivers must take in a standard unit as their input.
+  - Drivers must not take in a magic unit-less number. An example would be the steering driver: it takes in a steering angle, not a magic number, or the steering servo's angle.
+
+TODO: Finish writing this
+
+#### Drivers
+> [!NOTE]
+> Hardware revision 1 drivers are incomplete, as the peripherals baord codebase was partly written when the switch from the prototype interface and the PCB occured, and drivers from that point on were only for the PCB (hardware revision 2).
+A list of implemented drivers:
+- `hwrev2_imu` : Implements `ISensor`. Driver for the BNO055. Gets orientation data processed by the BNO055's internal microcontroller.
+- `hwrev2_lidar` : Implements `ISensor`. Driver for the TFLuna LiDARs. Returns a [0, 259] of distance data. The three LiDARs are mapped to `0`, `90`, and `270`. (This is a remnant of the original plan of connecting the RPLidar to the peripherals board, instead of to the Pi.)
+- `hwrev2_motor_driver` : Implements `IMotorDriver`. Driver for the TB6612FNG dual-channel H-bridge motor driver. The driver only supports driving a single channel on the T66612FNG.
+- `hwrev2_rf24_communication` :  Implements `ICommunication`. Driver for the nRF24L01+ radio used during development. Transmits vehicle data and gets commands from another nRF24L01+, connected to a computer.
+- `hwrev2_single_lidar_open_round` : Implements `IDriveAlgorithm`. A port of our open round test algorithm. The name is misleading, the algorithm uses all three TFLunas.
+- `hwrev2_steering_driver` : Implements `ISteeringDriver`. Driver for the MG996 steering servo. Takes in a degree input and coverts it to a 0-180 command with a conversion constant.
+- `hwrev2_target_control` : Implements `ITargetControl`. Takes in a `VehicleCommand`, and either passes it directly through to the `ISteeringDriver` and `IMotorDriver`, or passes the command through a PID controller first.
+- `hwrev2_uart_logger` :  Implements `ILogger`, Takes in a sender, message type, and a message string
+- `hwrev2_vehicle_speed` : Implements `ISensor`. Gets vehicle distance from the motor encoder. Calculates speed using time between pulses.
 
 
-### Interfaces
+#### Interfaces
 
 - Drive algorithm :
 - Logger :
@@ -116,7 +136,7 @@ The following are the drivers used:
 - Steering driver :
 - Target control :
 
-### Managers
+#### Managers
 
 - Config :
 - Sensor data :
