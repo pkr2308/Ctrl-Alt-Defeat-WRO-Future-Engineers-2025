@@ -24,8 +24,8 @@ VehicleCommand hw_rev_2_SerialCommunication::update(VehicleData data, VehicleCom
 
     int commaIndex = command.indexOf(',');
 
-    _targetSpeed = command.substring(0, commaIndex).toInt();
-    _targetYaw = command.substring(commaIndex + 1).toInt();
+    _targetSpeed = constrain(command.substring(0, commaIndex).toInt(), -1024, 1024);
+    _targetYaw = constrain(command.substring(commaIndex + 1).toInt(), 0, 180);
 
   }
 

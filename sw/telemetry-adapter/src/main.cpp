@@ -13,7 +13,7 @@ unsigned long prevCommandSendTime = 0;
 unsigned long commandSendIntervalMS = 10;
 
 hwrev2_rf24_telem_block1 dataBlock1;
-
+hwrev2_rf24_cmd_block1 cmdBlock1;
 
 void blinkLED();
 void printDataStruct();
@@ -45,6 +45,9 @@ void setup(){
   radio.setAutoAck(true);
   radio.enableAckPayload();
   radio.setAddressWidth(5);
+
+  cmdBlock1.targetSpeed = 0;
+  cmdBlock1.targetYaw = 90;
   
 }
 
@@ -53,11 +56,25 @@ void loop(){
   radio.openReadingPipe(1, TLM_PIPE_0);
   radio.startListening();
 
-  if(radio.available()){
+  if(Serial.available()){
+
+    String command = Serial.readStringUntil('\n');
+
+    int commaIndex = command.indexOf(',');
+
+    cmdBlock1.targetSpeed = constrain(command.substring(0, commaIndex).toInt(), -1024, 1024);
+    cmdBlock1.targetYaw = constrain(command.substring(commaIndex + 1).toInt(), 0, 180);
+
+  }
+
+  uint8_t pipe;
+  if(radio.available(&pipe)){
 
     radio.read(&dataBlock1, sizeof(dataBlock1));
 
-    printDataStruct();
+    radio.writeAckPayload(pipe, &cmdBlock1, sizeof(cmdBlock1));
+
+    //printDataStruct();
 
   }
 
