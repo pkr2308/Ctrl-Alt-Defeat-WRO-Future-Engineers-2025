@@ -108,7 +108,7 @@ To ensure easily testable, upgradeable, and clean code, a few standards were adh
   - Logic and code flow must be easy to understand.
 - All hardware-specific things should be done inside a driver.
 - Drivers must take in a standard unit as their input.
-  - Drivers must not take in a magic unit-less number. An example would be the steering driver: it takes in a steering angle, not a magic number, or the steering servo's angle.
+  - Drivers must not take in [magic numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)).
 
 TODO: Finish writing this
 
