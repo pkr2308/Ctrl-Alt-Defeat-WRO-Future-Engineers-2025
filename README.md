@@ -193,3 +193,47 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 5. After turn, resume straight movement with PI control.
 6. Repeat for 3 rounds (12 turns).
 7. After final round, slow down and stop in the start section.
+
+
+## Raspberry Pi System
+
+The Raspberry Pi system handles most tasks for the obstacle round, including parking/unparking, obstacle detection, colour detection and navigation.
+
+### Ubuntu and ROS
+
+We are using a Raspberry Pi 5 8GB with Ubuntu 24.04 LTS along with ROS2 Jazzy for the obstacle round. 
+
+The development repository for this is [my_bot](https://github.com/pkr2308/my_bot). The final version of this is also in the current repo.
+A [commands.md]() file is included in the launch folder, which details the installation and running of files.
+
+### Description Files
+
+They are configuration and parameter files used to define the robot model, sensors, controllers, and navigation parameters. These YAML or XML files store the settings that guide nodes like navigation, control, and SLAM to function correctly with a specific robot setup.
+
+- `robot.urdf.xacro`: Main file for the robot that includes the other files
+- `robot_core.xacro`: Chassis file
+- `lidar.xacro`: RPLidar file
+- `camera.xacro`: PiCamera 3 file
+- `ros2_control.xacro`: Used for ROS2 control. A custom hardware interface was built for use with the peripherals board.
+
+### ROS2 Control
+
+ros2_control is a framework in ROS for hardware abstraction and controller management. For our case, the ackermann steering controller and joint state publisher are used as controllers. The peripherals board is connected via serial. Both sides have a serial algorithm to read and write data(controls or sensor info).  This enables the Pi to control the robot and receive data from its sensors.
+
+### RPLidar
+
+The SLAMTEC RPLidar A1 is a 2D-LiDAR sensor with the official driver. It is used as the base sensor for obstacle detection and parking. It publishes data on the `scan` topic on the `rplidar_composition` node. 
+
+### PiCamera 3
+
+The Raspberry Pi Camera Module 3 Wide is used for detecting the colour of the obstacle once the obstacle is detected with the RPLidar.
+
+### SLAM
+
+SLAM (Simultaneous Localisation and Mapping) allows the robot to build a map of its environment while localising itself within that map. The slam_toolbox package in ROS achieves this by taking sensor data (lidar), creating grid maps, and tracking the robot’s position. 
+
+### Navigation
+
+Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation. It allows for path planning, obstacle avoidance, and map following. Nav2 integrates with SLAM for mapping and localization. 
+
+## Acknowledgements
