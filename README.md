@@ -7,7 +7,7 @@ Team Photo:
 ![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/raw/DSCF1097.JPG)
 
 ## About the Team
-Adbhut Patil: TODO
+Adbhut Patil: TODO: 10th standard, interested in electronics, programming, aviation
 
 Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC combination) and has been interested in Robotics for several years . He has participated in WRO in other categories in the past years. He was also part of Coding club in his school and built a few robotics projects for school events. His other interests include maths, physics, numismatics and history.
 
@@ -23,7 +23,7 @@ This project is our official entry for the Future Engineers category at the Worl
 - __Chassis:__ Commercially-available base, 3D-printable modifications (Links/STL files included)
 - __Electronics:__ Custom peripherals board PCB for easy connections and sensor breakout
 
-See <link> for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
+See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025?tab=readme-ov-file#peripherals-interface-board) for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
 
 ## Robot Assembly
 
