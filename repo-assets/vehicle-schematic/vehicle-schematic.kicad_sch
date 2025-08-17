@@ -973,6 +973,96 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "bot-symbols:Servo"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -3 3 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Servo_0_1"
+				(rectangle
+					(start -3 2)
+					(end 5 -9)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Servo_1_1"
+				(text "SERVO"
+					(at 1 0 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(pin input line
+					(at 1 -9 90)
+					(length 2.54)
+					(name "PWM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "bot-symbols:peripherals-interface-board"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1128,9 +1218,27 @@
 					)
 				)
 				(pin bidirectional line
-					(at 0 -13 0)
+					(at 0 -12 0)
 					(length 2.54)
 					(name "UART0_0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 0 -15 0)
+					(length 2.54)
+					(name "USB"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1311,34 +1419,297 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "TEMP LAYOUT AND SYMBOLS!\n\n"
+		(exclude_from_sim no)
+		(at 130 66 0)
+		(effects
+			(font
+				(size 3 3)
+				(thickness 0.6)
+				(bold yes)
+			)
+		)
+		(uuid "da1552da-fa82-4b10-aaff-bed8209172e8")
+	)
+	(wire
+		(pts
+			(xy 156 154) (xy 167 154)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0beaf136-e52b-4cf6-96f9-b4ffa5cdda10")
+	)
+	(wire
+		(pts
+			(xy 156 93) (xy 146 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17560b96-6ab4-46c5-bb2e-30d635a4e01e")
+	)
+	(wire
+		(pts
+			(xy 162 121) (xy 157 121)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2ff05e12-9087-4ef7-9804-87f23b498d6d")
+	)
+	(wire
+		(pts
+			(xy 125 94) (xy 125 98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a6841d1-c824-4573-82f3-ea9a003319a8")
+	)
+	(wire
+		(pts
+			(xy 136 93) (xy 120 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b1fdc3b-0bf9-45d8-b855-4ed8d205b9f9")
+	)
+	(wire
+		(pts
+			(xy 114 154) (xy 119 154)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "441d6de9-a7f2-4d7a-bc17-0e77df11cb38")
+	)
+	(wire
+		(pts
+			(xy 120 93) (xy 120 89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d453600-37e1-43d2-a78a-ea2a36d460a0")
+	)
+	(wire
+		(pts
+			(xy 160 124) (xy 162 124)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f476e4d-68e8-455e-9ffc-465956bf36e1")
+	)
+	(wire
+		(pts
+			(xy 114 113) (xy 123 113)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58920818-c5f2-4139-8f70-56e33e0c3b02")
+	)
+	(wire
+		(pts
+			(xy 151 127) (xy 160 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b22713c-e3ac-4f44-ac91-a61392af843a")
+	)
+	(wire
+		(pts
+			(xy 167 153) (xy 167 154)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c111eab-d045-40c0-9d6b-5928da98e431")
+	)
+	(wire
+		(pts
+			(xy 99 94) (xy 125 94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f268cbb-71eb-412d-869b-38f0ae05789b")
+	)
+	(wire
+		(pts
+			(xy 105 156) (xy 119 156)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7d6371d5-1301-47a7-b52e-0529e6ef45d4")
+	)
+	(wire
+		(pts
+			(xy 141 93) (xy 141 98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81003c41-b6ab-4db0-b76a-16b2a7b2d616")
+	)
+	(wire
+		(pts
+			(xy 146 93) (xy 146 98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83c6a08c-f4db-4345-a978-59e1ed860a4d")
+	)
+	(wire
+		(pts
+			(xy 136 98) (xy 136 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8565082a-d443-40c4-bdd8-93bdfb418bc1")
+	)
+	(wire
+		(pts
+			(xy 157 121) (xy 157 111)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "91d36ad0-75e9-4fb9-917d-5c70a9041ad7")
+	)
+	(wire
+		(pts
+			(xy 138 89) (xy 138 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98ddf86a-41f8-4dc3-bb0d-df99e47d40b9")
+	)
+	(wire
+		(pts
+			(xy 160 127) (xy 160 124)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1407dda-324d-426f-b912-8eb8717ce1b0")
+	)
+	(wire
+		(pts
+			(xy 156 89) (xy 156 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "abd82c02-acd4-45a9-9f3e-dda9666e8681")
+	)
+	(wire
+		(pts
+			(xy 151 124) (xy 151 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b77308bb-eb83-4d52-b91b-42fb2e574e9d")
+	)
+	(wire
+		(pts
+			(xy 138 93) (xy 141 93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db311016-6042-42a8-bb8c-a7df3dea48b0")
+	)
+	(wire
+		(pts
+			(xy 157 111) (xy 153 111)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6d9e81b-3539-42f3-819f-5a1e7aad5c43")
+	)
+	(wire
+		(pts
+			(xy 99 89) (xy 99 94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1d562dd-00e3-499b-890f-5fedab38cae3")
+	)
+	(wire
+		(pts
+			(xy 114 113) (xy 114 154)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8781207-d813-4c41-a03e-789cf6ef703f")
+	)
 	(symbol
-		(lib_id "bot-symbols:N20MotorEncoder")
-		(at 194 46 0)
+		(lib_id "bot-symbols:Servo")
+		(at 98 80 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "292ac7f6-0335-4cf9-b6c5-fe9421d04d9d")
-		(property "Reference" "U4"
-			(at 194.5 44.45 0)
+		(uuid "24eba0b4-91a3-4567-bda0-15933b926efa")
+		(property "Reference" "U9"
+			(at 95 74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "N20 Motor With Encoder"
-			(at 194.5 46.99 0)
+		(property "Value" "Steering Servo"
+			(at 95 76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 194 46 0)
+			(at 98 80 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1347,7 +1718,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194 46 0)
+			(at 98 80 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1356,7 +1727,72 @@
 			)
 		)
 		(property "Description" ""
-			(at 194 46 0)
+			(at 98 80 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "02868b33-0d6a-4211-8e34-ecffdd60f552")
+		)
+		(instances
+			(project ""
+				(path "/b1f9da1f-a7e3-4147-8ecc-fd2c587466e6"
+					(reference "U9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "bot-symbols:N20MotorEncoder")
+		(at 173 116 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "292ac7f6-0335-4cf9-b6c5-fe9421d04d9d")
+		(property "Reference" "U4"
+			(at 172.5 114.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "N20 Motor With Encoder"
+			(at 172.5 116.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 173 116 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 173 116 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 173 116 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1381,7 +1817,7 @@
 	)
 	(symbol
 		(lib_id "bot-symbols:Camera")
-		(at 205 66 0)
+		(at 162 143 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1390,7 +1826,7 @@
 		(fields_autoplaced yes)
 		(uuid "48ccf9a6-4f55-4ea4-9b6d-aabf19b7b3e5")
 		(property "Reference" "U3"
-			(at 215.9 69.7299 0)
+			(at 172.96 146.7191 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1399,7 +1835,7 @@
 			)
 		)
 		(property "Value" "Pi Camera 3"
-			(at 215.9 72.2699 0)
+			(at 172.96 149.2591 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1408,7 +1844,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 205 66 0)
+			(at 162 143 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1417,7 +1853,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 205 66 0)
+			(at 162 143 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1426,7 +1862,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 205 66 0)
+			(at 162 143 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1447,17 +1883,16 @@
 		)
 	)
 	(symbol
-		(lib_id "bot-symbols:Raspberry_Pi")
-		(at 230 52 0)
+		(lib_id "bot-symbols:LiDAR")
+		(at 153 82 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "6e9f29fc-ccd9-45d7-847f-c01560259958")
-		(property "Reference" "U2"
-			(at 251.1433 74.06 0)
+		(uuid "54ea2c1d-3ec1-434c-84fa-b29c64a444b4")
+		(property "Reference" "U7"
+			(at 148 75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1465,8 +1900,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Raspberry Pi 5"
-			(at 251.1433 76.6 0)
+		(property "Value" "Right LiDAR"
+			(at 148 77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1475,7 +1910,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 230 52 0)
+			(at 153 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1484,7 +1919,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 230 52 0)
+			(at 153 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1493,7 +1928,74 @@
 			)
 		)
 		(property "Description" ""
-			(at 230 52 0)
+			(at 153 82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "271fd349-ae08-4d83-9920-ccfb96b08e17")
+		)
+		(instances
+			(project "vehicle-schematic"
+				(path "/b1f9da1f-a7e3-4147-8ecc-fd2c587466e6"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "bot-symbols:Raspberry_Pi")
+		(at 119 148 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6e9f29fc-ccd9-45d7-847f-c01560259958")
+		(property "Reference" "U2"
+			(at 140.1433 170.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Raspberry Pi 5"
+			(at 140.1433 172.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 119 148 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 119 148 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 119 148 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1544,33 +2046,34 @@
 		)
 	)
 	(symbol
-		(lib_id "bot-symbols:peripherals-interface-board")
-		(at 232 89 0)
+		(lib_id "bot-symbols:LiDAR")
+		(at 117 82 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e31eceac-1f84-466a-943d-ec928274156b")
-		(property "Reference" "U1"
-			(at 276.65 96.5546 0)
+		(uuid "95f0f7cd-2fca-4e6a-82f6-e02e10533f5d")
+		(property "Reference" "U8"
+			(at 112 75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "Peripherals Interface Board"
-			(at 276.65 99.0946 0)
+		(property "Value" "Left LiDAR"
+			(at 112 77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 232 89 0)
+			(at 117 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1579,7 +2082,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 232 89 0)
+			(at 117 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1588,7 +2091,72 @@
 			)
 		)
 		(property "Description" ""
-			(at 232 89 0)
+			(at 117 82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "f39f2a4b-6e3f-4c41-b2b9-b7fdaf99dba0")
+		)
+		(instances
+			(project "vehicle-schematic"
+				(path "/b1f9da1f-a7e3-4147-8ecc-fd2c587466e6"
+					(reference "U8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "bot-symbols:peripherals-interface-board")
+		(at 123 98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e31eceac-1f84-466a-943d-ec928274156b")
+		(property "Reference" "U1"
+			(at 167.65 105.5546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Peripherals Interface Board"
+			(at 167.65 108.0946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 123 98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123 98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123 98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1626,6 +2194,9 @@
 		(pin ""
 			(uuid "9931b5a4-c462-49bc-834c-606e2d896af2")
 		)
+		(pin ""
+			(uuid "7de276b7-3228-4d81-ad7e-7499d28db8fa")
+		)
 		(instances
 			(project "vehicle-schematic"
 				(path "/b1f9da1f-a7e3-4147-8ecc-fd2c587466e6"
@@ -1637,7 +2208,7 @@
 	)
 	(symbol
 		(lib_id "bot-symbols:RPLidar")
-		(at 177 101 0)
+		(at 98 170 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1646,25 +2217,23 @@
 		(fields_autoplaced yes)
 		(uuid "fa762d1e-c178-4054-a04d-3f256a1567e6")
 		(property "Reference" "U6"
-			(at 199.39 99.7299 0)
+			(at 98 143.81 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Value" "~"
-			(at 199.39 102.2699 0)
+			(at 98 146.35 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 177 101 0)
+			(at 98 170 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1673,7 +2242,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 177 101 0)
+			(at 98 170 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1682,7 +2251,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 177 101 0)
+			(at 98 170 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1704,16 +2273,15 @@
 	)
 	(symbol
 		(lib_id "bot-symbols:LiDAR")
-		(at 183 80 0)
+		(at 135 82 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "fc4c37a1-e171-4801-a54e-cbc1aedb41ad")
 		(property "Reference" "U5"
-			(at 195.58 80.7299 0)
+			(at 130 75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1721,8 +2289,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TFLuna 1D  LiDAR"
-			(at 195.58 83.2699 0)
+		(property "Value" "Front LiDAR"
+			(at 130 77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1731,7 +2299,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 183 80 0)
+			(at 135 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1740,7 +2308,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 183 80 0)
+			(at 135 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1749,7 +2317,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 183 80 0)
+			(at 135 82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
