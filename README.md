@@ -4,7 +4,7 @@ Welcome to the repository for our entry in the WRO Future Engineers 2025 competi
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
 
 Team Photo: 
-![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/raw/DSCF1097.JPG)
+![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/raw/DSCF1097.JPG)
 
 ## About the Team
 Adbhut Patil: TODO: expand 10th standard, interested in electronics, programming, aviation
@@ -85,7 +85,7 @@ It will be helpful to refer to the pictures of the completed model for the follo
 The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left). 
 
 ## Peripherals Interface Board
-![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/periph-board-pcb-top.jpg)
+![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/edited/periph-board-pcb-top.jpg)
 
 The peripherals interface board goes between the Raspberry Pi and vehicle hardware. The board talks to three 1d TFLuna LiDARs, a 9-axis BNO055 IMU, the motor encoder, the drive motor, and the steering servo. It talks to the Pi over USB.
 
