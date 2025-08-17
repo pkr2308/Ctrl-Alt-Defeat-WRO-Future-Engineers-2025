@@ -4,14 +4,12 @@ Welcome to the repository for our entry in the WRO Future Engineers 2025 competi
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
 
 Team Photo: 
-![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/raw/DSCF1097.JPG)
+![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/raw-photos/DSCF1097.JPG)
 
 ## About the Team
-Adbhut Patil: TODO: 10th standard, interested in electronics, programming, aviation
+Adbhut Patil: TODO: expand 10th standard, interested in electronics, programming, aviation
 
 Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC combination) and has been interested in Robotics for several years . He has participated in WRO in other categories in the past years. He was also part of Coding club in his school and built a few robotics projects for school events. His other interests include maths, physics, numismatics and history.
-
-
 
 ## Project Overview
 This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. ROS is used with the Raspberry Pi for object detection and navigation. This repository contains the programs, hardware description and design files of our model.
@@ -19,9 +17,9 @@ This project is our official entry for the Future Engineers category at the Worl
 ## Hardware Components
 - __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Waveshare RP2040-Zero, real-time control) (Use of Arduino for initial testing)
 - __Sensors:__ 1D and 2D LiDAR, IMU , rotary encoders motor, Picamera
-- __Actuators:__ N20 DC gear motor (with encoders), MG996R 180° servo (steering)
+- __Actuators:__ N20 geared brushed DC motor with encoder, MG996R 45° servo
 - __Chassis:__ Commercially-available base, 3D-printable modifications (Links/STL files included)
-- __Electronics:__ Custom peripherals board PCB for easy connections and sensor breakout
+- __Electronics:__ Custom peripherals interface PCB for reliable connections to sensors
 
 See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025?tab=readme-ov-file#peripherals-interface-board) for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
 
@@ -68,7 +66,7 @@ It will be helpful to refer to the pictures of the completed model for the follo
 - Build Choice Reasoning: Offers realistic car-like dynamics, ideal for FE challenge simulation.
 
 ### Power
-
+  TODO: Inaccurate, update once power system is finalised
 - The RP2040 system runs on a pair of 3.7V 18650 batteries outputting 7.4V for the IMU, N20 motor, servo and 1D-LiDARs.
 - The Raspberry Pi uses a pair of 3.6V 21700 batteries with a UPS Hat for power
 - This way both the sets of batteries can be neatly fit in the spaces in the model at the base and below the RPi.
@@ -87,7 +85,7 @@ It will be helpful to refer to the pictures of the completed model for the follo
 The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left). 
 
 ## Peripherals Interface Board
-![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/assets/edited/periph-board-pcb-top.jpg)
+![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/edited-photos/periph-board-pcb-top.jpg)
 
 The peripherals interface board goes between the Raspberry Pi and vehicle hardware. The board talks to three 1d TFLuna LiDARs, a 9-axis BNO055 IMU, the motor encoder, the drive motor, and the steering servo. It talks to the Pi over USB.
 
@@ -110,7 +108,7 @@ To ensure easily testable, upgradeable, and clean code, a few standards were adh
   - Logic and code flow must be easy to understand.
 - All hardware-specific things should be done inside a driver.
 - Drivers must take in a standard unit as their input.
-  - Drivers must not take in a magic unit-less number. An example would be the steering driver: it takes in a steering angle, not a magic number, or the steering servo's angle.
+  - Drivers must not take in [magic numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)).
 
 TODO: Finish writing this
 
@@ -131,26 +129,31 @@ A list of implemented drivers:
 
 #### Interfaces
 
-- Drive algorithm :
-- Logger :
-- Motor driver :
-- Sensor :
-- Steering driver :
-- Target control :
+Interfaces are virtual classes which define certain functions. Drivers implement these classes. Code calls functions defined in the interface virtual class.
+
+- `IDriveAlgorithm` : Takes in a `VehicleData` object, and returns a `VehicleCommand` object.
+- `ILogger` : Constructs a message and prints it out on a UART bus. Takes in a sender string, a log type (information, warning, error) and the message.
+- `IMotorDriver` : Takes in a speed value and outputs to a motor driver.
+- `ISensor` :  A generic sensor object. Returns a vector of `SensorData` objects.
+- `ISteeringDriver` :  Takes in a wheel steering angle, outputs to a steering mechanism.
+- `ITargetControl`: Takes in a `VehicleCommand`, outputs to a motor and steering driver.
 
 #### Managers
 
-- Config :
-- Sensor data :
-- Sensor manager :
-- Status :
-- Vec3f :
-- Vehicle command :
-- Vehicle data :
+Managers are classes that handle certain aspects of the vehicle. Certain structs have their header files in the `/src/managers` folder, even though they are not classes.
+
+- `VehicleConfig` :  A struct containing information about the vehicle. A `VehicleConfig` struct is passed to all drivers asnd managers.
+- `SensorData` :  A struct containing fields for all data that can be collected by the vehicle, and an enum which tells the caller what fields are being used.
+- `SensorManager` :  A class which takes in an arbitrary number of sensors, collects data from them, and processes them into a `VehicleData` struct.
+- `SensorStatus` :  A (currently unused) enumeration which defines keys for states a sensor can be in. 
+- `Vec3f` :  A struct of three double-precisionn floating point numbers, used to represent three-axis values.
+- `VehicleCommand` :  A struct defining a target speed and yaw value for the vehicle. Returned by a drive algorithm, passed to a `ITargetController`.
+- `VehicleData` :  A struct containing processed vehicle data. Returned by a `SensorManager`.
 
 ### Utilities
 
-- Scheduler :
+- `SchedulerTask` : A class which calls a function periodically.
+- `Schedular` : A class which takes in an arbitrary number of `SchedulerTask`s, and updates them.
 
 ## Open Round
 
