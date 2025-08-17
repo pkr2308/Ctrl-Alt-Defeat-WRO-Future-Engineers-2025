@@ -8,9 +8,10 @@ Adbhut Patil: TODO: expand 10th standard, interested in electronics, programming
 
 Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC combination) and has been interested in Robotics for several years . He has participated in WRO in other categories in the past years. He was also part of Coding club in his school and built a few robotics projects for school events. His other interests include maths, physics, numismatics and history.
 
-|Team Photo |
+| Team Photo |
+|:-----------:|
 |![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/raw-photos/DSCF1097.JPG)|
-|__Picture: Pranav (Left) and Adbhut (Right)__|
+| __Picture: Pranav (Left) and Adbhut (Right)__ |
 
 ## Project Overview
 This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. ROS is used with the Raspberry Pi for object detection and navigation. This repository contains the programs, hardware description and design files of our model.
