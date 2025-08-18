@@ -27,24 +27,25 @@ def canny_edge_detection(frame):
 while True:
     # Read each frame from the webcam
     frame = picam2.capture_array()
+    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Convert the frame to hsv color space
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
+    # Convert the frame to HSV color space
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
     '''
     Hue (H): 0 - 179 (Represents the color type, dominant wavelength)
     Saturation (S): 0 - 255 (Represents the intensity or purity of the color) 
     Value (V): 0 - 255 (Represents the brightness or darkness of the color)
     '''
 
-    # Define the range for colour color in hsv space
-    lower_red = np.array([3, 80, 88])
-    upper_red = np.array([10, 90, 98])
-    lower_green = np.array([107, 74, 79])
-    upper_green = np.array([117, 84, 89])
+    lower_red = np.array([0, 120, 88])
+    upper_red = np.array([25, 255, 255])
+    lower_green = np.array([52, 120, 78])
+    upper_green = np.array([67, 255, 220])
+    # The 'magenta' parking pieces also show up as red!
+
     # Create a mask to detect colour
-    mask_red = cv2.inRange(hsv, lower_red, upper_red)
-    mask_green = cv2.inRange(hsv, lower_green, upper_green)
+    mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
+    mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     
     mask = mask_red + mask_green
 

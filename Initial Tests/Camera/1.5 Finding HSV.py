@@ -3,7 +3,7 @@ import numpy as np
 from picamera2 import Picamera2
 import time
 
-tuning = Picamera2.load_tuning_file("imx219_noir.json")
+tuning = Picamera2.load_tuning_file("imx219.json")
 picam2 = Picamera2(tuning = tuning)
 
 picam2.start_preview()
@@ -25,14 +25,15 @@ def mouse_callback(event, x, y, flags, param):
             # Convert BGR to HSV
             hsv_value = cv2.cvtColor(np.uint8([[bgr]]), cv2.COLOR_BGR2HSV)[0][0]
 
+cv2.namedWindow('Frame')
 
 while True:
     frame = picam2.capture_array()
-
+    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # Different standards are used    
     # Set the mouse callback with the current frame as parameter
-    cv2.setMouseCallback('Frame', mouse_callback, param=frame)
+    cv2.setMouseCallback('Frame', mouse_callback, param=corrected_frame)
 
-    cv2.imshow('Frame', frame)
+    cv2.imshow('Frame', corrected_frame)
 
     if hsv_value is not None:
         print(f"HSV at ({mouse_x}, {mouse_y}): {hsv_value}")

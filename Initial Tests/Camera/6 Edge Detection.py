@@ -3,7 +3,7 @@ from picamera2 import Picamera2
 import time
 
 # For standard camera use "imx219.json"
-tuning = Picamera2.load_tuning_file("imx219_noir.json")
+tuning = Picamera2.load_tuning_file("imx219.json")
 picam2 = Picamera2(tuning = tuning)
 
 def canny_edge_detection(frame):
