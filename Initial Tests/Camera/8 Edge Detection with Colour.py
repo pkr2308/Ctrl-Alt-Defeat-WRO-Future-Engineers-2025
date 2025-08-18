@@ -40,7 +40,7 @@ while True:
     lower_red = np.array([0, 120, 88])
     upper_red = np.array([25, 255, 255])
     lower_green = np.array([52, 120, 78])
-    upper_green = np.array([67, 255, 220])
+    upper_green = np.array([67, 255, 255])
     # The 'magenta' parking pieces also show up as red!
 
     # Create a mask to detect colour
