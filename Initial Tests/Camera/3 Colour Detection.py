@@ -26,17 +26,24 @@ while True:
     # Hue for white specifically is from 0-179, since it is achromatic
 
     # Create a mask to detect white color
-    mask1 = cv2.inRange(hsv, lower_white, upper_white)
+    mask_white = cv2.inRange(hsv, lower_white, upper_white)
 
-    # Define another range for white to account for different shades of white
-    lower_white2 = np.array([200, 200, 200])
-    upper_white2 = np.array([255, 255, 255])
+    lower_red = np.array([3, 80, 88])
+    upper_red = np.array([10, 90, 98])
+    lower_green = np.array([107, 74, 79])
+    upper_green = np.array([117, 84, 89])
+    lower_magenta = np.array([295, 90, 90])
+    upper_magenta = np.array([305, 100, 100])
+    # Create a mask to detect colour
+    mask_red = cv2.inRange(hsv, lower_red, upper_red)
+    mask_green = cv2.inRange(hsv, lower_green, upper_green)
+    mask_magenta = cv2.inRange(hsv, lower_magenta, upper_magenta)
 
     # Create another mask and combine it with the first one
     #mask2 = cv2.inRange(hsv, lower_white2, upper_white2)
 
     # Combine both masks to get a better detection
-    mask = mask1 #+ mask2
+    mask = mask_red #+ mask2
 
     # Apply the mask on the original image
     result = cv2.bitwise_and(corrected_frame, corrected_frame, mask=mask)
