@@ -241,4 +241,15 @@ SLAM (Simultaneous Localisation and Mapping) allows the robot to build a map of 
 
 Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation. It allows for path planning, obstacle avoidance, and map following. Nav2 integrates with SLAM for mapping and localization. 
 
+### Necessary Libraries in Order
+(From Raspbian)
+- sudo apt install software-properties-common
+- sudo apt install python3-launchpadlib
+- sudo apt install code
+- sudo apt upgrade code
+- sudo apt install idle3
+- sudo apt install python3-opencv
+- sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2
+
+
 ## Acknowledgements
