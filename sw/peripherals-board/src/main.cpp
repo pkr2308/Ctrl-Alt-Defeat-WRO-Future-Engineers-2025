@@ -12,7 +12,7 @@
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
 #define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
-#define VEHICLE_SW_NAME "ROS Communication Trial"       // String containing status of software. Printed over debug port
+#define VEHICLE_SW_NAME "Drive Over Serial"       // String containing status of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
@@ -27,7 +27,7 @@ VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
+//VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 VehicleCommand activeDriveCommand;
@@ -69,7 +69,6 @@ void setup(){
 
   remoteCommunication.init(&debugLogger);
   serialCommunication.init(&debugLogger);
-  rosCommunication.init(&debugLogger);
   
 }
 
@@ -82,7 +81,8 @@ void loop(){
 
   VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
   VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
-  VehicleCommand rosCommunicationCommand    = rosCommunication.update(vehicleData, activeDriveCommand);
+
+  activeDriveCommand = serialCommunicationCommand;
 
   targetControl.directControl(activeDriveCommand, vehicleData);
 

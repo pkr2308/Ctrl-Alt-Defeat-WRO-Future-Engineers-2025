@@ -17,5 +17,6 @@ private:
   ILogger* _logger;
   int16_t _targetSpeed; 
   uint16_t _targetYaw;  
+  void _sendFormattedData(VehicleData data);
 
 };
