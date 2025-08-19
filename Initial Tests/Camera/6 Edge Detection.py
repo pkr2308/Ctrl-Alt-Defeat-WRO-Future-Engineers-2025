@@ -6,6 +6,9 @@ import time
 tuning = Picamera2.load_tuning_file("imx219.json")
 picam2 = Picamera2(tuning = tuning)
 
+config = picam2.create_video_configuration(main={"size": (1280, 720)})
+picam2.configure(config)
+
 def canny_edge_detection(frame):
     # Convert the frame to grayscale for edge detection
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
