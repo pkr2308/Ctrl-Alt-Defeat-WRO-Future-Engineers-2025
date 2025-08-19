@@ -63,11 +63,7 @@ while True:
     mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
-    
-    # Create another mask and combine it with the first one
 
-
-    # Combine both masks to get a better detection
     mask = mask_red + mask_green
 
     # Apply the mask on the original image
