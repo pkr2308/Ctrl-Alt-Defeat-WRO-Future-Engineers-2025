@@ -10,8 +10,9 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp
+#define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
+#define VEHICLE_SW_NAME "ROS Communication Trial"       // String containing status of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
@@ -26,12 +27,16 @@ VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
+VehicleCommand activeDriveCommand;
+
 
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
 void debugLogHeader();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
+
 
 /**
  * @brief Initialises sensor manager, target controller, and drive algorithm
@@ -63,6 +68,8 @@ void setup(){
   sensorManager.init(&debugLogger);
 
   remoteCommunication.init(&debugLogger);
+  serialCommunication.init(&debugLogger);
+  rosCommunication.init(&debugLogger);
   
 }
 
@@ -73,15 +80,11 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand driveCommand;
-  driveCommand = remoteCommunication.update(vehicleData, driveCommand);
-  //driveCommand = serialCommunication.update(vehicleData, driveCommand);
+  VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
+  VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
+  VehicleCommand rosCommunicationCommand    = rosCommunication.update(vehicleData, activeDriveCommand);
 
-  targetControl.directControl(driveCommand, vehicleData);
-  
-  Serial.print(driveCommand.targetSpeed);
-  Serial.print(" ");
-  Serial.println(driveCommand.targetYaw);
+  targetControl.directControl(activeDriveCommand, vehicleData);
 
 }
 
@@ -182,6 +185,7 @@ void debugLogHeader(){
 
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "CTRL+ALT+DEFEAT Peripherals Board Debug Port");
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Software status: " + String(VEHICLE_SW_STATUS));
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Software name: " + String(VEHICLE_SW_NAME));  
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
 

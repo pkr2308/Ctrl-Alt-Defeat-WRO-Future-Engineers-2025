@@ -74,7 +74,7 @@ void loop(){
 
     radio.writeAckPayload(pipe, &cmdBlock1, sizeof(cmdBlock1));
 
-    //printDataStruct();
+    printDataStruct();
 
   }
 
