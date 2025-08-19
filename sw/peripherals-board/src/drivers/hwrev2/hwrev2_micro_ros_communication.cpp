@@ -9,6 +9,7 @@ hw_rev_2_ROSCommunication::hw_rev_2_ROSCommunication(VehicleConfig cfg){
 void hw_rev_2_ROSCommunication::init(ILogger *logger){
 
   _logger = logger;
+  _logger->sendMessage("hw_rev_2_ROSCommunication::init", _logger->INFO, "ROS communication driver initialised");
 
 }
 
