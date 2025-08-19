@@ -1,13 +1,19 @@
 import cv2
+from picamera2 import Picamera2
+import time
 
-# Open the default camera
-cap = cv2.VideoCapture(0)
+# For standard camera use "imx219.json"
+tuning = Picamera2.load_tuning_file("imx219_noir.json")
+picam2 = Picamera2(tuning = tuning)
+
+picam2.start_preview()
+time.sleep(2)  # Let the camera warm up
+
+picam2.start()
 
 while True:
     # Read a frame from the camera
-    ret, frame = cap.read()
-    if not ret:
-        break
+    frame = picam2.capture_array()
 
     # Convert to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -33,6 +39,6 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the capture and destroy all windows
-cap.release()
+# Stop the capture and destroy all windows
+picam2.stop()
 cv2.destroyAllWindows()

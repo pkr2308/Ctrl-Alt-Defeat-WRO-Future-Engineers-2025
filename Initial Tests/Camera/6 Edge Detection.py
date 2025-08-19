@@ -1,4 +1,10 @@
 import cv2
+from picamera2 import Picamera2
+import time
+
+# For standard camera use "imx219.json"
+tuning = Picamera2.load_tuning_file("imx219.json")
+picam2 = Picamera2(tuning = tuning)
 
 def canny_edge_detection(frame):
     # Convert the frame to grayscale for edge detection
@@ -15,14 +21,14 @@ def canny_edge_detection(frame):
 
 def main():
     # Open the default webcam
-    cap = cv2.VideoCapture(0)
+    picam2.start_preview()
+    time.sleep(2)  # Let the camera warm up
+
+    picam2.start()
 
     while True:
         # Read a frame from the webcam
-        ret, frame = cap.read()
-        if not ret:
-            print('Image not captured')
-            break
+        frame = picam2.capture_array()
 
         # Perform Canny edge detection on the frame
         blurred, edges = canny_edge_detection(frame)
@@ -37,7 +43,7 @@ def main():
             break
 
     # Release the webcam and close the windows
-    cap.release()
+    picam2.stop()
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":

@@ -1,8 +1,16 @@
 import cv2
 import numpy as np
+from picamera2 import Picamera2
+import time
 
-# Start video capture
-cap = cv2.VideoCapture(0)
+# For standard camera use "imx219.json"
+tuning = Picamera2.load_tuning_file("imx219_noir.json")
+picam2 = Picamera2(tuning = tuning)
+
+picam2.start_preview()
+time.sleep(2)  # Let the camera warm up
+
+picam2.start()
 
 def canny_edge_detection(frame):
     # Convert the frame to grayscale for edge detection
@@ -18,27 +26,28 @@ def canny_edge_detection(frame):
 
 while True:
     # Read each frame from the webcam
-    ret, frame = cap.read()
+    frame = picam2.capture_array()
+    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    if not ret:
-        break
-
-    # Convert the frame to hsv color space
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
+    # Convert the frame to HSV color space
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
     '''
     Hue (H): 0 - 179 (Represents the color type, dominant wavelength)
     Saturation (S): 0 - 255 (Represents the intensity or purity of the color) 
     Value (V): 0 - 255 (Represents the brightness or darkness of the color)
     '''
 
-    # Define the range for colour color in hsv space
-    lower_colour1 = np.array([10, 110, 180])
-    upper_colour1 = np.array([18, 175, 255])
-    lower_colour2 = np.array([35, 90, 150])
-    upper_colour2 = np.array([50, 130, 210])
+    lower_red = np.array([0, 120, 88])
+    upper_red = np.array([25, 255, 255])
+    lower_green = np.array([52, 120, 78])
+    upper_green = np.array([67, 255, 255])
+    # The 'magenta' parking pieces also show up as red!
+
     # Create a mask to detect colour
-    mask = cv2.inRange(hsv, lower_colour2, upper_colour2) + cv2.inRange(hsv, lower_colour1, upper_colour1)
+    mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
+    mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
+    
+    mask = mask_red + mask_green
 
     # Apply the mask on the original image
     masked_image = cv2.bitwise_and(frame, frame, mask=mask)
@@ -53,5 +62,5 @@ while True:
         break
 
 # Release the capture and close windows
-cap.release()
+picam2.stop()
 cv2.destroyAllWindows()
