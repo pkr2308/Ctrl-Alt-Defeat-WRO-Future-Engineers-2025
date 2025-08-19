@@ -9,7 +9,7 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define SINGLE_LIDAR_OPEN_ROUND                         // Defines what drive algorithm to use. Add more in driverconfig.hpp
+#define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include

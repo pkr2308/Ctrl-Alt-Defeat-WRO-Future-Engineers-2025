@@ -28,10 +28,11 @@
 #define VEHICLE_DRIVER_TARGET_CONTROL hw_rev_2_TargetControl
 #define VEHICLE_DRIVER_REMOTE_COMMUNICATION hw_rev_2_RF24Communication
 #define VEHICLE_DRIVER_SERIAL_COMMUNICATION hw_rev_2_SerialCommunication
+#define VEHICLE_DRIVER_ROS_COMMUNICATION hw_rev_2_ROSCommunication
 #define VEHICLE_DRIVER_DEBUG_LOG hw_rev_2_UARTLogger
 #define VEHICLE_GET_CONFIG hwrev2_getConfig()
 
-#if defined(SINGLE_LIDAR_OPEN_ROUND)
+#if defined(OPEN_ROUND)
 #define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_SingleLidarOpenRound
 #endif
 
