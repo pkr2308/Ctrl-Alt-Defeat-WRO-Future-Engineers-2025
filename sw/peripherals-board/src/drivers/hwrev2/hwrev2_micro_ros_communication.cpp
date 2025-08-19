@@ -1,3 +1,4 @@
+/*
 #include <hwrev2_micro_ros_communication.hpp>
 #include <micro_ros_arduino.h>
 #include <std_msgs/msg/int16.h>
@@ -98,3 +99,4 @@ void hw_rev_2_ROSCommunication::publishData(){
   _logger->sendMessage("hw_rev_2_ROSCommunication::publishData", _logger->INFO, "publishData called");
 
 }
+  */

@@ -50,7 +50,7 @@ std::vector<SensorData> hw_rev_2_VehicleSpeed::update(){
     calcSpeed.sensorDataType = SENSOR_SPEED;
 
     currentMillis = millis();
-    currentEncPos = -_encoder->getPosition(); // invert encPos since power transfer gears invert rotation
+    currentEncPos = _encoder->getPosition(); // invert encPos since power transfer gears invert rotation
 
     deltaTime = currentMillis - _prevMillis;
     deltaTicks = currentEncPos - _prevEncPos;

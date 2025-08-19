@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <ICommunication.hpp>
@@ -52,3 +53,4 @@ private:
   static void _rosThrottleCallback(const void *msgin, void *context);
 
 };
+*/
