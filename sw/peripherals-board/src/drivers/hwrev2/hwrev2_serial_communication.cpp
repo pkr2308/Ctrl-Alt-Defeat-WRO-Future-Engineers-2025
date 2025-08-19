@@ -27,6 +27,10 @@ VehicleCommand hw_rev_2_SerialCommunication::update(VehicleData data, VehicleCom
     _targetSpeed = constrain(command.substring(0, commaIndex).toInt(), -1024, 1024);
     _targetYaw = constrain(command.substring(commaIndex + 1).toInt(), 0, 180);
 
+    _logger->sendMessage("hw_rev_2_SerialCommunication::update", _logger->INFO, "Received command over USB. Raw: " + command + "_targetSpeed: " + String(_targetSpeed) + " _targetYaw: " + String(_targetYaw));
+
+    _sendFormattedData(data);
+
   }
 
   returnCommand.targetSpeed = _targetSpeed;
@@ -34,4 +38,59 @@ VehicleCommand hw_rev_2_SerialCommunication::update(VehicleData data, VehicleCom
 
   return returnCommand;
   
+}
+
+void hw_rev_2_SerialCommunication::_sendFormattedData(VehicleData data){
+
+  const char seperator = ',';
+
+  String message;
+
+  message += String(data.orientation.x);
+  message += seperator;
+  message += String(data.orientation.y);
+  message += seperator;
+  message += String(data.orientation.z);
+  message += seperator;
+
+  message += String(data.acceleration.x);
+  message += seperator;
+  message += String(data.acceleration.y);
+  message += seperator;
+  message += String(data.acceleration.z);
+  message += seperator;
+
+  message += String(data.angularVelocity.x);
+  message += seperator;
+  message += String(data.angularVelocity.y);
+  message += seperator;
+  message += String(data.angularVelocity.z);
+  message += seperator;
+
+  message += String(data.lidar[0]);
+  message += seperator;
+  message += String(data.lidar[90]);
+  message += seperator;
+  message += String(data.lidar[180]);
+  message += seperator;
+  message += String(data.lidar[270]);
+  message += seperator;
+
+  message += String(data.speed);
+  message += seperator;
+  message += String(data.encoderPosition);
+  message += seperator;  
+
+  message += String(data.imuCalib);
+  message += seperator;
+  message += String(data.gyroCalib);
+  message += seperator;
+  message += String(data.accelCalib);
+  message += seperator;
+  message += String(data.magCalib);
+  message += seperator;
+
+  message += '\n';
+  Serial.print(message);
+
 }

@@ -7,6 +7,9 @@ import time
 tuning = Picamera2.load_tuning_file("imx219_noir.json")
 picam2 = Picamera2(tuning = tuning)
 
+config = picam2.create_video_configuration(main={"size": (1280, 720)})
+picam2.configure(config)
+
 picam2.start_preview()
 time.sleep(2)  # Let the camera warm up
 
