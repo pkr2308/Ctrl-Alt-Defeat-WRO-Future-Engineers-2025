@@ -1,9 +1,9 @@
 import time
 from adafruit_rplidar import RPLidar
 
-PORT_NAME = '/dev/ttyUSB0'  # Your RPLidar USB port (check with ls /dev/ttyUSB*)
+PORT_NAME = '/dev/ttyUSB0'  # RPLidar USB port (check with ls /dev/ttyUSB*)
 
-lidar = RPLidar(PORT_NAME)
+lidar = RPLidar(None, PORT_NAME)
 
 try:
     print('Starting scan...')

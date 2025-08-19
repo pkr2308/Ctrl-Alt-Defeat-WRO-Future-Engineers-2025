@@ -251,7 +251,7 @@ Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation.
 - sudo apt install idle3
 - sudo apt install python3-opencv
 - sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2
-- Refer (UPS Hat E)[https://www.waveshare.com/wiki/UPS_HAT_(E)] to install libraries for the UPS 
+- Refer [UPS Hat E](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install libraries for the UPS 
 
 
 ## Acknowledgements
