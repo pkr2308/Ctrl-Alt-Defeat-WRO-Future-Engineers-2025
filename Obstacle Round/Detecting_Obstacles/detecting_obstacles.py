@@ -23,11 +23,9 @@ def init():
     upper1_black = np.array([65, 130, 60])
     lower2_black = np.array([40, 130, 50])
     upper2_black = np.array([49, 175, 90])
-    # The 'magenta' parking pieces also show up as red!
+    # The 'magenta' parking pieces also show up as red!  
 
-    
-
-def process_frame(self, frame):
+def process_frame(frame):
 
     # Convert frame to HSV for detection
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)    
@@ -42,8 +40,8 @@ def process_frame(self, frame):
     contours_green, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Filter and locate obstacle bounding boxes
-    red_obs = self.get_obstacle_positions(contours_red, frame.shape)
-    green_obs = self.get_obstacle_positions(contours_green, frame.shape)
+    red_obs = get_obstacle_positions(contours_red, frame.shape)
+    green_obs = get_obstacle_positions(contours_green, frame.shape)
 
     # Draw contours for visualization
     for x, y, w, h in red_obs:
@@ -53,9 +51,10 @@ def process_frame(self, frame):
 
     return frame, red_obs, green_obs
 
-def get_obstacle_positions(self, contours, frame_shape):
+def get_obstacle_positions(contours, frame_shape):
     obs = []
-    min_area = 500  # minimum contour area to be obstacle
+    min_area = 600  # minimum contour area to be obstacle
+    print(frame_shape)
     fh, fw = frame_shape[0], frame_shape[8]
 
     for cnt in contours:
@@ -64,10 +63,10 @@ def get_obstacle_positions(self, contours, frame_shape):
             # Determine grid cell (3 rows x 2 columns)
             row = 0 if y+h/2 < fh/3 else (1 if y+h/2 < 2*fh/3 else 2)
             col = 0 if x+w/2 < fw/2 else 1
-            obs.append({"bbox": (x,y,w,h), "grid": (row, col)})
+            obs.append({"box": (x,y,w,h), "grid": (row, col)})
     return obs
 
-def decide_path(self, red_obs, green_obs):
+def decide_path(red_obs, green_obs):
     # Grid cell positions occupied by obstacles
     red_cells = [pos['grid'] for pos in red_obs]
     green_cells = [pos['grid'] for pos in green_obs]
@@ -78,7 +77,7 @@ def decide_path(self, red_obs, green_obs):
     # If green obstacle detected, drive right of it
     # If two obstacles, they are at ends, so robot drives the middle lane
 
-    # Simplified path selection:
+    # Simplified path selection
     if len(red_cells) == 1 and not green_cells:
         # Obstacle red detected: drive left of obstacle means steer left
         action = "STEER_LEFT"
@@ -94,16 +93,16 @@ def decide_path(self, red_obs, green_obs):
 
     return action
 
-def run(self):
+def run():
     while True:
         frame = picam2.capture_array()
         corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Process camera frame for obstacles
-        frame_processed, red_obs, green_obs = self.process_frame(frame)
+        frame_processed, red_obs, green_obs = process_frame(frame)
 
         # Decide navigation based on obstacle detection
-        path_action = self.decide_path(red_obs, green_obs)
+        path_action = decide_path(red_obs, green_obs)
 
 
         # Show output
