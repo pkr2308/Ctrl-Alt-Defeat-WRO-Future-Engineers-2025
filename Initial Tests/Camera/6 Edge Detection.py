@@ -43,6 +43,7 @@ def main():
             break
 
     # Release the webcam and close the windows
+    picam2.stop_preview()
     picam2.stop()
     cv2.destroyAllWindows()
 

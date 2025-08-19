@@ -77,5 +77,6 @@ while True:
         break
 
 # Release the capture and close windows
+picam2.stop_preview()
 picam2.stop()
 cv2.destroyAllWindows()

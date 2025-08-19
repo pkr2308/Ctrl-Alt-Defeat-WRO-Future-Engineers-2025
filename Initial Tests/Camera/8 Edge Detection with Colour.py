@@ -61,6 +61,7 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the capture and close windows
+# Stop the capture and close windows
+picam2.stop_preview()
 picam2.stop()
 cv2.destroyAllWindows()

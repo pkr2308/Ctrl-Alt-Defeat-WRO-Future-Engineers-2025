@@ -40,5 +40,6 @@ while True:
         break
 
 # Stop the capture and destroy all windows
+picam2.stop_preview()
 picam2.stop()
 cv2.destroyAllWindows()
