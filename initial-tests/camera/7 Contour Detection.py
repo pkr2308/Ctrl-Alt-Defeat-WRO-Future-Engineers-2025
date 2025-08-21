@@ -36,7 +36,8 @@ while True:
     cv2.drawContours(frame, contours, -1, (0, 255, 0), -1)
 
     # Display the resulting frame
-    cv2.imshow('Real-time Contour Detection', frame)
+    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    cv2.imshow('Real-time Contour Detection', corrected_frame)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):

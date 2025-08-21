@@ -17,7 +17,7 @@ picam2.start()
 
 #Define colour ranges
 lower_red = np.array([0, 120, 88])
-upper_red = np.array([20, 255, 255])
+upper_red = np.array([19, 255, 255])
 lower_green = np.array([52, 120, 78])
 upper_green = np.array([70, 255, 255])
 lower1_black = np.array([37, 65, 20])
@@ -26,23 +26,11 @@ lower2_black = np.array([40, 130, 50])
 upper2_black = np.array([49, 175, 90])
 # The 'magenta' parking pieces also show up as red!
 
-def canny_edge_detection(frame):
-    # Convert the frame to grayscale for edge detection
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    # Apply Gaussian blur to reduce noise and smoothen edges
-    blurred = cv2.GaussianBlur(src=gray, ksize=(3, 5), sigmaX=0.5)
-
-    # Perform Canny edge detection
-    edges = cv2.Canny(blurred, 70, 135)
-
-    return blurred, edges
 
 while True:
-    
+    # Read a frame from the camera
     frame = picam2.capture_array()
     corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
     # Convert the frame to HSV color space
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
 
@@ -51,23 +39,38 @@ while True:
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
 
-    mask = mask_red + mask_green #+ mask_black
+    mask = mask_red + mask_green
 
     # Apply the mask on the original image
-    masked_img = cv2.bitwise_and(frame, frame, mask=mask)
-    # Apply edge detection
-    blurred, edges = canny_edge_detection(masked_img)
+    result = cv2.bitwise_and(frame, frame, mask=mask)
 
-    # Display the original frame and the result
-    cv2.imshow("Original", corrected_frame)
-    cv2.imshow("Colours", masked_img)
-    cv2.imshow("Edge-Colour Detection", edges)
+    # Apply the mask on the original image
+    result = cv2.bitwise_and(frame, frame, mask=mask)
     
-    # Press 'q' to exit the loop
+    # Find contours for red,green and black. We don't want the hierarchy
+    red_contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    green_contours, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Draw contours on respective masks and original image
+    cv2.drawContours(mask_red, red_contours, -1, (255,200,200), -1)
+    cv2.drawContours(mask_green, green_contours, -1, (200,255,200), -1)
+    cv2.drawContours(mask_black, black_contours, -1, (200,200,255), -1)
+    cv2.drawContours(corrected_frame, red_contours + green_contours + black_contours, -1, (100,100,100), -1)
+    
+    # Display the contour frames
+    cv2.imshow('Contour Detection', corrected_frame)
+    cv2.imshow('Colours', result)
+    cv2.imshow('Red Contours', mask_red)
+    cv2.imshow('Green Contours', mask_green)
+    cv2.imshow('Black Contours', mask_black)
+    
+
+    # Break the loop if 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the capture and close windows
+# Stop the capture and destroy all windows
 picam2.stop_preview()
 picam2.stop()
 cv2.destroyAllWindows()

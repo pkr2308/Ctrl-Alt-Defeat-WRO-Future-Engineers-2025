@@ -33,7 +33,7 @@ def mouse_callback(event, x, y, flags, param):
 cv2.namedWindow('Original')
 
 lower_red = np.array([0, 120, 88])
-upper_red = np.array([25, 255, 255])
+upper_red = np.array([20, 255, 255])
 lower_green = np.array([52, 120, 78])
 upper_green = np.array([70, 255, 255])
 lower1_black = np.array([37, 65, 20])
@@ -49,12 +49,13 @@ while True:
     # Convert the frame to HSV.  The wrong order somehow works, but the correct order doesn't!
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
 
+    '''
     cv2.setMouseCallback('Original', mouse_callback, param=corrected_frame)
-
     if hsv_value is not None:
         print(f"HSV at ({mouse_x}, {mouse_y}): {hsv_value}")
         hsv_value = None # Reset to avoid repeated printing for the same position
-
+    '''
+    
     # Create a mask to detect colour
     mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
