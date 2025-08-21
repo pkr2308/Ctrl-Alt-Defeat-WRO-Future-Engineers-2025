@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="ctrlaltdefeat-logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.8101934"
+     inkscape:cx="215.72281"
+     inkscape:cy="570.65727"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3" />
+  <defs
+     id="defs2">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter15651"
+       x="-0.012220004"
+       y="-0.15338715"
+       width="1.02444"
+       height="1.3067743">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.2367383"
+         id="feGaussianBlur15653" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter15655"
+       x="-0.0586625"
+       y="-0.73633966"
+       width="1.117325"
+       height="2.4726793">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.1364694"
+         id="feGaussianBlur15657" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Background">
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.790308;stroke-linecap:round;stroke-linejoin:round"
+       id="path6255"
+       cx="49.321815"
+       cy="147.4785"
+       r="26.192936" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Text Glow Bottom" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Text Glow Middle" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Text">
+    <g
+       id="g15680">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;font-family:Urbanist;-inkscape-font-specification:Urbanist;text-align:center;text-anchor:middle;mix-blend-mode:normal;fill:#ffffff;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter15655)"
+         x="49.298004"
+         y="149.33058"
+         id="text240-2-9-0"><tspan
+           sodipodi:role="line"
+           id="tspan238-8-4-3"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.298004"
+           y="149.33058"><tspan
+             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Bold Italic';fill:#c51a4a;fill-opacity:1"
+             id="tspan3912-2-5-8">                      DEFEAT</tspan></tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.298004"
+           y="155.94518"
+           id="tspan242-6-3-0" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;font-family:Urbanist;-inkscape-font-specification:Urbanist;text-align:center;text-anchor:middle;mix-blend-mode:normal;fill:#ffffff;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;filter:url(#filter15651)"
+         x="49.298"
+         y="149.33058"
+         id="text240-2-9"><tspan
+           sodipodi:role="line"
+           id="tspan238-8-4"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.298"
+           y="149.33058"><tspan
+             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Bold Italic';fill:#c51a4a;fill-opacity:1"
+             id="tspan3912-2-5">                      DEFEAT</tspan></tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.298"
+           y="155.94518"
+           id="tspan242-6-3" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;font-family:Urbanist;-inkscape-font-specification:Urbanist;text-align:center;text-anchor:middle;fill:#ffffff;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round"
+         x="49.192169"
+         y="149.33058"
+         id="text240-2"><tspan
+           sodipodi:role="line"
+           id="tspan238-8"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.192169"
+           y="149.33058"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:Urbanist"
+             id="tspan4016-8">CTRL+ALT+</tspan><tspan
+             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Bold Italic';fill:#c51a4a;fill-opacity:1"
+             id="tspan3912-2">DEFEAT</tspan></tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Urbanist;-inkscape-font-specification:'Urbanist Light';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4"
+           x="49.192169"
+           y="155.94518"
+           id="tspan242-6" /></text>
+    </g>
+  </g>
+</svg>
