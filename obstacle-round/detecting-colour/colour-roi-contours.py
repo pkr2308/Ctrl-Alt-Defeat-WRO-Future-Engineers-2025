@@ -33,33 +33,32 @@ while True:
     corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     # Convert the frame to HSV color space
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
-
+    hsv_roi = hsv_frame[350:715, 0:1280]
     # Create a mask to detect colour
-    mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
-    mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
-    mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
+    mask_red = cv2.inRange(hsv_roi, lower_red, upper_red)
+    mask_green = cv2.inRange(hsv_roi, lower_green, upper_green)
+    mask_black = cv2.inRange(hsv_roi, lower1_black, upper1_black) + cv2.inRange(hsv_roi, lower2_black, upper2_black)
 
-    mask = mask_red + mask_green
-
-    # Apply the mask on the original image
-    result = cv2.bitwise_and(frame, frame, mask=mask)
-    
     # Find contours for red,green and black. We don't want the hierarchy
     red_contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     green_contours, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Draw contours on respective masks and original image
-    cv2.drawContours(mask_red, red_contours, -1, (255,200,200), -1)
-    cv2.drawContours(mask_green, green_contours, -1, (200,255,200), -1)
-    cv2.drawContours(mask_black, black_contours, -1, (200,200,255), -1)
-    cv2.drawContours(corrected_frame, red_contours, -1, (255,100,100), -1)
-    cv2.drawContours(corrected_frame, green_contours, -1, (100,255,100), -1)
-    cv2.drawContours(corrected_frame, black_contours, -1, (120,120,120), -1)
-
+    for contour in red_contours:
+        offset_contour = contour + (0,350)
+        cv2.drawContours(mask_red, contour, -1, (255,200,200), -1)
+        cv2.drawContours(corrected_frame, [offset_contour], -1, (100,100,255), -1)
+    for contour in green_contours:
+        offset_contour = contour + (0,350)
+        cv2.drawContours(mask_green, contour, -1, (200,255,200), -1)
+        cv2.drawContours(corrected_frame, [offset_contour], -1, (100,255,100), -1)
+    for contour in black_contours:
+        offset_contour = contour + (0,350)
+        cv2.drawContours(mask_black, contour, -1, (130,130,130), -1)
+        #cv2.drawContours(corrected_frame, [offset_contour], -1, (255,255,255), -1)
     # Display the contour frames
     cv2.imshow('Contour Detection', corrected_frame)
-    cv2.imshow('Colours', result)
     #cv2.imshow('Red Contours', mask_red)
     #cv2.imshow('Green Contours', mask_green)
     #cv2.imshow('Black Contours', mask_black)
