@@ -86,6 +86,8 @@ void loop(){
 
   targetControl.directControl(activeDriveCommand, vehicleData);
 
+  debugLogDataCommand(vehicleData, activeDriveCommand);
+
 }
 
 /**
@@ -165,11 +167,13 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
   debugLogger.sendString(String(data.speed));
   debugLogger.sendString(", ");
 
-  debugLogger.sendString(String(data.lidar[270]));
-  debugLogger.sendString(", ");
   debugLogger.sendString(String(data.lidar[0]));
   debugLogger.sendString(", ");
   debugLogger.sendString(String(data.lidar[90]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[180]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[270]));
   debugLogger.sendString(", ");
 
   debugLogger.sendString(String(cmd.targetSpeed));

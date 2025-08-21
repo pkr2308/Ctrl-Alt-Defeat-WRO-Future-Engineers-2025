@@ -76,6 +76,7 @@ struct AddressConfig{
   uint8_t leftLidarAddr = 0;
   uint8_t frontLidarAddr = 0;
   uint8_t rightLidarAddr = 0;
+  uint8_t backLidarAddr = 0;
 
 };
 
