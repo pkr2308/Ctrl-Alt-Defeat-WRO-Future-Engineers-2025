@@ -25,23 +25,31 @@ def init():
     upper2_black = np.array([49, 175, 90])
     # The 'magenta' parking pieces also show up as red!  
 
-def process_frame(frame):
-
-    # Convert frame to HSV for detection
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)    
-
+def process_frame():
+    global masked_img, hsv_frame
     # Create a mask to detect colour
     mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
 
-    # Find contours for red and green. We don't want the hierarchy
-    contours_red, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contours_green, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    mask = mask_red + mask_green
+
+    # Apply the mask on the original image
+    masked_img = cv2.bitwise_and(frame, frame, mask=mask)
+    
+    # Find contours for red,green and black. We don't want the hierarchy
+    red_contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    green_contours, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    cv2.drawContours(corrected_frame, red_contours, -1, (255,100,100), -1)
+    cv2.drawContours(corrected_frame, red_contours, -1, (100,255,100), -1)
+    cv2.drawContours(corrected_frame, red_contours, -1, (120,120,120), -1)
+    
 
     # Filter and locate obstacle bounding boxes
-    red_obs = get_obstacle_positions(contours_red, frame.shape)
-    green_obs = get_obstacle_positions(contours_green, frame.shape)
+    red_obs = get_obstacle_positions(red_contours)
+    green_obs = get_obstacle_positions(green_contours)
 
     # Draw contours for visualization
     for x, y, w, h in red_obs:
@@ -51,11 +59,11 @@ def process_frame(frame):
 
     return frame, red_obs, green_obs
 
-def get_obstacle_positions(contours, frame_shape):
+def get_obstacle_positions(contours):
     obs = []
     min_area = 600  # minimum contour area to be obstacle in pixels
-    print(frame_shape)
-    fh, fw = frame_shape[0], frame_shape[8]
+    print(frame.shape)
+    fh, fw = frame.shape[0], frame.shape[8]
 
     for cnt in contours:
         if cv2.contourArea(cnt) > min_area:
@@ -68,7 +76,7 @@ def get_obstacle_positions(contours, frame_shape):
 
 
 def decide_path(red_obs, green_obs):
-
+    # Needs to be updated
     # Grid cell positions occupied by obstacles
     red_cells = [pos['grid'] for pos in red_obs]
     green_cells = [pos['grid'] for pos in green_obs]
@@ -95,19 +103,23 @@ def decide_path(red_obs, green_obs):
     return action
 
 def run():
+    global frame, hsv_frame, corrected_frame
     while True:
+        # Read a frame from the camera
         frame = picam2.capture_array()
         corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # Convert the frame to HSV color space
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
 
         # Process camera frame for obstacles
-        frame_processed, red_obs, green_obs = process_frame(frame)
+        frame_processed, red_obs, green_obs = process_frame()
 
         # Decide navigation based on obstacle detection
         path_action = decide_path(red_obs, green_obs)
 
-
         # Show output
         cv2.putText(frame_processed, f"Path: {path_action}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+
         cv2.imshow("Obstacle Detection", frame_processed)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):

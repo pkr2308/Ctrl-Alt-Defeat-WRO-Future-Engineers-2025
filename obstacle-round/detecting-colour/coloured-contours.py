@@ -43,9 +43,6 @@ while True:
 
     # Apply the mask on the original image
     result = cv2.bitwise_and(frame, frame, mask=mask)
-
-    # Apply the mask on the original image
-    result = cv2.bitwise_and(frame, frame, mask=mask)
     
     # Find contours for red,green and black. We don't want the hierarchy
     red_contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -56,14 +53,16 @@ while True:
     cv2.drawContours(mask_red, red_contours, -1, (255,200,200), -1)
     cv2.drawContours(mask_green, green_contours, -1, (200,255,200), -1)
     cv2.drawContours(mask_black, black_contours, -1, (200,200,255), -1)
-    cv2.drawContours(corrected_frame, red_contours + green_contours + black_contours, -1, (100,100,100), -1)
-    
+    cv2.drawContours(corrected_frame, red_contours, -1, (255,100,100), -1)
+    cv2.drawContours(corrected_frame, red_contours, -1, (100,255,100), -1)
+    cv2.drawContours(corrected_frame, red_contours, -1, (120,120,120), -1)
+
     # Display the contour frames
     cv2.imshow('Contour Detection', corrected_frame)
     cv2.imshow('Colours', result)
-    cv2.imshow('Red Contours', mask_red)
-    cv2.imshow('Green Contours', mask_green)
-    cv2.imshow('Black Contours', mask_black)
+    #cv2.imshow('Red Contours', mask_red)
+    #cv2.imshow('Green Contours', mask_green)
+    #cv2.imshow('Black Contours', mask_black)
     
 
     # Break the loop if 'q' is pressed
