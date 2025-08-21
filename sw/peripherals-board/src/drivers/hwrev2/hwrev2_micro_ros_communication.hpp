@@ -1,3 +1,8 @@
+/**
+ * @author DIY Labs
+ * @note Commented out due to linker issues with Micro ROS.
+*/
+
 /*
 #pragma once
 

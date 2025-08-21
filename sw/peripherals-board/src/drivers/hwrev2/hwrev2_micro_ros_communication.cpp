@@ -1,3 +1,8 @@
+/**
+ * @author DIY Labs
+ * @note Commented out due to linker issues with Micro ROS.
+*/
+
 /*
 #include <hwrev2_micro_ros_communication.hpp>
 #include <micro_ros_arduino.h>
