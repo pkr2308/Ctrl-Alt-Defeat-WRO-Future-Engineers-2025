@@ -4,7 +4,7 @@ def main():
     # Open serial port
     # /dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00 - Pranav
     # /dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3482132-if00 - Adbhut
-    ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3482132-if00', 115200, timeout=1)
+    ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00', 115200, timeout=1)
     print("Enter speed and steering:")
     while True:
         try:
@@ -21,19 +21,18 @@ def main():
             steering = float(parts[1])
 
             # Send command to RP2040
-            print(f'Input : ')
             command = f"{speed},{steering}\n"
             ser.write(command.encode())
 
             # Wait for response from RP2040
             response = ser.readline().decode().strip()
             print(response)
-            values = response.split(",")[1:]
-            yaw = values[0]
-            distance = values[1]
-            left_dist = int(values[14]) / 43
-            front_dist = values[9]
-            right_dist = values[10]
+            values = response.split(",")[0:]
+            yaw = float(values[0])
+            distance = float(values[14]) / 43
+            left_dist = int(values[12])
+            front_dist = int(values[9])
+            right_dist = int(values[10])
             print(f"Received Data - Yaw: {yaw}, Distance: {distance} \n\tLeft: {left_dist}, Front: {front_dist}, Right: {right_dist}")
 
 
