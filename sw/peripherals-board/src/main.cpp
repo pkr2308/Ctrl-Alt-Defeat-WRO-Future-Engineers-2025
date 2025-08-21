@@ -12,7 +12,7 @@
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
 #define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
-#define VEHICLE_SW_NAME "Drive Over Serial"       // String containing status of software. Printed over debug port
+#define VEHICLE_SW_NAME "Parking Module Tests"          // String containing status of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
@@ -36,6 +36,7 @@ VehicleCommand activeDriveCommand;
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
 void debugLogHeader();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
+void debugProbeI2CAddr(byte addr);
 
 
 /**
@@ -50,6 +51,10 @@ void setup(){
 
   Serial1.setRX(VEHICLE_GET_CONFIG.pinConfig.uart0RX);
   Serial1.setTX(VEHICLE_GET_CONFIG.pinConfig.uart0TX);  
+
+  Wire.setSCL(VEHICLE_GET_CONFIG.pinConfig.i2c0SCL);
+  Wire.setSDA(VEHICLE_GET_CONFIG.pinConfig.i2c0SDA);
+  Wire.begin();
 
   debugLogger.init();  
   debugLogHeader();
@@ -85,6 +90,8 @@ void loop(){
   activeDriveCommand = serialCommunicationCommand;
 
   targetControl.directControl(activeDriveCommand, vehicleData);
+
+  //debugLogDataCommand(vehicleData, activeDriveCommand);
 
 }
 
@@ -138,6 +145,8 @@ void debugPrintVehicleData(VehicleData data, VehicleCommand cmd){
 
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
 
+  debugLogger.sendMessage("debugLogDataCommand()", debugLogger.INFO, "Data frame start");
+
   debugLogger.sendString(String(data.orientation.x));
   debugLogger.sendString(", ");
   debugLogger.sendString(String(data.orientation.y));
@@ -165,11 +174,13 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
   debugLogger.sendString(String(data.speed));
   debugLogger.sendString(", ");
 
-  debugLogger.sendString(String(data.lidar[270]));
-  debugLogger.sendString(", ");
   debugLogger.sendString(String(data.lidar[0]));
   debugLogger.sendString(", ");
   debugLogger.sendString(String(data.lidar[90]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[180]));
+  debugLogger.sendString(", ");
+  debugLogger.sendString(String(data.lidar[270]));
   debugLogger.sendString(", ");
 
   debugLogger.sendString(String(cmd.targetSpeed));
@@ -178,6 +189,8 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
   debugLogger.sendString(", ");
 
   debugLogger.sendString("\n");
+
+  debugLogger.sendMessage("debugLogDataCommand()", debugLogger.INFO, "Data frame end");
 
 }
 
@@ -188,5 +201,59 @@ void debugLogHeader(){
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Software name: " + String(VEHICLE_SW_NAME));  
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
+
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "I2C bus probe start");
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for front LiDAR:");
+  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.frontLidarAddr);
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for right LiDAR:");
+  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.rightLidarAddr);
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for rear LiDAR:");
+  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.backLidarAddr);
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for left LiDAR:");
+  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.leftLidarAddr);
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for IMU:");
+  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.bnoAddr);
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "I2C bus probe end");
+
+}
+
+void debugProbeI2CAddr(byte addr){
+    
+  Wire.beginTransmission(addr);
+  byte err = Wire.endTransmission();
+
+  String errStr;
+
+  switch(err){
+    case 0:
+      errStr = "Success";
+      break;
+
+    case 1:
+      errStr = "Data too long";
+      break;
+
+    case 2:
+      errStr = "NACK on transmit of address";
+      break;
+
+    case 3:
+      errStr = "NACK on transmit of data";
+      break;
+
+    case 4:
+      errStr = "Other error";
+      break;
+
+    case 5:
+      errStr = "Timeout";
+      break;
+
+    default:
+      break;
+    
+  };
+
+  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Error for address " + String(addr, HEX) + " is " + errStr);
 
 }
