@@ -32,12 +32,21 @@ def mouse_callback(event, x, y, flags, param):
 
 cv2.namedWindow('Original')
 
-while True:
-    
-    frame = picam2.capture_array()
-    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+lower_red = np.array([0, 120, 88])
+upper_red = np.array([25, 255, 255])
+lower_green = np.array([52, 120, 78])
+upper_green = np.array([70, 255, 255])
+lower1_black = np.array([37, 65, 20])
+upper1_black = np.array([65, 130, 60])
+lower2_black = np.array([40, 130, 50])
+upper2_black = np.array([49, 175, 90])
+# The 'magenta' parking pieces also show up as red!
 
-    # Convert the frame to HSV color space
+while True:
+    frame = picam2.capture_array()
+    # Camera outputs in BGR, but opencv uses RGB for display
+    corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    # Convert the frame to HSV.  The wrong order somehow works, but the correct order doesn't!
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
 
     cv2.setMouseCallback('Original', mouse_callback, param=corrected_frame)
@@ -45,24 +54,6 @@ while True:
     if hsv_value is not None:
         print(f"HSV at ({mouse_x}, {mouse_y}): {hsv_value}")
         hsv_value = None # Reset to avoid repeated printing for the same position
-
-    # Define the range for white color in HSV space
-    #lower_white = np.array([0, 0, 150])
-    #upper_white = np.array([179, 30, 255])
-    # Hue for white specifically is from 0-179, since it is achromatic
-
-    # Create a mask to detect white color
-    #mask_white = cv2.inRange(hsv_frame, lower_white, upper_white)
-
-    lower_red = np.array([0, 120, 88])
-    upper_red = np.array([25, 255, 255])
-    lower_green = np.array([52, 120, 78])
-    upper_green = np.array([70, 255, 255])
-    lower1_black = np.array([37, 65, 20])
-    upper1_black = np.array([65, 130, 60])
-    lower2_black = np.array([40, 130, 50])
-    upper2_black = np.array([49, 175, 90])
-    # The 'magenta' parking pieces also show up as red!
 
     # Create a mask to detect colour
     mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)

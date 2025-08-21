@@ -35,7 +35,7 @@ def process_frame(frame):
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
 
-    # Find contours for both colors
+    # Find contours for red and green. We don't want the hierarchy
     contours_red, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours_green, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -53,7 +53,7 @@ def process_frame(frame):
 
 def get_obstacle_positions(contours, frame_shape):
     obs = []
-    min_area = 600  # minimum contour area to be obstacle
+    min_area = 600  # minimum contour area to be obstacle in pixels
     print(frame_shape)
     fh, fw = frame_shape[0], frame_shape[8]
 
@@ -66,15 +66,16 @@ def get_obstacle_positions(contours, frame_shape):
             obs.append({"box": (x,y,w,h), "grid": (row, col)})
     return obs
 
+
 def decide_path(red_obs, green_obs):
+
     # Grid cell positions occupied by obstacles
     red_cells = [pos['grid'] for pos in red_obs]
     green_cells = [pos['grid'] for pos in green_obs]
 
-    # Drive lane choices: 3 rows, 2 columns → 3 lanes robot can drive through
     # Logic:
-    # If red obstacle detected, drive left of it
-    # If green obstacle detected, drive right of it
+    # If red obstacle detected as nearest, drive left of it
+    # If green obstacle detected as nearest, drive right of it
     # If two obstacles, they are at ends, so robot drives the middle lane
 
     # Simplified path selection
@@ -116,4 +117,6 @@ def run():
     picam2.stop()
     cv2.destroyAllWindows()
 
+
+init()
 run()

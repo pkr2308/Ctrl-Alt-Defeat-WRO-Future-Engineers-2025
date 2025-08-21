@@ -33,7 +33,7 @@ while True:
     contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # Draw contours
-    cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)
+    cv2.drawContours(frame, contours, -1, (0, 255, 0), -1)
 
     # Display the resulting frame
     cv2.imshow('Real-time Contour Detection', frame)
