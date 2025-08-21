@@ -136,6 +136,7 @@ def decide_path():
                     path = 'Right'
 
     # Limit steering
+    # Weird steering - 0°->150° (About 65° each way)!!!
     if steering > 135: steering = 135
     if steering < 43: steering = 43
     prev_obs = current_obs

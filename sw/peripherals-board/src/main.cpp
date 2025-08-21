@@ -65,7 +65,7 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
-  delay(2000);
+  delay(2500);
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);

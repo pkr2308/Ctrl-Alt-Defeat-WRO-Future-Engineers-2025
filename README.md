@@ -3,6 +3,7 @@
 Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
 
+
 ## About the Team
 Adbhut Patil: TODO: expand 10th standard, interested in electronics, programming, aviation
 
@@ -13,17 +14,21 @@ Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC comb
 |![Team Photo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/raw-photos/DSCF1097.JPG)|
 | __Picture: Pranav (Left) and Adbhut (Right)__ |
 
+
 ## Project Overview
 This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. OpenCV is used with the Raspberry Pi for object detection and navigation. This repository contains the programs, hardware description, schematics and design files of our solution.
 
+
 ## Hardware Components
-- __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Waveshare RP2040-Zero, real-time control) (Use of Arduino for initial testing)
-- __Sensors:__ 1D and 2D LiDAR, IMU , rotary encoders motor, Picamera
-- __Actuators:__ N20 geared brushed DC motor with encoder, MG996R 45° servo
-- __Chassis:__ Commercially-available base, 3D-printable modifications (Links/STL files included)
+- __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Waveshare RP2040-Zero, real-time control)
+- __Sensors:__ 1D and 2D LiDAR, IMU, rotary encoders, Picamera
+- __Actuators:__ N20 geared DC motor with encoder, MG996R 180° servo
+- __Chassis:__ Commercially available base with 3D-printable additions (3D-design files included)
 - __Electronics:__ Custom peripherals interface PCB for reliable connections to sensors
 
+Note: The whole readme file is massive.
 See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025?tab=readme-ov-file#peripherals-interface-board) for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
+
 
 ## Repository Structure
 - [design-files](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/design-files) : Contains the Bill of Materials, 3D-printable design files and hardware. Pictures and description of the robot and components are included.
@@ -34,6 +39,9 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 - [repo-assets]() :
 - [obstacle-round](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/obstacle-round) : 
 - [test-data-recordings/open-round](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/test-data-recordings/open-round) : It contains data logs from various open round tests
+
+> [!NOTE]
+> Random files called `.lgd-nfy0` may be seen sometimes in varioues places. These were probably created by a typo a long time ago, and despite repeated deletion, they keep spawning everywhere in the Pi's cone of the repo! Just ignore them, if they occur. 
 
 ## System Architecture 
 
@@ -52,7 +60,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 - Turning Radius: Optimized for narrow WRO track corners, and is 32-33 cm.
 - Build Choice Reasoning: Offers realistic car-like dynamics, ideal for FE challenge simulation.
 [Design files](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/design-files) contains all the other custom 3D-Design files (created on [TinkerCAD](https://www.tinkercad.com)) for mounting various compnents and systems onto the base chassis and one another.
-[Robot assembly](##Robot-Assembly) instructions are below.
+[Robot assembly](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025?tab=readme-ov-file#robot-assembly) instructions are below.
 - Improvements: 
 1. A uniform steering system. In the current model, the servo has to turn a greater angle left than right for the same angles of the wheels in each direction. This complicates driving algorithms to some extent. A better, but equally smooth steering system, maybe a rack-and-pinion, will solve these issues.
 2. Better gear train. The current gears, though made of brass wear down quite easily for some unidentified reason. This causes slipping if there is more wear.
@@ -62,7 +70,9 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
   TODO: Update once power system is finalised
 - The RP2040 system runs on a pair of 3.7V 18650 batteries outputting 7.4V for the IMU, N20 motor, servo and 1D-LiDARs. These are placing below the middle plate, between the servo and rear drive.
 - The Raspberry Pi uses 4 3.6V 4000mAH 21700 batteries with a [Waveshare UPS Hat E](https://www.waveshare.com/wiki/UPS_HAT_(E)) for power. A UPS Hat of some kind is essential to power the Pi at the constant 5V it requires. This setup allows for a long battery life of several hours and easy charging and battery monitoring. This is placed on an elevated platform over the rear drive.
-- Possible Improvements: 
+- Improvements: 
+1. Better attachment of the 18650 battery holder. Currently it is not held in place very well and is prone to falling out if the model is turned. Screwing/taping it to the chassis base-plate would make changing batteries quite difficult. 
+2. A power supply/ UPS Hat capable of supplying 5V (to the Pi) and 7.2V (directly from the battery for driving and steering).  Currently there are 2 separate power systems for this. If the power switch on the peripherals board is on with RP2040 connected to Pi and the board powered from the 18650s, it can cause a short, and other nasty things. This inprovement would make connections simpler, and the power system more safe.
 
 ### Sensors
 
@@ -85,6 +95,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 The obstacle is initially detected by the Raspberry Pi using data from the RPLidar. Next, the colour of the obstacle is checked in the region of interest using the PiCamera using OpenCV. ROS is used for mapping and localisation, and the navigation of the robot is carried out with communication between the Raspberry Pi and RP2040 (Red --> Right and Green --> Left).
 Improvements: MANY!!!!
 
+
 ## Robot Assembly
 
 It will be helpful to refer to the pictures of the completed model for the following steps. Most screws used are of 3M type (3mm dia.).
@@ -104,6 +115,7 @@ It will be helpful to refer to the pictures of the completed model for the follo
 12. Attach the top-most Raspberry Pi and UPS platform to the rear with screw pillars.
 13. Attach the Raspberry Pi with the UPS Hat to the top.
 14. Make all necessary wired connections by referring to schematic files.
+
 
 ## Peripherals Interface Board
 ![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/edited-photos/periph-board-pcb-top.jpg)
@@ -147,7 +159,6 @@ A list of implemented drivers:
 - `hwrev2_uart_logger` :  Implements `ILogger`, Takes in a sender, message type, and a message string
 - `hwrev2_vehicle_speed` : Implements `ISensor`. Gets vehicle distance from the motor encoder. Calculates speed using time between pulses.
 
-
 #### Interfaces
 
 Interfaces are virtual classes which define certain functions. Drivers implement these classes. Code calls functions defined in the interface virtual class.
@@ -175,6 +186,7 @@ Managers are classes that handle certain aspects of the vehicle. Certain structs
 
 - `SchedulerTask` : A class which calls a function periodically.
 - `Schedular` : A class which takes in an arbitrary number of `SchedulerTask`s, and updates them.
+
 
 ## Open Round
 
@@ -262,15 +274,15 @@ Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation.
 
 ### Necessary Libraries in Order
 (From Raspbian)
-- sudo chmod 0700 /run/user/1000
-- sudo apt install software-properties-common
-- sudo apt install python3-launchpadlib
-- sudo apt install code
-- sudo apt upgrade code
-- sudo apt install idle3
-- sudo apt install python3-opencv
-- sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2
-- Refer [UPS Hat E](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install libraries for the UPS 
+- $`sudo chmod 0700 /run/user/1000`
+- $`sudo apt install software-properties-common`
+- $`sudo apt install python3-launchpadlib`
+- $`sudo apt install code`
+- $`sudo apt upgrade code`
+- $`sudo apt install idle3`
+- $`sudo apt install python3-opencv`
+- $`sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2`
+- Refer [here](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install UPS library to show details about the batteries.
 
 
 ## Acknowledgements
