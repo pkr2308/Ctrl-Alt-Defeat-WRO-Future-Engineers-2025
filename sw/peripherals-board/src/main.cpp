@@ -85,12 +85,10 @@ void loop(){
   VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
   VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
 
-  activeDriveCommand.targetSpeed = 200;
-  activeDriveCommand.targetYaw = 270;
+  activeDriveCommand = serialCommunicationCommand;
+  targetControl.directControl(activeDriveCommand, vehicleData);
 
-  targetControl.targetControl(activeDriveCommand, vehicleData);
-
-  //debugLogDataCommand(vehicleData, activeDriveCommand);
+  debugLogDataCommand(vehicleData, activeDriveCommand);
 
 }
 
