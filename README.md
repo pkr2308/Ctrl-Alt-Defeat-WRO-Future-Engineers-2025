@@ -1,5 +1,9 @@
 # CTRL+ALT+DEFEAT
-![CTRL+ALT+DEFEAT Logo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-dark-4096.png">
+  <img alt="CTRL+ALT+DEFEAT Logo (updates based on your theme!)" src="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png">
+</picture>
 
 Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
