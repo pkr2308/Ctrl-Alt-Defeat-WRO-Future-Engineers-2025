@@ -65,8 +65,6 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
 
-  delay(2500);
-
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
   sensorManager.addSensor(&speed);
@@ -87,9 +85,10 @@ void loop(){
   VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
   VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
 
-  activeDriveCommand = serialCommunicationCommand;
+  activeDriveCommand.targetSpeed = 200;
+  activeDriveCommand.targetYaw = 270;
 
-  targetControl.directControl(activeDriveCommand, vehicleData);
+  targetControl.targetControl(activeDriveCommand, vehicleData);
 
   //debugLogDataCommand(vehicleData, activeDriveCommand);
 
