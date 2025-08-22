@@ -72,8 +72,11 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 - A [Waveshare UPS Hat E](https://www.waveshare.com/wiki/UPS_HAT_(E)) is used for powering the robot. It uses 4 4000mAH 3.6V 21700 Li-ion batteries. (Different battery capacities may be used). All outputs are at 5V.
 - The Pi is powered at a stable 5V via the POGO pins on the UPS Hat. The PiCamera and RPLidar are power from the Pi.
 - The RP2040 and all connected sensors are powered through a USB A-C cable from the Pi to it.
+- The total current draw for the obstacle round is around 600-630mA, and around 250-300mA for idle with the Pi.
 - The peripherals board gets power directly from the UPS Hat through a USB-A cable that has been cut to get the power wires. This powers only the rear motor and steering servo.
-- Improvements: We think it's pretty good! Battery life is over 7-8 hrs on a full charge. Maybe not have the small switch on the board; closing it will cause these 2 systems to be connected, which could lead to some bad outcomes!
+- Improvements:
+1. The UPS Hat that we are using has a weird anomaly. Although the batteries will have good voltage output and detected capacity, it will show the net remaining capacity to be very low. We have edited the code of the UPS library to not allow it run `sudo poweroff` when it misdetects such a situation.
+2. Maybe not have the small switch on the board; closing it will cause these 2 systems to be connected, which could lead to some bad outcomes!
 
 ### Sensors
 
