@@ -1,10 +1,14 @@
-# Ctrl-Alt-Defeat-WRO-Future-Engineers-2025
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-dark-4096.png">
+  <img alt="CTRL+ALT+DEFEAT Logo (updates based on your theme!)" src="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png">
+</picture>
 
-Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
+<br><br>Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
 We are a team of 2 aspiring engineers building an autonomous robotic car using Raspberry Pi 5 & RP2040, equipped with various sensors and custom designs.
 
 
-## About the Team
+# About the Team
 Adbhut Patil: TODO: expand 10th standard, interested in electronics, programming, aviation
 
 Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC combination) and has been interested in Robotics for several years . He has participated in WRO in other categories in the past years. He was also part of Coding club in his school and built a few robotics projects for school events. His other interests include maths, physics, numismatics and history.
@@ -15,11 +19,11 @@ Pranav Kiran Rajarathna: Pranav is currently sudying in the 11th grade(PCMC comb
 | __Picture: Pranav (Left) and Adbhut (Right)__ |
 
 
-## Project Overview
+# Project Overview
 This project is our official entry for the Future Engineers category at the World Robot Olympiad 2025. Our goal is to construct a self-driving vehicle capable of navigating the track in both the Open and Obstacle Rounds. The programs are written in C++ and Python in the VSCode IDE, with the PlatformIO extension. OpenCV is used with the Raspberry Pi for object detection and navigation. This repository contains the programs, hardware description, schematics and design files of our solution.
 
 
-## Hardware Components
+# Hardware Components
 - __Compute:__ Raspberry Pi 5 (main computer), Raspberry Pi 2040 (Waveshare RP2040-Zero, real-time control)
 - __Sensors:__ 1D and 2D LiDAR, IMU, rotary encoders, Picamera
 - __Actuators:__ N20 geared DC motor with encoder, MG996R 180° servo
@@ -30,7 +34,7 @@ Note: The whole readme file is massive.
 See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025?tab=readme-ov-file#peripherals-interface-board) for more details about sensors on the peripherals interface board, and <link> for details about the RPi 5 and its sensors.
 
 
-## Repository Structure
+# Repository Structure
 - [design-files](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/design-files) : Contains the Bill of Materials, 3D-printable design files and hardware. Pictures and description of the robot and components are included.
 - [initial-tests](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/initial-tests) : Intial tests on various sensors to ensure accurate data collection and basic object detection algorithm.
 - [hw](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/hw) : Contains schematic and PCB files for the peripherals interface board.
@@ -43,7 +47,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 > [!NOTE]
 > Random files called `.lgd-nfy0` may be seen sometimes in varioues places. These were probably created by a typo a long time ago, and despite repeated deletion, they keep spawning everywhere in the Pi's cone of the repo! Just ignore them, if they occur. 
 
-## System Architecture 
+# System Architecture 
 
 -	Raspberry Pi 5: It uses ROS2 and handles more complex tasks like object and colour detection, route planning, and the 2D LiDAR
 -	RP2040 (Pi Pico): Handles real-time tasks (motor PID, encoder feedback, servo control, IMU, 1D LiDAR)
@@ -51,7 +55,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 -	IMU: Gives yaw (and other orientations) of the robot in [0,360)
 -	Motor/Servos: PWM and PI controls respectively for movement using sensor data, coordinated by the RP2040
 
-### Mobility
+## Mobility
 
 - A commercially available metal [chassis base](https://www.elecrow.com/4wd-smart-car-robot-chassis-for-arduino-servo-steering.html) has been used with custom designed and printed parts. This chassis was selected mainly for its good steering system, mobility and customisabilty (there are lots of through holes through the base-frame). While the steering was retained, the remaining parts were custom designed.
 - A link based steering system is used in the robot with a link-rod between the front wheel joints and another between a wheel joint and the servo. This steering system has been taken from the chassis without much modification due to its precision. A MG996R 180° servo has been used for the steering due to its high torque and accuracy, which improve mobility. 
@@ -66,15 +70,18 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 2. Better gear train. The current gears, though made of brass wear down quite easily for some unidentified reason. This causes slipping if there is more wear.
 3. Reducing the turning radius. The current bot, while quite manoeuvrable has a large turn radius (almost 33-34cm). Reducing this would make taking tighter turns possible, improving error margins in the obstacle round. This can be done by bringing the drive train forward.
 
-### Power
+## Power
 
 - A [Waveshare UPS Hat E](https://www.waveshare.com/wiki/UPS_HAT_(E)) is used for powering the robot. It uses 4 4000mAH 3.6V 21700 Li-ion batteries. (Different battery capacities may be used). All outputs are at 5V.
 - The Pi is powered at a stable 5V via the POGO pins on the UPS Hat. The PiCamera and RPLidar are power from the Pi.
 - The RP2040 and all connected sensors are powered through a USB A-C cable from the Pi to it.
+- The total current draw for the obstacle round is around 600-630mA, and around 250-300mA for idle with the Pi.
 - The peripherals board gets power directly from the UPS Hat through a USB-A cable that has been cut to get the power wires. This powers only the rear motor and steering servo.
-- Improvements: We think it's pretty good! Battery life is over 7-8 hrs on a full charge. Maybe not have the small switch on the board; closing it will cause these 2 systems to be connected, which could lead to some bad outcomes!
+- Improvements:
+1. The UPS Hat that we are using has a weird anomaly. Although the batteries will have good voltage output and detected capacity, it will show the net remaining capacity to be very low. We have edited the code of the UPS library to not allow it run `sudo poweroff` when it misdetects such a situation.
+2. Maybe not have the small switch on the board; closing it will cause these 2 systems to be connected, which could lead to some bad outcomes!
 
-### Sensors
+## Sensors
 
 - __TFLuna LiDAR:__ These are 1D-LiDARs that are used to measure distances to the front, left and right of the robot. They are connected to the RP2040. A separate section has been designed at the front of the robot to house all four LiDARs. Each LiDAR has 5 wires, grouped into 4+1 (I2C + GND) going into the peripherals board. These LiDARs were selected for their accuracy, small size and ease of use.
 - __BNO055:__ This is the IMU we are using for orientation due to its reliability, accuracy and simplicity of use. It is connected to the RP2040, and is directly slotted into the peripherals board.
@@ -90,7 +97,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 
 [Bill of Materials](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/design-files/Bill%20of%20Materials.md) contains all necessary parts/components and their sources.
 
-### Obstacle Management
+## Obstacle Management
 
 - This is done mainly using the camera feed from the PiCamera 3 Wide. The NoIR version tends to give red spot in places with lots of light due to lack of IR filter, which made it incompatible for this case.
 - The OpenCV library (in Python3) is used for all the image manipulation and data extrapolation. HSV mode has been used for all the detecting, while images arer displayed in RGB. Sometimes, red may appear as blue due to use of BGR format used by camera to rercord. This is of no consequence, since it does not affect detection itself.
@@ -106,7 +113,7 @@ Improvements:
 2. A more accurate formula to convert y-coordinate of obstacle obtained by the camera into actual distance
 
 
-## Robot Assembly
+# Robot Assembly
 
 It will be helpful to refer to the pictures of the completed model for the following steps. Most screws used are of 3M type (3mm dia.). At some places in our robot, internal hex screws are used in places where plus(+) screws of the right length were not available.
 1. Add the front wheels and steering link to the robot
@@ -127,16 +134,16 @@ It will be helpful to refer to the pictures of the completed model for the follo
 14. Make all necessary wired connections by referring to schematic files.
 
 
-## Peripherals Interface Board
+# Peripherals Interface Board
 ![Peripherals Interface Board - Top](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/edited-photos/periph-board-pcb-top.jpg)
 
 The peripherals interface board goes between the Raspberry Pi and vehicle hardware. The board talks to three 1d TFLuna LiDARs, a 9-axis BNO055 IMU, the motor encoder, the drive motor, and the steering servo. It talks to the Pi over USB.
 
-### Hardware
+## Hardware
 The board is a two-layer, 1.6 mm thick PCB designed in [KiCad](https://kicad.org) and manufactured by [Robu](https://robu.in).
 TODO: Expand
 
-### Software
+## Software
 The interface board was programmed in C++, with the C++ SDK from Raspberry Pi for the RP2040 chip. Code was flashed using the PlatformIO extension for the VSCode editor.
 
 The codebase is designed to be modular, with easily swappable drivers for hardware abstraction. Algorithms do not need to know about specific hardware protocols or constraints
@@ -144,7 +151,7 @@ The codebase is designed to be modular, with easily swappable drivers for hardwa
 `main.cpp` loads in drivers, which implement virtual interface classes. `main.cpp` then initialises everything, and in a loop, gets data from the `SensoorManager`, passes that data to our drive algorithm, and outputs it to the `TargetController`, which commands the motor and steering servo.
 Drivers are in `/src/drivers`, Interfaces are in `/src/interfaces/`, and utilities are in `/src/utils/`.
 
-#### Code Development Standards
+### Code Development Standards
 To ensure easily testable, upgradeable, and clean code, a few standards were adhered to when writing code for the interface board.
 
 - `main.cpp` must be as clean as possible.
@@ -155,7 +162,7 @@ To ensure easily testable, upgradeable, and clean code, a few standards were adh
 
 TODO: Finish writing this
 
-#### Drivers
+### Drivers
 > [!NOTE]
 > Hardware revision 1 drivers are incomplete, as the peripherals baord codebase was partly written when the switch from the prototype interface and the PCB occured, and drivers from that point on were only for the PCB (hardware revision 2).
 A list of implemented drivers:
@@ -169,7 +176,7 @@ A list of implemented drivers:
 - `hwrev2_uart_logger` :  Implements `ILogger`, Takes in a sender, message type, and a message string
 - `hwrev2_vehicle_speed` : Implements `ISensor`. Gets vehicle distance from the motor encoder. Calculates speed using time between pulses.
 
-#### Interfaces
+### Interfaces
 
 Interfaces are virtual classes which define certain functions. Drivers implement these classes. Code calls functions defined in the interface virtual class.
 
@@ -180,7 +187,7 @@ Interfaces are virtual classes which define certain functions. Drivers implement
 - `ISteeringDriver` :  Takes in a wheel steering angle, outputs to a steering mechanism.
 - `ITargetControl`: Takes in a `VehicleCommand`, outputs to a motor and steering driver.
 
-#### Managers
+### Managers
 
 Managers are classes that handle certain aspects of the vehicle. Certain structs have their header files in the `/src/managers` folder, even though they are not classes.
 
@@ -192,27 +199,27 @@ Managers are classes that handle certain aspects of the vehicle. Certain structs
 - `VehicleCommand` :  A struct defining a target speed and yaw value for the vehicle. Returned by a drive algorithm, passed to a `ITargetController`.
 - `VehicleData` :  A struct containing processed vehicle data. Returned by a `SensorManager`.
 
-### Utilities
+## Utilities
 
 - `SchedulerTask` : A class which calls a function periodically.
 - `Schedular` : A class which takes in an arbitrary number of `SchedulerTask`s, and updates them.
 
 
-## Open Round
+# Open Round
 
 Refer to `sw/peripherals-board/src/drivers/hwrev2/hwrev2_single_lidar_open_round.cpp and .hpp` files for program.
 
-### Header File
+## Header File
 
 Public includes the logger (for debugging), vehicle command (for driving) and sets direct control of servo (A target yaw value is generally given). Private includes setup of variables for driving, turning, servo, IMU, 1D LiDARs and IMU-based straight follower. 
 
-### Implementation File
+## Implementation File
 
-#### Initialisation
+### Initialisation
 - Sets up logging
 - Sets initial speed and steering
 
-#### Turn Detection & Execution:
+### Turn Detection & Execution:
 - Uses front LiDAR to detect when to start a turn (if obstacle is close).
 - Decides turn direction (left/right) based on side LiDARs (First turn only)
 - Turns are started considering factors of distance available, yaw, current section and distance travelled. 
@@ -220,18 +227,18 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 - After each turn, resets variables and prepares for the next segment. Target yaw and threshold distance may be altered for better accuracy and counter drifting.
 - The idea to stick to the outer wall, so even with randomisation, the extended inner wall is not hit
 
-#### Straight Movement:
+### Straight Movement:
 - When not turning, uses gyro (yaw) to follow a straight path.
 - Applies proportional-integral correction to steering for accurate straight-line travel.
 
-#### Turn Direction Logic:
+### Turn Direction Logic:
 - Chooses clockwise or anticlockwise based on which side has more open space (LiDAR difference).
 - Sets different thresholds for smoother turns depending on direction.
 
-#### Stopping 
+### Stopping 
 - Counts turns; after 12 turns (3 rounds), slows down and stops at the start section.
 
-### Flow
+## Flow
 1. Start moving straight.
 2. Decide turn direction using side LiDARs. (For first turn only)
 3. Detect distance to wall ahead with front LiDAR.
@@ -241,18 +248,18 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 7. After final round, slow down and stop in the start section.
 
 
-## Raspberry Pi System
+# Raspberry Pi System
 
 The Raspberry Pi system handles most tasks for the obstacle round, including parking/unparking, obstacle detection, colour detection and navigation.
 
-### Ubuntu and ROS
+## Ubuntu and ROS
 
 We are using a Raspberry Pi 5 8GB with Ubuntu 24.04 LTS along with ROS2 Jazzy for the obstacle round. 
 
 The development repository for this is [my_bot](https://github.com/pkr2308/my_bot). The final version of this is also in the current repo.
 A [commands.md]() file is included in the launch folder, which details the installation and running of files.
 
-### Description Files
+## Description Files
 
 They are configuration and parameter files used to define the robot model, sensors, controllers, and navigation parameters. These YAML or XML files store the settings that guide nodes like navigation, control, and SLAM to function correctly with a specific robot setup.
 
@@ -262,27 +269,27 @@ They are configuration and parameter files used to define the robot model, senso
 - `camera.xacro`: PiCamera 3 file
 - `ros2_control.xacro`: Used for ROS2 control. A custom hardware interface was built for use with the peripherals board.
 
-### ROS2 Control
+## ROS2 Control
 
 ros2_control is a framework in ROS for hardware abstraction and controller management. For our case, the ackermann steering controller and joint state publisher are used as controllers. The peripherals board is connected via serial. Both sides have a serial algorithm to read and write data(controls or sensor info).  This enables the Pi to control the robot and receive data from its sensors.
 
-### RPLidar
+## RPLidar
 
 The SLAMTEC RPLidar A1 is a 2D-LiDAR sensor with the official driver. It is used as the base sensor for obstacle detection and parking. It publishes data on the `scan` topic on the `rplidar_composition` node. 
 
-### PiCamera 3
+## PiCamera 3
 
 The Raspberry Pi Camera Module 3 Wide is used for detecting the colour of the obstacle once the obstacle is detected with the RPLidar.
 
-### SLAM
+## SLAM
 
 SLAM (Simultaneous Localisation and Mapping) allows the robot to build a map of its environment while localising itself within that map. The slam_toolbox package in ROS achieves this by taking sensor data (lidar), creating grid maps, and tracking the robot’s position. 
 
-### Navigation
+## Navigation
 
 Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation. It allows for path planning, obstacle avoidance, and map following. Nav2 integrates with SLAM for mapping and localization. 
 
-### Necessary Libraries in Order
+## Necessary Libraries in Order
 (From Raspbian)
 - $`sudo chmod 0700 /run/user/1000`
 - $`sudo apt install software-properties-common`
@@ -295,7 +302,7 @@ Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation.
 - Refer [here](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install UPS library to show details about the batteries.
 
 
-## Acknowledgements
+# Acknowledgements
 
 We would like to thank
 - Raspberry Pi Foundation:
