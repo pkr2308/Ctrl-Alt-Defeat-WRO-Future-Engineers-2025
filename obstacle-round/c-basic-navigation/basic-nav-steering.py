@@ -143,7 +143,7 @@ def decide_path():
     global min_dist, prev_dist, prev_str, prev_obs, turning
     global target_yaw, turns, total_error
     global dist_from_passed_obs, obs_passed_dist
-    # red obstacle --> left; green obstacle --> right
+    # red obstacle --> right; green obstacle --> left
     speed = 130                                  # Low speed for testing
     steering = prev_str
     path = 'Straight'
@@ -171,8 +171,8 @@ def decide_path():
                 norm_y = current_obs[0][1] / (720 - 350)
                 proximity = 1 - math.exp(-1 * norm_y)           # Exponential antilog-style non-linear scaling of y wrt distance
                 offset_x = min_offset + (max_offset - min_offset) * proximity # Calculate the ideal position of the obstacle for this case
-                if obs_colour == 'red': target_x = abs(image_centre + offset_x)        # 
-                elif obs_colour == 'green': target_x = -abs(image_centre - offset_x)
+                if obs_colour == 'green': target_x = abs(image_centre + offset_x)        # 
+                elif obs_colour == 'red': target_x = -abs(image_centre - offset_x)
                 target_x = max(0, min(1200, target_x)) # Set limits on the target
                 delta = target_x - x
                 if delta >= 0: k = 60/600
