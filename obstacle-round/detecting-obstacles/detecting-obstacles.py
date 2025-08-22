@@ -87,7 +87,7 @@ def get_obstacle_positions(contours, obs):
     for cnt in contours:
         if cv2.contourArea(cnt) > min_area and cv2.contourArea(cnt) < max_area:
             x,y,w,h = cv2.boundingRect(cnt)
-            if h > w:
+            if h > w:              # Prevents parking walls being detected as obstacles in most orientations
                 # TODO when driving integration done; Second tuple gives grid pos
                 obs.append([(x,y,w,h), (0,0,0)])
             
