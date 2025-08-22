@@ -32,38 +32,37 @@ picam2.start()
 # usb-Raspberry_Pi_Pico_E6625887D3482132-if00 - Adbhut
 ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00', 115200, timeout=1)
 
-def init():
-    global lower_red, upper_red, lower_green, upper_green, lower1_black, upper1_black, lower2_black, upper2_black
-    global red_obs, green_obs, turning, turns
-    global yaw, target_yaw, total_error
-    global distance, left_dist, right_dist, front_dist
-    global prev_dist, min_dist, prev_str, prev_obs
 
-    # Some starting values
-    yaw, target_yaw, total_error, distance = 0, 0, 0, 0
-    left_dist, front_dist, right_dist = 35, 100, 35
-    turns, turning = 0, False
-    prev_dist, min_dist, prev_str = 0, 0, 90
-    prev_obs = [(0,0,0,0),'']
+# Some starting values
+yaw, target_yaw, total_error, distance = 0, 0, 0, 0
+left_dist, front_dist, right_dist = 35, 100, 35
+turns, turning = 0, False
+prev_dist, min_dist, prev_str = 0, 0, 90
 
-    #Define colour ranges
-    lower_red = np.array([0, 120, 88])
-    upper_red = np.array([19, 255, 255])
-    lower_green = np.array([52, 120, 78])
-    upper_green = np.array([70, 255, 255])
-    lower1_black = np.array([37, 65, 20])
-    upper1_black = np.array([65, 130, 60])
-    lower2_black = np.array([40, 130, 50])
-    upper2_black = np.array([49, 175, 90])
-    # The 'magenta' parking pieces also show up as red!
+#Define colour ranges
+lower_red = np.array([0, 120, 88])
+upper_red = np.array([19, 255, 255])
+lower_green = np.array([52, 120, 78])
+upper_green = np.array([70, 255, 255])
+lower1_black = np.array([37, 65, 20])
+upper1_black = np.array([65, 130, 60])
+lower2_black = np.array([40, 130, 50])
+upper2_black = np.array([49, 175, 90])
+# The 'magenta' parking pieces also show up as red!
 
-    # These are currently seen obstacles
-    red_obs = []
-    green_obs = []
-
+# Related to obstacles
+red_obs = [[[0,0,0,0],[0,0,0]]]
+green_obs = [[[0,0,0,0],[0,0,0]]]
+all_prev_obs = []
+all_obs = []
+prev_obs = [[0,0,0,0],'']
+corner_obs =  ''
+obs_passed_dist = 0
+dist_from_passed_obs = 0
 
 def process_frame():
-    global hsv_frame, red_obs, green_obs, hsv_roi, corrected_frame
+    global hsv_frame, hsv_roi, corrected_frame
+    global all_obs, all_prev_obs, red_obs, green_obs
 
     # Create a mask to detect colours
     mask_red = cv2.inRange(hsv_roi, lower_red, upper_red)
@@ -78,7 +77,19 @@ def process_frame():
     # Filter and locate obstacle bounding boxes
     red_obs = get_obstacle_positions(red_contours, red_obs)
     green_obs = get_obstacle_positions(green_contours, green_obs)
-  
+
+    all_prev_obs = all_obs
+    all_obs = []
+    for obs in red_obs, green_obs:
+        all_obs.append(obs)
+    all_obs.sort(key=lambda obs: obs[0][1])
+
+    if len(all_prev_obs)-len(all_obs)>0:
+        for obs in all_prev_obs:
+            if abs(600-obs[0][0]) > 500: 
+                corner_obs = obs 
+                print(f"{corner_obs} corner obs passed out of view")
+
     # Draw contours for visualization
     #print(f"Red Obs: {red_obs}")
     #print(f"Green Obs: {green_obs}")
@@ -101,21 +112,22 @@ def process_frame():
 
 def get_obstacle_positions(contours, obs):
     obs = []
-    min_area = 500  # minimum contour area to be obstacle in pixels
-    max_area = 30000
+    min_area = 500      # minimum contour area to be obstacle in pixels
+    max_area = 30000    # largest obstacle size possible
 
     for cnt in contours:
         if cv2.contourArea(cnt) > min_area and cv2.contourArea(cnt) < max_area:
             x,y,w,h = cv2.boundingRect(cnt)
             if h > w:
                 # TODO when driving integration done; Second tuple gives grid pos
-                obs.append([(x,y,w,h), (0,0,0)])           
+                obs.append([[x,y,w,h], [0,0,0]]) 
+    if obs == []: obs = [[[0,0,0,0],[0,0,0]]]           
     return obs
 
 def nearest_obstacle():
     global red_obs, green_obs
 
-    nearest_obs = [(0,0,0,0),'']
+    nearest_obs = [[0,0,0,0],'']
     for obs in red_obs: 
         if nearest_obs[0][1] < obs[0][1]: 
             nearest_obs = obs
@@ -124,21 +136,23 @@ def nearest_obstacle():
         if nearest_obs[0][1] < obs[0][1]: 
             nearest_obs = obs
             nearest_obs[1] = 'green'
+    print(f'Nearest obstacle is {nearest_obs[1]} at {nearest_obs[0]}')
     return nearest_obs
 
 def decide_path():
     global min_dist, prev_dist, prev_str, prev_obs, turning
     global target_yaw, turns, total_error
+    global dist_from_passed_obs, obs_passed_dist
     # red obstacle --> left; green obstacle --> right
-    speed = 95                                  # Low speed for testing
+    speed = 130                                  # Low speed for testing
     steering = prev_str
     path = 'Straight'
     current_obs = nearest_obstacle()
     x, y, w, h = current_obs[0][0], current_obs[0][1], current_obs[0][2], current_obs[0][3]
-    obs_colour = nearest_obstacle[1]
+    obs_colour = current_obs[1]
     # All these values are currently estimates, need to be updated later with data
     image_centre = 600      # Obstacles have some size, so 640 is reached easily
-    min_offset, max_offset = 100, 400        # Offset x-coordinate of the obstacle from centre to pass it
+    min_offset, max_offset = 60, 600        # Offset x-coordinate of the obstacle from centre to pass it
     dist_from_passed_obs = distance
     if current_obs[1]=='' or (current_obs[0][1] < 25 and (620-current_obs[0][0]) > 400 and front_dist > 110):
         path = 'Straight'
@@ -151,15 +165,14 @@ def decide_path():
         elif error < 0: correction = error * 2.2 - total_error * 0.001  #correction to the left
         steering = 90 + correction
         return path, speed, steering
-    if not obs_passed_dist>0: obs_passed_dist = 0
     if not turning:
         if prev_obs[1] == current_obs[1] and current_obs[0][1]-prev_obs[0][1] <= 4:
             if dist_from_passed_obs - obs_passed_dist > 5:
-                norm_y = (current_obs - 350) / (720 - 350)
+                norm_y = current_obs[0][1] / (720 - 350)
                 proximity = 1 - math.exp(-1 * norm_y)           # Exponential antilog-style non-linear scaling of y wrt distance
                 offset_x = min_offset + (max_offset - min_offset) * proximity # Calculate the ideal position of the obstacle for this case
-                if obs_colour == 'red': target_x = image_centre + offset_x         # 
-                elif obs_colour == 'green': target_x = image_centre - offset_x
+                if obs_colour == 'red': target_x = abs(image_centre + offset_x)        # 
+                elif obs_colour == 'green': target_x = -abs(image_centre - offset_x)
                 target_x = max(0, min(1200, target_x)) # Set limits on the target
                 delta = target_x - x
                 if delta >= 0: k = 60/600
@@ -173,13 +186,13 @@ def decide_path():
             obs_passed_dist = distance    
     elif turning:
         pass        # We'll look into this later
-
+    
     # Weird steering - 0°->150° (About 65° each way)!!!
     steering = max(min(steering,150),1)         # Set limits for steering value
     prev_obs = current_obs
     prev_str = steering
 
-    return path, speed, steering
+    return path, speed, int(steering)
 
 
 def drive_data(motor_speed,servo_steering):
@@ -201,10 +214,7 @@ def drive_data(motor_speed,servo_steering):
 
 
 try:
-    init()
     global frame, hsv_frame, corrected_frame, hsv_roi
-    global red_obs, green_obs
-    global yaw, distance, left_dist, right_dist, front_dist
     while True:
         # Read a frame from the camera
         frame = picam2.capture_array()
@@ -217,14 +227,14 @@ try:
         frame_processed, red_obs, green_obs = process_frame()
 
         # Decide navigation based on obstacle detection
-        path_action, speed, steering = decide_path()
+        path, speed, steering = decide_path()
 
         # Send the command to the peripherals board and get back data from sensors
-        print(f'Steering: {steering}, Speed: {speed}')
+        print(f'Going {path} - Steering: {steering}, Speed: {speed}')
         drive_data(speed,steering)
 
         # Show data on camera feed
-        cv2.putText(frame_processed, f"Path:{path_action} Steering:{steering}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+        cv2.putText(frame_processed, f"Path:{path} Steering:{steering}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
         cv2.imshow("Obstacle Detection", frame_processed)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):

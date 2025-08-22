@@ -51,7 +51,7 @@ while True:
     mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_frame, lower1_black, upper1_black) + cv2.inRange(hsv_frame, lower2_black, upper2_black)
 
-    mask = mask_red + mask_green #+ mask_black
+    mask = mask_red + mask_green + mask_black
 
     # Apply the mask on the original image
     masked_img = cv2.bitwise_and(frame, frame, mask=mask)
