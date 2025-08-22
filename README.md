@@ -83,7 +83,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 
 ## Sensors
 
-- __TFLuna LiDAR:__ These are 1D-LiDARs that are used to measure distances to the front, left and right of the robot. They are connected to the RP2040. A separate section has been designed at the front of the robot to house all four LiDARs. Each LiDAR has 5 wires, grouped into 4+1 (I2C + GND) going into the peripherals board. These LiDARs were selected for their accuracy, small size and ease of use.
+- __TFLuna LiDAR:__ These are 1D-LiDARs that are used to measure distances to the front, left, right (for driving) and back(parking) of the robot. They are connected to the RP2040. A separate section has been designed at the front of the robot to house all four LiDARs. Each LiDAR has 5 wires, grouped into 4+1 (I2C + GND) going into the peripherals board. These LiDARs were selected for their accuracy, small size and ease of use.
 - __BNO055:__ This is the IMU we are using for orientation due to its reliability, accuracy and simplicity of use. It is connected to the RP2040, and is directly slotted into the peripherals board.
 - __nRF24L01:__ This is the wireless module used for wireless communication during testing and debugging with the RP2040. Another custom module (telemetry board) is made for receiving the data. (Note : This is not plugged in for actual rounds). It is directly slotted into the peripherals board.
 - __Motor encoders:__ The encoders give ticks each time they are trigerred by rotation of the motor shaft. Data from it is used for distance calculations. In our case, about 43 ticks corresponds to 1cm. The 4 encoder wires are grouped together and connected to the peripherals board.
