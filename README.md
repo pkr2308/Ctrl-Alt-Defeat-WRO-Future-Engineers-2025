@@ -1,5 +1,4 @@
 # CTRL+ALT+DEFEAT
-![CTRL+ALT+DEFEAT Logo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-bg-4096.png)
 ![CTRL+ALT+DEFEAT Logo](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png)
 
 Welcome to the repository for our entry in the WRO Future Engineers 2025 competition!
