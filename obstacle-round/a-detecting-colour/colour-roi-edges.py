@@ -26,6 +26,17 @@ lower2_black = np.array([40, 130, 50])
 upper2_black = np.array([49, 175, 90])
 # The 'magenta' parking pieces also show up as red!
 
+def canny_edge_detection(frame):
+    # Convert the frame to grayscale for edge detection
+    gray = cv2.cvtColor(frame, cv2.IMREAD_GRAYSCALE)
+
+    # Apply Gaussian blur to reduce noise and smoothen edges
+    blurred = cv2.GaussianBlur(src=gray, ksize=(3, 5), sigmaX=0.5)
+
+    # Perform Canny edge detection
+    edges = cv2.Canny(blurred, 70, 135)
+
+    return blurred, edges
 
 while True:
     # Read a frame from the camera
@@ -39,32 +50,16 @@ while True:
     mask_green = cv2.inRange(hsv_roi, lower_green, upper_green)
     mask_black = cv2.inRange(hsv_roi, lower1_black, upper1_black) + cv2.inRange(hsv_roi, lower2_black, upper2_black)
 
-    # Find contours for red,green and black. We don't want the hierarchy
-    red_contours, _ = cv2.findContours(mask_red, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    green_contours, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # Find edges for red,green and black. We don't want the hierarchy
+    _, red_edges = canny_edge_detection(mask_red)
+    _, green_edges = canny_edge_detection(mask_green)
+    _, black_edges = canny_edge_detection(mask_black)
 
-    # Draw contours on respective masks and original image
-    for contour in red_contours:
-        offset_contour = contour + (0,350)
-        if cv2.contourArea(contour) > 500:
-            cv2.drawContours(mask_red, contour, -1, (255,200,200), -1)
-            cv2.drawContours(corrected_frame, [offset_contour], -1, (100,100,255), -1)
-    for contour in green_contours:
-        if cv2.contourArea(contour) > 500:
-            offset_contour = contour + (0,350)
-            cv2.drawContours(mask_green, contour, -1, (200,255,200), -1)
-            cv2.drawContours(corrected_frame, [offset_contour], -1, (100,255,100), -1)
-    for contour in black_contours:
-        if cv2.contourArea(contour) > 500:
-            offset_contour = contour + (0,350)
-            cv2.drawContours(mask_black, contour, -1, (130,130,130), -1)
-            cv2.drawContours(corrected_frame, [offset_contour], -1, (255,255,255), -1)
-    # Display the contour frames
-    cv2.imshow('Contour Detection', corrected_frame)
-    #cv2.imshow('Red Contours', mask_red)
-    #cv2.imshow('Green Contours', mask_green)
-    #cv2.imshow('Black Contours', mask_black)
+    # Draw edges on respective masks and original image
+    cv2.imshow("Original", corrected_frame)
+    cv2.imshow('Red edges', red_edges)
+    cv2.imshow('Green edges', green_edges)
+    cv2.imshow('Black edges', black_edges)
     
 
     # Break the loop if 'q' is pressed

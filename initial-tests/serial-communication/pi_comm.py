@@ -27,7 +27,7 @@ def main():
             # Wait for response from RP2040
             response = ser.readline().decode().strip()
             print(response)
-            values = response.split(",")[0:]
+            values = response.split(",")
             yaw = float(values[0])
             distance = float(values[14]) / 43
             left_dist = int(values[12])
