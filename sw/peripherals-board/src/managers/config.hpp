@@ -49,6 +49,8 @@ struct PinConfig{
 
   uint8_t lidarMotorPWM = 0;
 
+  uint8_t rgbLed;
+
 };
 
 struct LimitsConfig{
