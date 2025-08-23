@@ -17,6 +17,7 @@ public:
   void init(ILogger* logger) override;
   std::vector<SensorData> update() override;
   void _encoderISR();
+  String getSensorName() override;
 
 private:
   ILogger* _logger;

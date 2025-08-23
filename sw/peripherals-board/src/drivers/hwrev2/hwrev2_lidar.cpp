@@ -25,7 +25,6 @@ std::vector<SensorData> hw_rev_2_lidar::update(){
   SensorData data;
   data.sensorDataType = SENSOR_LIDAR;
 
-
   _lidar->getData(data.lidar[0], _config.addressConfig.frontLidarAddr);
   _lidar->getData(data.lidar[90], _config.addressConfig.rightLidarAddr);
   _lidar->getData(data.lidar[180], _config.addressConfig.backLidarAddr);
@@ -35,4 +34,8 @@ std::vector<SensorData> hw_rev_2_lidar::update(){
 
   return dataVector;
  
+}
+
+String hw_rev_2_lidar::getSensorName(){
+  return "TFLuna Combined Driver";
 }

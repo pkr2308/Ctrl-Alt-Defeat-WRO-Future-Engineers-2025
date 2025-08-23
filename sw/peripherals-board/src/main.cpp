@@ -46,6 +46,9 @@ hw_rev_2_Park park(VEHICLE_GET_CONFIG);
  */
 void setup(){
 
+  debugLogger.init();  
+  debugLogHeader();
+
   SPI1.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi1SCK);
   SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
   SPI1.setTX(VEHICLE_GET_CONFIG.pinConfig.spi1MOSI);
@@ -56,25 +59,22 @@ void setup(){
 
   Wire.setSCL(VEHICLE_GET_CONFIG.pinConfig.i2c0SCL);
   Wire.setSDA(VEHICLE_GET_CONFIG.pinConfig.i2c0SDA);
-  Wire.begin();
 
-  debugLogger.init();  
-  debugLogHeader();
+  debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished setting communication pins for SPI1, UART1, I2C0");
 
-
-  Serial.begin();
-
-  targetControl.init(&motor, &steering, &debugLogger);
-  driveAlgorithm.init(&debugLogger);
-  park.init(&debugLogger, false);
+//  driveAlgorithm.init(&debugLogger);
+//  park.init(&debugLogger, false);
 
   sensorManager.init(&debugLogger);
-  //sensorManager.addSensor(&bno);
-  //sensorManager.addSensor(&lidar);
-  //sensorManager.addSensor(&speed);
+  sensorManager.addSensor(&bno);
+  sensorManager.addSensor(&lidar);
+  sensorManager.addSensor(&speed);
+  debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished adding drivers to sensor manager");
+
+  targetControl.init(&motor, &steering, &debugLogger);
 
   remoteCommunication.init(&debugLogger);
-  serialCommunication.init(&debugLogger);
+//  serialCommunication.init(&debugLogger);
 
   rgbLED.init(&debugLogger);
   rgbLED.limitBrightness(50);
@@ -89,12 +89,12 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
+  remoteCommunication.update(vehicleData, activeDriveCommand);    // Send data over nRF24L01+, ignore any commands from telemetry module
   //VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
-  VehicleCommand parkCommand = park.drive(vehicleData);
+//  VehicleCommand parkCommand = park.drive(vehicleData);
     
-  activeDriveCommand = parkCommand;
-  //targetControl.directControl(activeDriveCommand, vehicleData);
+//  activeDriveCommand = parkCommand;
+//  targetControl.directControl(activeDriveCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, activeDriveCommand);
 

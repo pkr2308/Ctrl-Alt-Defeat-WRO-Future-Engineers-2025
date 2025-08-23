@@ -30,41 +30,42 @@ void hw_rev_2_VehicleSpeed::init(ILogger* logger){
   _isrEncoder = _encoder;
   classptr = this;
 
-  //attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderA), externISR, CHANGE);
-  //attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderB), externISR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderA), externISR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderB), externISR, CHANGE);
 
 }
 
+// Speed calculation is disbaled due to ludicrously high speed values being calculated, don't have time to debug
 std::vector<SensorData> hw_rev_2_VehicleSpeed::update(){
 
     std::vector<SensorData> dataVector;
     SensorData encPos;
-    SensorData calcSpeed;
-    long currentMillis = 0;
+    //SensorData calcSpeed;
+    //long currentMillis = 0;
     long currentEncPos = 0;
-    float speed = 0.0f;
-    unsigned long deltaTime = 0;
-    long deltaTicks = 0;
+    //float speed = 0.0f;
+    //unsigned long deltaTime = 0;
+    //long deltaTicks = 0;
 
     encPos.sensorDataType = SENSOR_ENCODER;
-    calcSpeed.sensorDataType = SENSOR_SPEED;
+    //calcSpeed.sensorDataType = SENSOR_SPEED;
 
-    currentMillis = millis();
+    //currentMillis = millis();
     currentEncPos = _encoder->getPosition(); // invert encPos since power transfer gears invert rotation
 
-    deltaTime = currentMillis - _prevMillis;
-    deltaTicks = currentEncPos - _prevEncPos;
+    //deltaTime = currentMillis - _prevMillis;
+    //deltaTicks = currentEncPos - _prevEncPos;
     
-    if(deltaTime > 0){
-        float distanceCM = static_cast<float>(deltaTicks) / static_cast<float>(_ticksPerCM);
-        speed = (distanceCM * 1000.0f) / static_cast<float>(deltaTime);
-    }
+    //if(deltaTime > 0){
+        //float distanceCM = static_cast<float>(deltaTicks) / static_cast<float>(_ticksPerCM);
+        //speed = (distanceCM * 1000.0f) / static_cast<float>(deltaTime);
+    //}
 
-    _prevEncPos = currentEncPos;
-    _prevMillis = currentMillis;
+    //_prevEncPos = currentEncPos;
+    //_prevMillis = currentMillis;
 
     encPos.encoderPosition = currentEncPos;
-    calcSpeed.speed = speed;
+    //calcSpeed.speed = speed;
     dataVector.push_back(encPos);
     //dataVector.push_back(calcSpeed);
 
@@ -76,4 +77,8 @@ void hw_rev_2_VehicleSpeed::_encoderISR(){
 
   _encoder->tick();
 
+}
+
+String hw_rev_2_VehicleSpeed::getSensorName(){
+  return "Motor Encoder Driver";
 }

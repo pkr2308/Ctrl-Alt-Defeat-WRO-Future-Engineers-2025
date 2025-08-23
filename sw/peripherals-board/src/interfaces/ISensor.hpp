@@ -15,5 +15,6 @@ public:
 
   virtual void init(ILogger *logger) = 0;            // todo: return status
   virtual std::vector<SensorData> update() = 0;
+  virtual String getSensorName() = 0;
 
 };
