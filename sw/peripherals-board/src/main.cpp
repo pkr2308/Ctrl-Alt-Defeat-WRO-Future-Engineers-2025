@@ -68,10 +68,10 @@ void setup(){
   driveAlgorithm.init(&debugLogger);
   park.init(&debugLogger, false);
 
-  sensorManager.addSensor(&bno);
-  sensorManager.addSensor(&lidar);
-  sensorManager.addSensor(&speed);
   sensorManager.init(&debugLogger);
+  //sensorManager.addSensor(&bno);
+  sensorManager.addSensor(&lidar);
+  //sensorManager.addSensor(&speed);
 
   remoteCommunication.init(&debugLogger);
   serialCommunication.init(&debugLogger);
