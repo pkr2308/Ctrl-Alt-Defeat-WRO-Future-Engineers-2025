@@ -29,6 +29,7 @@ VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 //VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_DEBUG_LOG debugLogger(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_RGB_LED rgbLED(VEHICLE_GET_CONFIG);
 SensorManager sensorManager(VEHICLE_GET_CONFIG);
 VehicleCommand activeDriveCommand;
 
@@ -38,6 +39,7 @@ void debugLogHeader();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 void debugProbeI2CAddr(byte addr);
 
+hw_rev_2_Park park(VEHICLE_GET_CONFIG);
 
 /**
  * @brief Initialises sensor manager, target controller, and drive algorithm
@@ -64,6 +66,7 @@ void setup(){
 
   targetControl.init(&motor, &steering, &debugLogger);
   driveAlgorithm.init(&debugLogger);
+  park.init(&debugLogger, false);
 
   sensorManager.addSensor(&bno);
   sensorManager.addSensor(&lidar);
@@ -72,6 +75,10 @@ void setup(){
 
   remoteCommunication.init(&debugLogger);
   serialCommunication.init(&debugLogger);
+
+  rgbLED.init(&debugLogger);
+  rgbLED.limitBrightness(50);
+  rgbLED.setStaticColor(rgbLED.GREEN);
   
 }
 
@@ -83,10 +90,11 @@ void loop(){
   VehicleData vehicleData = sensorManager.update();
 
   VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
-  VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
-
-  activeDriveCommand = serialCommunicationCommand;
-  targetControl.directControl(activeDriveCommand, vehicleData);
+  //VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
+  VehicleCommand parkCommand = park.drive(vehicleData);
+    
+  activeDriveCommand = parkCommand;
+  //targetControl.directControl(activeDriveCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, activeDriveCommand);
 
@@ -199,21 +207,11 @@ void debugLogHeader(){
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Compiled on: " + String(__DATE__) + " at: " + String(__TIME__));
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Pico SDK version: " + String(PICO_SDK_VERSION_STRING));
 
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "I2C bus probe start");
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for front LiDAR:");
-  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.frontLidarAddr);
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for right LiDAR:");
-  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.rightLidarAddr);
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for rear LiDAR:");
-  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.backLidarAddr);
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for left LiDAR:");
-  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.leftLidarAddr);
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Probing configured address for IMU:");
-  debugProbeI2CAddr(VEHICLE_GET_CONFIG.addressConfig.bnoAddr);
-  debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "I2C bus probe end");
-
 }
 
+/**
+ * @note Sometimes doesn't return a success, even when device works. Don't have time to debug it now. Check data stream over debug to ensure sensors are alive.
+ */
 void debugProbeI2CAddr(byte addr){
     
   Wire.beginTransmission(addr);
@@ -252,5 +250,7 @@ void debugProbeI2CAddr(byte addr){
   };
 
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Error for address " + String(addr, HEX) + " is " + errStr);
+
+  delay(5);
 
 }

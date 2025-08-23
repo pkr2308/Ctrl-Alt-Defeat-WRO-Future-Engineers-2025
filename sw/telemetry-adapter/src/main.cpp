@@ -96,6 +96,9 @@ void ledOff(){
 
 void printDataStruct(){
 
+  Serial.print(dataBlock1.millis);
+  Serial.print(',');  
+
   Serial.print(dataBlock1.oriX);
   Serial.print(',');
 
@@ -114,25 +117,19 @@ void printDataStruct(){
   Serial.print(dataBlock1.lidarRight);
   Serial.print(',');  
 
+  Serial.print(dataBlock1.lidarBack);
+  Serial.print(',');  
+
   Serial.print(dataBlock1.commandedSpeed);
   Serial.print(',');  
 
   Serial.print(dataBlock1.commandedSteer);
   Serial.print(',');  
 
-  Serial.print(dataBlock1.imuCalib);
-  Serial.print(',');  
-
-  Serial.print(dataBlock1.gyroCalib);
-  Serial.print(',');  
-
-  Serial.print(dataBlock1.accelCalib);
-  Serial.print(',');  
-
-  Serial.print(dataBlock1.magCalib);
-  Serial.print(',');  
-
   Serial.print(dataBlock1.distance);
+  Serial.print(',');  
+
+  Serial.print(dataBlock1.speed);
   Serial.print(',');  
 
   Serial.println();
