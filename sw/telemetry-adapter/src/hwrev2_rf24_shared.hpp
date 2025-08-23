@@ -11,16 +11,15 @@ struct hwrev2_rf24_telem_block1{
   uint16_t lidarLeft;
   uint16_t lidarFront;
   uint16_t lidarRight;
+  uint16_t lidarBack;
 
   uint16_t commandedSpeed;
   uint16_t commandedSteer;
 
-  uint8_t imuCalib;
-  uint8_t gyroCalib;
-  uint8_t accelCalib;
-  uint8_t magCalib;
+  uint32_t millis;
 
   int16_t distance;
+  uint16_t speed;
 
 };
 

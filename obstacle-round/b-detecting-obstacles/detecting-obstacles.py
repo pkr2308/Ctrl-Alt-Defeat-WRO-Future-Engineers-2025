@@ -97,8 +97,8 @@ def decide_path(red_obs, green_obs):
     print(f'The current obstacle to tackle is {current_obs}')
     path = 'Straight'
     if current_obs[0][1] > 40:  
-        if current_obs[1] == 'red': path = 'Left'
-        elif current_obs[1] == 'green': path = 'Right'
+        if current_obs[1] == 'green': path = 'Left'
+        elif current_obs[1] == 'red': path = 'Right'
     return path
 
 def nearest_obstacle():

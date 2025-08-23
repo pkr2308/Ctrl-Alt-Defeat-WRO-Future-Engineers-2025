@@ -15,3 +15,5 @@
 #include <hwrev2_serial_communication.hpp>
 #include <hwrev2_uart_logger.hpp>
 #include <hwrev2_micro_ros_communication.hpp>
+#include <hwrev2_park.hpp>
+#include <hwrev2_rgbled.hpp>

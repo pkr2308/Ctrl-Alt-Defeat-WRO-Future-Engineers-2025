@@ -30,8 +30,8 @@ void hw_rev_2_VehicleSpeed::init(ILogger* logger){
   _isrEncoder = _encoder;
   classptr = this;
 
-  attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderA), externISR, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderB), externISR, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderA), externISR, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderB), externISR, CHANGE);
 
 }
 
