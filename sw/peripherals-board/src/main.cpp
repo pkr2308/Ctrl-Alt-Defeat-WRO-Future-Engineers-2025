@@ -70,7 +70,7 @@ void setup(){
 
   sensorManager.init(&debugLogger);
   //sensorManager.addSensor(&bno);
-  sensorManager.addSensor(&lidar);
+  //sensorManager.addSensor(&lidar);
   //sensorManager.addSensor(&speed);
 
   remoteCommunication.init(&debugLogger);
