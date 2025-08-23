@@ -2,21 +2,39 @@ import cv2
 import numpy as np
 from picamera2 import Picamera2
 import time
+import serial
+import RPi.GPIO as GPIO
+
+# Status LED
+led = 17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(led, GPIO.OUT)
 
 # For standard camera use "imx219.json"
 tuning = Picamera2.load_tuning_file("imx219.json")
 picam2 = Picamera2(tuning = tuning)
-
 config = picam2.create_video_configuration(main={"size": (1280, 720)})
 picam2.configure(config)
-
 picam2.start_preview()
+GPIO.output(led, GPIO.HIGH)
 time.sleep(2)  # Let the camera warm up
-
+GPIO.output(led, GPIO.LOW)
 picam2.start()
 
-global lower_red, upper_red, lower_green, upper_green, lower1_black, upper1_black, lower2_black, upper2_black
-global red_obs, green_obs
+# Serial config
+# usb-Raspberry_Pi_Pico_E6625887D3859130-if00 - Pranav
+# usb-Raspberry_Pi_Pico_E6625887D3482132-if00 - Adbhut
+ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00', 115200, timeout=1)
+
+yaw, target_yaw, total_error = 0, 0, 0
+distance = 0
+left_dist, front_dist, right_dist, back_dist = 35, 100, 35, 100
+turns, turning = 0, False
+turn_dir = 1
+
+# Parking
+unparked = False
+parking_obs = []
 
 #Define colour ranges
 lower_red = np.array([0, 120, 88])
@@ -88,23 +106,8 @@ def get_obstacle_positions(contours, obs):
             x,y,w,h = cv2.boundingRect(cnt)
             if h > w:              # Prevents parking walls being detected as obstacles in most orientations
                 # TODO when driving integration done; Second tuple gives grid pos
-                obs.append([(x,y,w,h), (0,0,0)])
-            
+                obs.append([(x,y,w,h), (0,0,0)])      
     return obs
-
-
-def decide_path(red_obs, green_obs):
-    # Needs to be updated
-    # If red obstacle detected as nearest, drive left of it
-    # If green obstacle detected as nearest, drive right of it
-
-    current_obs = nearest_obstacle()
-    print(f'The current obstacle to tackle is {current_obs}')
-    path = 'Straight'
-    if current_obs[0][1] > 40:  
-        if current_obs[1] == 'red': path = 'Left'
-        elif current_obs[1] == 'green': path = 'Right'
-    return path
 
 def nearest_obstacle():
     global red_obs, green_obs
@@ -119,8 +122,77 @@ def nearest_obstacle():
             nearest_obs[1] = 'green'
     return nearest_obs
 
+def unpark():
+    global unparked, yaw, target_yaw, parking_obs
+    speed = 210
+    steering = 90
+    if parking_obs == []: parking_obs = nearest_obstacle()
+    if parking_obs != []:
+        if parking_obs[0][1] < 410 or (parking_obs[0][0] < 640 and turn_dir == 1) or (parking_obs[0][0] > 640 and turn_dir == -1): parking_obs = []
+        if parking_obs != []: print(f'The current obstacle to tackle is {parking_obs}')
+    if parking_obs == []:
+        if turn_dir == 1:
+            target_yaw = 270
+            difference = abs(yaw - target_yaw) % 180
+            if difference <= 1:
+                unparked = True
+                steering = 90   
+            elif difference <= 5:
+                back(25)
+            elif (difference > 5 and difference < 9): steering -= (90-(90-difference)/2.8)
+            else: steering = 0
+        elif turn_dir == -1:
+            target_yaw = 90
+            difference = abs(target_yaw - yaw) % 180
+            if difference <= 1:
+                unparked = True
+                steering = 90        
+            elif (difference > 10 and difference < 50): steering += (60-(90-difference)/3)
+            else: steering = 145
+    else:
+        pass
+    print(f"Steering: {steering}, diff: {difference} speed: {speed}")
+    return speed, steering
+
+def back(dist):
+    global distance
+    start_dist = distance
+    while (start_dist - distance) < (dist - 2): 
+        drive_data(-190, 90)
+        time.sleep(0.0005)
+        print(start_dist - distance)
+    drive_data(0, 90)
+
+def front(dist):
+    global distance
+    start_dist = distance
+    while (distance - start_dist) > (dist - 2): 
+        drive_data(-190, 90)
+        time.sleep(0.0005)
+        print(start_dist - distance)
+    drive_data(0, 90)
+
+def drive_data(motor_speed,servo_steering):
+    # It sends driving commands to RP2040 and gets back sensor data
+    global yaw, distance, left_dist, front_dist, right_dist
+    # Send command
+    command = f"{motor_speed},{servo_steering}\n"
+    ser.write(command.encode())
+
+    # Wait for response from RP2040
+    response = ser.readline().decode().strip()
+    values = response.split(",")[0:]
+    yaw = float(values[0])
+    distance = -float(values[14]) / 43
+    left_dist = int(values[12])
+    front_dist = int(values[9])
+    right_dist = int(values[10])
+    print(f"Received Data - Yaw: {yaw}, Distance: {distance} Left: {left_dist}, Front: {front_dist}, Right: {right_dist}\n")
+
+
 def run():
     global frame, hsv_frame, corrected_frame, hsv_roi
+    drive_data(0,90)
     while True:
         # Read a frame from the camera
         frame = picam2.capture_array()
@@ -133,19 +205,23 @@ def run():
         frame_processed, red_obs, green_obs = process_frame()
 
         # Decide navigation based on obstacle detection
-        path_action = decide_path(red_obs, green_obs)
+        if not unparked: speed, steering = unpark()
+
+        drive_data(speed,steering)
 
         # Show output
-        cv2.putText(frame_processed, f"Path: {path_action}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+        cv2.putText(frame_processed, f"Steering: {steering}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 
         cv2.imshow("Obstacle Detection", frame_processed)
-        #cv2.imshow("Contours", corrected_frame)
-
+        
+        if unparked: break
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+try:
+    run()
+finally:
+    drive_data(0,90)
     picam2.stop_preview()
     picam2.stop()
     cv2.destroyAllWindows()
-
-run()
