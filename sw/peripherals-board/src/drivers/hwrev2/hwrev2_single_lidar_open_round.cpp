@@ -24,6 +24,7 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   
   VehicleCommand command;
 
+  // Getting basic data
   yaw = vehicleData.orientation.x;
   distance = vehicleData.encoderPosition / 43;
   
@@ -58,7 +59,8 @@ VehicleCommand hw_rev_2_SingleLidarOpenRound::drive(VehicleData vehicleData){
   left_lidarDist = vehicleData.lidar[270];
   right_lidarDist = vehicleData.lidar[90];
 
-  if ((front_lidarDist < threshold) and (turning == false) and (turns == 0 or distance > 115) and (abs(difference) < 5) and (left_lidarDist + right_lidarDist > 120)){ // Checking to turn
+  // Checking to turn
+  if ((front_lidarDist < threshold) and (turning == false) and (turns == 0 or distance > 115) and (abs(difference) < 5) and (left_lidarDist + right_lidarDist > 120)){ 
     speed = 190;
     if (turns == 11) speed = 180; // Slow down for final turn
     turning = true;
