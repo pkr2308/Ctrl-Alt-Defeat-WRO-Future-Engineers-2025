@@ -28,12 +28,12 @@ GPIO.output(led, GPIO.LOW)
 picam2.start()
 
 yaw, target_yaw, total_error, distance = 0, 0, 0, 0
-left_dist, front_dist, right_dist = 35, 100, 35
+front_dist, left_dist, back_dist, right_dist = 100, 35, 100, 35
 turns, turning = 0, False
 
 #Define colour ranges
 lower_red = np.array([0, 120, 88])
-upper_red = np.array([13, 255, 255])
+upper_red = np.array([10, 255, 255])
 lower_green = np.array([52, 120, 78])
 upper_green = np.array([70, 255, 255])
 lower1_black = np.array([37, 65, 20])
@@ -61,7 +61,7 @@ def drive_data(motor_speed,servo_steering):
 
     # Wait for response from RP2040
     response = ser.readline().decode().strip()
-    values = response.split(",")[0:]
+    values = response.split(",")
     yaw = float(values[0])
     distance = -float(values[14]) / 43
     left_dist = int(values[12])
@@ -82,9 +82,6 @@ def process_frame():
     black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Contours may be drawn
-    #for contour in red_contours: cv2.drawContours(corrected_frame, [contour + (0,350)], -1, (100,100,255), -1)
-    #for contour in green_contours: cv2.drawContours(corrected_frame, [contour + (0,350)], -1, (100,255,100), -1)
-    #for contour in black_contours: cv2.drawContours(corrected_frame, [contour + (0,350)], -1, (130,130,130), -1)
 
     # Filter and locate obstacle bounding boxes
     red_obs = get_obstacle_positions(red_contours, red_obs)
@@ -117,9 +114,11 @@ def get_obstacle_positions(contours, obs):
         if cv2.contourArea(cnt) > min_area and cv2.contourArea(cnt) < max_area:
             x,y,w,h = cv2.boundingRect(cnt)
             if h > w or (y > 140 and abs(1200-x) < 250 and h > 100):              # Prevents parking walls being detected as obstacles in most orientations
-                # TODO when driving integration done; Second tuple gives grid pos
-                obs.append([(x,y,w,h), (0,0,0)])
-            
+                # TODO when driving integration done; Second tuple gives row
+                #if front_dist > 100 : wall_dist = front_dist
+                #else: wall_dist = 300 - 30 - back_dist
+                #if wall_dist >= 200 and y/wall_dist > 
+                obs.append([(x,y,w,h), (0,0)])
     return obs
 
 
@@ -127,14 +126,34 @@ def decide_path(red_obs, green_obs):
     # Needs to be updated
     # If red obstacle detected as nearest, drive left of it
     # If green obstacle detected as nearest, drive right of it
-
+    global yaw, total_error, turns
     current_obs = nearest_obstacle()
     print(f'The current obstacle to tackle is {current_obs}')
+    speed = 200
+    steering = 90
     path = 'Straight'
-    if current_obs[0][1] > 40:  
-        if current_obs[1] == 'red': path = 'Left'
-        elif current_obs[1] == 'green': path = 'Right'
-    return path
+    y = current_obs[0][1]
+    x = current_obs[0][0]
+    colour = current_obs[1]
+    if colour == 'green' and y > 40 and x < 1180: 
+        path = 'LEFT'
+        steering -= (1200-x) * 0.075
+    elif colour == 'red' and y > 40 and x > 100: 
+        path = 'RIGHT'
+        steering += x*0.055
+    else:
+        # Go straight for a bi after obstacle goes out of view
+        target_yaw = (turns * 90) % 360
+        error = target_yaw - yaw
+        correction = 0
+        if error > 180: error = error - 360
+        elif error < -180: error = error + 360
+        total_error += error
+        if error > 0: correction = error * 2.3 - total_error * 0.001    #correction to the right
+        elif error < 0: correction = error * 2.2 - total_error * 0.001  #correction to the left
+        steering = 90 + correction
+        print("PI Straight")
+    return path, speed, steering
 
 def nearest_obstacle():
     global red_obs, green_obs
@@ -151,7 +170,7 @@ def nearest_obstacle():
 
 def run():
     global frame, hsv_frame, corrected_frame, hsv_roi
-    global yaw, distance, left_dist, front_dist, right_dist, turning, turns
+    global yaw, distance, left_dist, front_dist, right_dist, turning, turns, start_dist
     while True:
         # Read a frame from the camera
         frame = picam2.capture_array()
@@ -164,24 +183,27 @@ def run():
         frame_processed, red_obs, green_obs = process_frame()
 
         # Decide navigation based on obstacle detection
-        path_action = decide_path(red_obs, green_obs)
-
-        drive_data(0, 90)
-
+        path_action, speed, steering = decide_path(red_obs, green_obs)
+        if front_dist < 100 and distance - start_dist > 200: 
+            steering = 150
+            speed = 0
+            break
+        drive_data(speed, steering)
+        print(f"Steering: {steering}")
         # Show output
-        cv2.putText(frame_processed, f"Front {front_dist} Left {left_dist} Right {right_dist}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 2)
+        cv2.putText(frame_processed, f"Speed {speed} Steering {steering}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 2)
 
         cv2.imshow("Obstacle Detection", frame_processed)
-        #cv2.imshow("Contours", corrected_frame)
-
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
 try:
+    drive_data(0,90)
+    start_dist = distance
     run()
 
 finally:
-    drive_data(0,90)
+    drive_data(0,90)    # Stop robot
     picam2.stop_preview()
     picam2.stop()
     cv2.destroyAllWindows()
