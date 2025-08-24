@@ -7,6 +7,10 @@
 
 #include <managers/config.hpp>
 
+/**
+ * @brief Returns vehicle configuration struct for hardware revision 2
+ * @return Vehicle configuration struct for hardware revision 2
+ */
 VehicleConfig hwrev2_getConfig(){
 
   VehicleConfig cfg;

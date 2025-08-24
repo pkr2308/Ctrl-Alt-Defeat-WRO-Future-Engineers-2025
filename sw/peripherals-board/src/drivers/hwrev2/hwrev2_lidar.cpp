@@ -12,10 +12,12 @@ hw_rev_2_lidar::hw_rev_2_lidar(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_lidar::init(ILogger* logger){
+status_t hw_rev_2_lidar::init(ILogger* logger){
 
   _logger = logger;
   _lidar = new TFLI2C();
+
+  return STATUS_HEALTHY;
 
 }
 

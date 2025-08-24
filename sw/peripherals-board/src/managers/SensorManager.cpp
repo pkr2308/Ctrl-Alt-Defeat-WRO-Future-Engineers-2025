@@ -10,18 +10,32 @@
 #include <vehicledata.hpp>
 #include <sensordata.hpp>
 #include "SensorManager.hpp"
+#include <status.hpp>
 #include <Arduino.h>
 
 SensorManager::SensorManager(VehicleConfig cfg){
   _config = cfg;
 }
 
-void SensorManager::addSensor(ISensor* sensor){
+bool SensorManager::addSensor(ISensor* sensor){
 
-  _sensors.push_back(sensor); //  todo: implement nullptr and invalid sensor check
-  sensor->init(_logger);
+  status_t status = sensor->init(_logger);
 
-  _logger->sendMessage("SensorManager::addSensor()", _logger->INFO, "Added " + sensor->getSensorName()+ " to SensorManager");
+  if(status == STATUS_HEALTHY){
+  
+    _logger->sendMessage("SensorManager::addSensor()", _logger->INFO, "Sensor " + sensor->getSensorName()+ " initialized successfully");
+    _sensors.push_back(sensor); 
+    _logger->sendMessage("SensorManager::addSensor()", _logger->INFO, "Added " + sensor->getSensorName()+ " to SensorManager");
+    return true;
+  
+  }
+
+  else if(status == STATUS_FAULT){
+    _logger->sendMessage("SensorManager::addSensor()", _logger->INFO, "Sensor " + sensor->getSensorName()+ " failed to initialize and was not added to SensorManager");
+    return false;
+  }
+
+  return false; // We should have returned before this, if we get to this point, something's definitely wrong
 
 }
 
