@@ -1,15 +1,18 @@
 #include <hwrev2_serial_communication.hpp>
 
+hw_rev_2_SerialCommunication *commClassPtr = nullptr;
+
 hw_rev_2_SerialCommunication::hw_rev_2_SerialCommunication(VehicleConfig cfg){
 
   _config = cfg;
+  commClassPtr = this;
 
 }
 
 void hw_rev_2_SerialCommunication::init(ILogger *logger){
 
   _logger = logger;
-
+  _serialTask = new SchedulerTask(_serialCallbackWrapper, 10);  // 10 ms : 100 hz
   Serial.begin(115200);
 
 }
@@ -18,23 +21,11 @@ VehicleCommand hw_rev_2_SerialCommunication::update(VehicleData data, VehicleCom
 
   VehicleCommand returnCommand;
 
-  if(Serial.available()){
-
-    String command = Serial.readStringUntil('\n');
-
-    int commaIndex = command.indexOf(',');
-
-    _targetSpeed = constrain(command.substring(0, commaIndex).toInt(), -1024, 1024);
-    _targetYaw = constrain(command.substring(commaIndex + 1).toInt(), 0, 180);
-
-    _logger->sendMessage("hw_rev_2_SerialCommunication::update", _logger->INFO, "Received command over USB. Raw: " + command + "_targetSpeed: " + String(_targetSpeed) + " _targetYaw: " + String(_targetYaw));
-
-    _sendFormattedData(data);
-
-  }
+  _serialTask->update();
 
   returnCommand.targetSpeed = _targetSpeed;
   returnCommand.targetYaw = _targetYaw;
+  returnCommand.instruction = _instruction;
 
   return returnCommand;
   
@@ -93,4 +84,17 @@ void hw_rev_2_SerialCommunication::_sendFormattedData(VehicleData data){
   message += '\n';
   Serial.print(message);
 
+}
+
+void hw_rev_2_SerialCommunication::_serialCallback(){
+
+  Serial.println("test");
+  _instruction = NO_INSTRUCTION;
+  _targetSpeed = 0;
+  _targetYaw = 0;
+
+}
+
+void hw_rev_2_SerialCommunication::_serialCallbackWrapper(){
+  commClassPtr->_serialCallback();
 }

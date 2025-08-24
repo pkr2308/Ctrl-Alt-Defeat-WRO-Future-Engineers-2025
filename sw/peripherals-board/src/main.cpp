@@ -10,9 +10,8 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
-#define VEHICLE_SW_NAME "Parking Module Tests"          // String containing status of software. Printed over debug port
+#define VEHICLE_SW_NAME "Unparking Module Tests"          // String containing name of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
@@ -24,7 +23,8 @@ VEHICLE_DRIVER_SPEED speed(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_OPEN_ROUND_ALGORITHM openRoundAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_UNPARK_ALGORITHM unparkAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 //VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
@@ -38,13 +38,22 @@ void debugPrintVehicleData(VehicleData data, VehicleCommand cmd);
 void debugLogHeader();
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd);
 void debugProbeI2CAddr(byte addr);
+void debugFailureBlink();
 
 hw_rev_2_Park park(VEHICLE_GET_CONFIG);
+
 
 /**
  * @brief Initialises sensor manager, target controller, and drive algorithm
  */
 void setup(){
+
+  debugLogger.init();  
+  debugLogHeader();
+
+  rgbLED.init(&debugLogger);
+  rgbLED.limitBrightness(10);
+  rgbLED.setStaticColor(rgbLED.BLUE);
 
   SPI1.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi1SCK);
   SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
@@ -58,28 +67,50 @@ void setup(){
   Wire.setSDA(VEHICLE_GET_CONFIG.pinConfig.i2c0SDA);
   Wire.begin();
 
-  debugLogger.init();  
-  debugLogHeader();
-
-
-  Serial.begin();
-
-  targetControl.init(&motor, &steering, &debugLogger);
-  driveAlgorithm.init(&debugLogger);
-  park.init(&debugLogger, false);
+  debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished setting communication pins for SPI1, UART1, I2C0");
 
   sensorManager.init(&debugLogger);
-  //sensorManager.addSensor(&bno);
-  //sensorManager.addSensor(&lidar);
-  //sensorManager.addSensor(&speed);
+
+  unparkAlgorithm.init(&debugLogger);
+
+  if(!sensorManager.addSensor(&bno)){
+
+    debugLogger.sendMessage("setup()", debugLogger.ERROR, "Failed to add BNO055 driver to sensor manager. Going into infinite loop.");
+    
+    while(true){
+      debugFailureBlink();
+    }
+
+  }
+
+  if(!sensorManager.addSensor(&lidar)){
+
+    debugLogger.sendMessage("setup()", debugLogger.ERROR, "Failed to add TFLuna driver to sensor manager. Going into infinite loop.");
+    
+    while(true){
+      debugFailureBlink();
+    }
+
+  }
+
+  if(!sensorManager.addSensor(&speed)){
+
+    debugLogger.sendMessage("setup()", debugLogger.ERROR, "Failed to add motor encoder driver to sensor manager. Going into infinite loop.");
+    
+    while(true){
+      debugFailureBlink();
+    }
+
+  }
+  
+  debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished adding drivers to sensor manager");
+  rgbLED.setStaticColor(rgbLED.GREEN);
+
+  targetControl.init(&motor, &steering, &debugLogger);
 
   remoteCommunication.init(&debugLogger);
   serialCommunication.init(&debugLogger);
 
-  rgbLED.init(&debugLogger);
-  rgbLED.limitBrightness(50);
-  rgbLED.setStaticColor(rgbLED.GREEN);
-  
 }
 
 /**
@@ -89,12 +120,12 @@ void loop(){
 
   VehicleData vehicleData = sensorManager.update();
 
-  VehicleCommand remoteCommunicationCommand = remoteCommunication.update(vehicleData, activeDriveCommand);
-  //VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
-  VehicleCommand parkCommand = park.drive(vehicleData);
-    
-  activeDriveCommand = parkCommand;
-  //targetControl.directControl(activeDriveCommand, vehicleData);
+  remoteCommunication.update(vehicleData, activeDriveCommand);    // Send data over nRF24L01+, ignore any commands from telemetry module
+  VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
+
+  activeDriveCommand = unparkAlgorithm.drive(vehicleData);
+
+  targetControl.directControl(activeDriveCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, activeDriveCommand);
 
@@ -103,6 +134,7 @@ void loop(){
 /**
  * @brief Function for printing all collected vehicle data without names for use with SerialPlot
  * @note Do not modify order or add name print to variables 
+ * @author DIY Labs
  */
 void debugPrintVehicleData(VehicleData data, VehicleCommand cmd){
 
@@ -148,6 +180,10 @@ void debugPrintVehicleData(VehicleData data, VehicleCommand cmd){
 
 }
 
+/**
+ * @brief Prints a data frame over debug port, frame contains vehicle data and  active vehicle command
+ * @author DIY Labs
+ */
 void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
 
   debugLogger.sendMessage("debugLogDataCommand()", debugLogger.INFO, "Data frame start");
@@ -199,6 +235,10 @@ void debugLogDataCommand(VehicleData data, VehicleCommand cmd){
 
 }
 
+/**
+ * @brief Prints sw versions over debug port
+ * @author DIY Labs
+ */
 void debugLogHeader(){
 
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "CTRL+ALT+DEFEAT Peripherals Board Debug Port");
@@ -252,5 +292,18 @@ void debugProbeI2CAddr(byte addr){
   debugLogger.sendMessage("debugLogHeader()", debugLogger.INFO, "Error for address " + String(addr, HEX) + " is " + errStr);
 
   delay(5);
+
+}
+
+/**
+ * @brief Blinks onboard LED amber (BLOCKING!)
+ */
+void debugFailureBlink(){
+
+  rgbLED.limitBrightness(50);
+  rgbLED.setStaticColor(rgbLED.AMBER);
+  delay(100);
+  rgbLED.setStaticColor(rgbLED.BLACK);
+  delay(100);
 
 }

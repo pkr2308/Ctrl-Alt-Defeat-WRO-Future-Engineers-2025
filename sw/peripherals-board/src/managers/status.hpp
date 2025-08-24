@@ -1,9 +1,10 @@
 /**
- * @brief Enum for representing status. Will be dreprecated when FailureManager is implemented
+ * @brief Enum for representing status. Will be deprecated when FailureManager is implemented
  * @author DIY Labs
  */
 
 #pragma once
+
 
 enum status_t{
 

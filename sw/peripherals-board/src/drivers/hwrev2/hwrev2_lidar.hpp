@@ -13,12 +13,14 @@
 class hw_rev_2_lidar : public ISensor{
 public:
   hw_rev_2_lidar(VehicleConfig cfg);
-  void init(ILogger *logger) override;
+  status_t init(ILogger *logger) override;
   std::vector<SensorData> update() override;
+  String getSensorName() override;
 
 private:
   VehicleConfig _config;
   TFLI2C *_lidar;
   ILogger *_logger;
+  uint8_t _lidarAddr[4];
 
 };

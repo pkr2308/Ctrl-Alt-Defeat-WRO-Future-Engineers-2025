@@ -14,9 +14,10 @@
 class hw_rev_2_VehicleSpeed : public ISensor{
 public:
   hw_rev_2_VehicleSpeed(VehicleConfig cfg);
-  void init(ILogger* logger) override;
+  status_t init(ILogger* logger) override;
   std::vector<SensorData> update() override;
   void _encoderISR();
+  String getSensorName() override;
 
 private:
   ILogger* _logger;

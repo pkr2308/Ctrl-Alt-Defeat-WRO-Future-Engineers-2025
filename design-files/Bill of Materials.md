@@ -22,7 +22,7 @@
 | 1D LiDAR | Benewake TF-LUNA Micro | 4 | Finding distances to front, sides and back of robot | [Product Link](https://robu.in/product/benewake-tf-luna-lidar-distance-sensor/) |
 | 1D LiDAR Connectors | 28AWG 1.25mm 6 Pin Female Connector | 4 | Connect LiDAR to peripherals board | [Product Link](https://robu.in/product/a1251-06y-1-25mm-6-pin-female-housing-connector-with-300mm-wire30-awg/?gad_source=1&gad_campaignid=17427802703&gbraid=0AAAAADvLFWcLc1GCq-hK5RDM6ID4Mj9-K) |
 | IMU | BNO055 | 1 | Obtaining yaw readings | [Product Link](https://thinkrobotics.com/products/9-dof-absolute-orientation-bno055-sensor) |
-| Wireless Radio Transciever | NRF24L01 Wireless Transceiver | 1 | Wireless communication during testing and debugging | [Product Link](https://robu.in/product/m177-nrf24l01-2-4ghz-antenna-wireless-transceiver-module)
+| Wireless Radio Transciever (Optional) | NRF24L01 Wireless Transceiver | 1 | Wireless communication during testing and debugging | [Product Link](https://robu.in/product/m177-nrf24l01-2-4ghz-antenna-wireless-transceiver-module)
 | Motor Driver Board | TB6612FNG | 1 | Control N20 Motor | [Product Link](https://robu.in/product/motor-driver-tb6612fng-module-performance-ultra-small-volume-3-pi-matching-performance-ultra-l298n/) |
 | Motor with Encoder | N20 6V 200RPM Micro Metal Gear Motor With Encoder | 1 | Rear driving motor | [Product Link](https://robu.in/product/n20-6v-200rpm-micro-metal-gear-motor-with-encoder/) |
 | Servo Motor | MG996R 180° | 1 | For steering | [Product Link](https://robocraze.com/products/mg996r-servo-motor?variant=40192896368793) |
@@ -37,5 +37,6 @@
 | Picamera | Pi Camera Module 3 - Wide | 1 | Object, colour detection | [Product Link](https://robu.in/product/raspberry-pi-camera-module-3-wide) |
 | Picamera Wire | Raspberry Pi 5 Camera FPC Cable 300mm | 1 | Connects PiCamera to RPi 5 | [Product Link](https://robu.in/product/official-raspberry-pi-5-camera-fpc-cable-300mm/) |
 | 2D LiDAR | SLAMTEC RPLiDAR A1 360° | 1 | Object detection | [Product Link](https://robu.in/product/rp-lidar-a1m8-360-degrees-laser-range-finder/) |
+| USB A - USB C Cable | - | 1 | Connect the Pi to the RP2040 | - |
 | USB A - MicroUSB Cable | - | 1 | Connect the RPLidar to the Pi | - |
 | UPS Hat | WaveShare UPS Hat E | 1 | Used power constant 5V supply to RPi | [Product Link](https://robu.in/product/ups-hat-e-for-raspberry-pi/) |

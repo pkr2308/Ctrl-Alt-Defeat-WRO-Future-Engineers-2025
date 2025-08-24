@@ -17,7 +17,7 @@ class SensorManager{
 
 public:
   SensorManager(VehicleConfig cfg);
-  void addSensor(ISensor* sensor);
+  bool addSensor(ISensor* sensor);
   void init(ILogger *logger);
   VehicleData update();
 
