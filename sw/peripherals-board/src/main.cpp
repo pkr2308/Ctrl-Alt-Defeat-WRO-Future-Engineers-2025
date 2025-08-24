@@ -10,9 +10,8 @@
 #include "Arduino.h"
 
 #define VEHICLE_DRIVERSET_HWREV2                        // HWREV2 **NOTE** HWREV1 DRIVERS ARE INCOMPLETE, BUGGY, OR MISSING!!
-#define OPEN_ROUND                                      // Defines what drive algorithm to use. Add more in driverconfig.hpp
 #define VEHICLE_SW_STATUS "DEV"                         // String containing status of software. Printed over debug port
-#define VEHICLE_SW_NAME "Parking Module Tests"          // String containing status of software. Printed over debug port
+#define VEHICLE_SW_NAME "Unparking Module Tests"          // String containing name of software. Printed over debug port
 
 #include <driverconfig.hpp>                             // **NOTE** All config #defines must be before this include
 #include <SensorManager.hpp>
@@ -24,7 +23,7 @@ VEHICLE_DRIVER_SPEED speed(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
-VEHICLE_DRIVER_DRIVE_ALGORITHM driveAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_OPEN_ROUND_ALGORITHM openRoundAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 //VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
@@ -64,13 +63,12 @@ void setup(){
 
   Wire.setSCL(VEHICLE_GET_CONFIG.pinConfig.i2c0SCL);
   Wire.setSDA(VEHICLE_GET_CONFIG.pinConfig.i2c0SDA);
+  Wire.begin();
 
   debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished setting communication pins for SPI1, UART1, I2C0");
 
-//  driveAlgorithm.init(&debugLogger);
-//  park.init(&debugLogger, false);
-
   sensorManager.init(&debugLogger);
+
   if(!sensorManager.addSensor(&bno)){
 
     debugLogger.sendMessage("setup()", debugLogger.ERROR, "Failed to add BNO055 driver to sensor manager. Going into infinite loop.");
@@ -120,10 +118,6 @@ void loop(){
 
   remoteCommunication.update(vehicleData, activeDriveCommand);    // Send data over nRF24L01+, ignore any commands from telemetry module
   VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
-//  VehicleCommand parkCommand = park.drive(vehicleData);
-    
-//  activeDriveCommand = parkCommand;
-//  targetControl.directControl(activeDriveCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, activeDriveCommand);
 

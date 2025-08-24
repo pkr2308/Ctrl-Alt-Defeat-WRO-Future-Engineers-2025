@@ -21,5 +21,6 @@ private:
   VehicleConfig _config;
   TFLI2C *_lidar;
   ILogger *_logger;
+  uint8_t _lidarAddr[4];
 
 };

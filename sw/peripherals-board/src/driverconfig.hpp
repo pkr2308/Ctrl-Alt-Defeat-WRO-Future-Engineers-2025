@@ -33,12 +33,8 @@
 #define VEHICLE_DRIVER_RGB_LED hwrev2_RGBLED
 #define VEHICLE_GET_CONFIG hwrev2_getConfig()
 
-#if defined(OPEN_ROUND)
-#define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_SingleLidarOpenRound
-#endif
-
-// #if defined(MULTIPLE_LIDAR_OPEN_ROUND)      // Check if this is correct
-// #define VEHICLE_DRIVER_DRIVE_ALGORITHM hw_rev_2_MultipleLidarOpenRound
-// #endif
+#define VEHICLE_DRIVER_OPEN_ROUND_ALGORITHM hw_rev_2_SingleLidarOpenRound
+#define VEHICLE_DRIVER_UNPARK_ALGORITHM hw_rev_2_UnparkAlgorithm
+#define VEHICLE_DRIVER__PARK_ALGORITHM hw_rev_2_ParkAlgorithm
 
 #endif
