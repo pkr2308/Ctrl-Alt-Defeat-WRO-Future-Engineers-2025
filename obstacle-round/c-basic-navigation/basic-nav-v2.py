@@ -15,7 +15,6 @@ GPIO.setup(led, GPIO.OUT)
 # usb-Raspberry_Pi_Pico_E6625887D3482132-if00 - Adbhut
 ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00', 115200, timeout=1)
 
-# For standard camera use "imx219.json"
 tuning = Picamera2.load_tuning_file("imx219.json")
 picam2 = Picamera2(tuning = tuning)
 
@@ -27,6 +26,7 @@ time.sleep(2)  # Let the camera warm up
 GPIO.output(led, GPIO.LOW)
 picam2.start()
 
+# Declaring some global variables
 yaw, target_yaw, total_error, distance = 0, 0, 0, 0
 front_dist, left_dist, back_dist, right_dist = 100, 35, 100, 35
 turns, turning = 0, False
@@ -40,11 +40,12 @@ lower1_black = np.array([37, 65, 20])
 upper1_black = np.array([65, 130, 60])
 lower2_black = np.array([40, 130, 50])
 upper2_black = np.array([49, 175, 90])
-# The 'magenta' parking pieces also show up as red!
+# The pink parking pieces also show up as red at home!
 
 # These are currently seen obstacles
 red_obs = []
 green_obs = []
+
 # Assigns merely colour to the row, and plan to go in that direction
 all_obs = [['','',''],
            ['','',''],
@@ -81,13 +82,12 @@ def process_frame():
     green_contours, _ = cv2.findContours(mask_green, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     black_contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Contours may be drawn
-
+    # Contours may be drawn by referring to section-a coloured-contours-roi
     # Filter and locate obstacle bounding boxes
     red_obs = get_obstacle_positions(red_contours, red_obs)
     green_obs = get_obstacle_positions(green_contours, green_obs)
   
-    # Draw contours for visualization
+    # Draw boxes around obstacles for visualization
     print(f"Red: {red_obs}")
     print(f"Green: {green_obs}")
     for item in red_obs:
@@ -121,6 +121,18 @@ def get_obstacle_positions(contours, obs):
                 obs.append([(x,y,w,h), (0,0)])
     return obs
 
+def nearest_obstacle():
+    global red_obs, green_obs
+    nearest_obs = [(0,0,0,0),'']
+    for obs in red_obs: 
+        if nearest_obs[0][1] < obs[0][1]: 
+            nearest_obs = obs
+            nearest_obs[1] = 'red'
+    for obs in green_obs: 
+        if nearest_obs[0][1] < obs[0][1]: 
+            nearest_obs = obs
+            nearest_obs[1] = 'green'
+    return nearest_obs
 
 def decide_path(red_obs, green_obs):
     # Needs to be updated
@@ -155,18 +167,6 @@ def decide_path(red_obs, green_obs):
         print("PI Straight")
     return path, speed, steering
 
-def nearest_obstacle():
-    global red_obs, green_obs
-    nearest_obs = [(0,0,0,0),'']
-    for obs in red_obs: 
-        if nearest_obs[0][1] < obs[0][1]: 
-            nearest_obs = obs
-            nearest_obs[1] = 'red'
-    for obs in green_obs: 
-        if nearest_obs[0][1] < obs[0][1]: 
-            nearest_obs = obs
-            nearest_obs[1] = 'green'
-    return nearest_obs
 
 def run():
     global frame, hsv_frame, corrected_frame, hsv_roi
@@ -204,10 +204,10 @@ try:
 
 finally:
     drive_data(0,90)    # Stop robot
-    picam2.stop_preview()
+    picam2.stop_preview()       # Close camera
     picam2.stop()
-    cv2.destroyAllWindows()
+    cv2.destroyAllWindows()     # Close camera feed
     GPIO.output(led, GPIO.HIGH)
-    time.sleep(1.5)  # Indicate stopping
+    time.sleep(1.5)
     GPIO.output(led, GPIO.LOW)
     GPIO.cleanup()

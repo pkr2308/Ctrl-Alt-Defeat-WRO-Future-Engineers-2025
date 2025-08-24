@@ -8,3 +8,4 @@ Checklist of things to do:
 - Check if light on encoders turns on - loose connection may be there
 - Check if wheels are able to turn freely without touching anything else
 - Ensure back lidar is in proper place, and not at an angle
+- Ensure OpenCV windows are not created for the obstacle round (even for practices); merely record the videos!
