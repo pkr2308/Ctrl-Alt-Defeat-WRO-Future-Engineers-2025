@@ -74,7 +74,7 @@ void setup(){
   targetControl.init(&motor, &steering, &debugLogger);
 
   remoteCommunication.init(&debugLogger);
-//  serialCommunication.init(&debugLogger);
+  serialCommunication.init(&debugLogger);
 
   rgbLED.init(&debugLogger);
   rgbLED.limitBrightness(50);
@@ -90,7 +90,7 @@ void loop(){
   VehicleData vehicleData = sensorManager.update();
 
   remoteCommunication.update(vehicleData, activeDriveCommand);    // Send data over nRF24L01+, ignore any commands from telemetry module
-  //VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
+  VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
 //  VehicleCommand parkCommand = park.drive(vehicleData);
     
 //  activeDriveCommand = parkCommand;
