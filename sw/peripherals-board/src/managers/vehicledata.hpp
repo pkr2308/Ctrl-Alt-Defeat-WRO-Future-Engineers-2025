@@ -7,6 +7,7 @@
 
 #include "vec3f.hpp"
 #include <cstdint>
+#include "vehicleinstruction.hpp"
 
 struct VehicleData{
 
@@ -21,5 +22,7 @@ struct VehicleData{
   uint8_t gyroCalib = 0;
   uint8_t accelCalib = 0;
   uint8_t magCalib = 0;
+
+  VehicleInstruction instruction = NO_INSTRUCTION;
 
 };

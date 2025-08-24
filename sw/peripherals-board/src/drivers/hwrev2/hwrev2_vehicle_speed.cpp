@@ -22,7 +22,7 @@ hw_rev_2_VehicleSpeed::hw_rev_2_VehicleSpeed(VehicleConfig cfg){
 
 }
 
-void hw_rev_2_VehicleSpeed::init(ILogger* logger){
+status_t hw_rev_2_VehicleSpeed::init(ILogger* logger){
 
   _logger = logger;
 
@@ -32,6 +32,8 @@ void hw_rev_2_VehicleSpeed::init(ILogger* logger){
 
   attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderA), externISR, CHANGE);
   attachInterrupt(digitalPinToInterrupt(_config.pinConfig.motorEncoderB), externISR, CHANGE);
+
+  return STATUS_HEALTHY;
 
 }
 

@@ -13,7 +13,7 @@
 class hw_rev_2_imu : public ISensor{
 public:
   hw_rev_2_imu(VehicleConfig cfg);
-  void init(ILogger *logger) override;
+  status_t init(ILogger *logger) override;
   std::vector<SensorData> update() override;
   String getSensorName() override;
 

@@ -6,13 +6,21 @@
 #include "hwrev2_imu.hpp"
 #include <Adafruit_BNO055.h>
 
+/**
+ * @brief Constructor for BNO055 driver
+ * @param cfg Vehicle configuration struct
+ */
 hw_rev_2_imu::hw_rev_2_imu(VehicleConfig cfg){
   
   _config = cfg;
 
 }
 
-void hw_rev_2_imu::init(ILogger *logger){
+/**
+ * @brief Initializes BNO055
+ * @todo Send recorded calibration data to BNO055
+ */
+status_t hw_rev_2_imu::init(ILogger *logger){
 
   _logger = logger;
 
@@ -21,9 +29,11 @@ void hw_rev_2_imu::init(ILogger *logger){
 
   if(!status){
     _logger->sendMessage("hw_rev_2_imu::init", _logger->ERROR, "Failed to initialize BNO055");
+    return STATUS_FAULT;
   }
   else{
     _logger->sendMessage("hw_rev_2_imu::init", _logger->INFO, "Successfully initialized BNO055");
+    return STATUS_HEALTHY;
   }
 
 }
