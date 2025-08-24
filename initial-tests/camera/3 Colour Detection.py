@@ -31,7 +31,7 @@ def mouse_callback(event, x, y, flags, param):
 cv2.namedWindow('Original')
 #Define colour ranges
 lower_red = np.array([0, 120, 88])
-upper_red = np.array([20, 255, 255])
+upper_red = np.array([15, 255, 255])
 lower_green = np.array([52, 120, 78])
 upper_green = np.array([70, 255, 255])
 lower1_black = np.array([37, 65, 20])

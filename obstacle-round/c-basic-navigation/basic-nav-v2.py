@@ -2,6 +2,18 @@ import cv2
 import numpy as np
 from picamera2 import Picamera2
 import time
+import serial
+import RPi.GPIO as GPIO
+
+# Status LED
+led = 17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(led, GPIO.OUT)
+
+# Serial config
+# usb-Raspberry_Pi_Pico_E6625887D3859130-if00 - Pranav
+# usb-Raspberry_Pi_Pico_E6625887D3482132-if00 - Adbhut
+ser = serial.Serial('/dev/serial/by-id/usb-Raspberry_Pi_Pico_E6625887D3859130-if00', 115200, timeout=1)
 
 # For standard camera use "imx219.json"
 tuning = Picamera2.load_tuning_file("imx219.json")
@@ -9,18 +21,19 @@ picam2 = Picamera2(tuning = tuning)
 
 config = picam2.create_video_configuration(main={"size": (1280, 720)})
 picam2.configure(config)
-
 picam2.start_preview()
+GPIO.output(led, GPIO.HIGH)
 time.sleep(2)  # Let the camera warm up
-
+GPIO.output(led, GPIO.LOW)
 picam2.start()
 
-global lower_red, upper_red, lower_green, upper_green, lower1_black, upper1_black, lower2_black, upper2_black
-global red_obs, green_obs
+yaw, target_yaw, total_error, distance = 0, 0, 0, 0
+left_dist, front_dist, right_dist = 35, 100, 35
+turns, turning = 0, False
 
 #Define colour ranges
 lower_red = np.array([0, 120, 88])
-upper_red = np.array([19, 255, 255])
+upper_red = np.array([13, 255, 255])
 lower_green = np.array([52, 120, 78])
 upper_green = np.array([70, 255, 255])
 lower1_black = np.array([37, 65, 20])
@@ -38,6 +51,23 @@ all_obs = [['','',''],
            ['','',''],
            ['','','']
            ]
+
+def drive_data(motor_speed,servo_steering):
+    # It sends driving commands to RP2040 and gets back sensor data
+    global yaw, distance, left_dist, front_dist, right_dist
+    # Send command
+    command = f"{motor_speed},{servo_steering}\n"
+    ser.write(command.encode())
+
+    # Wait for response from RP2040
+    response = ser.readline().decode().strip()
+    values = response.split(",")[0:]
+    yaw = float(values[0])
+    distance = -float(values[14]) / 43
+    left_dist = int(values[12])
+    front_dist = int(values[9])
+    right_dist = int(values[10])
+    print(f"Received Data - Yaw: {yaw}, Distance: {distance} Left: {left_dist}, Front: {front_dist}, Right: {right_dist}\n")
 
 def process_frame():
     global hsv_frame, red_obs, green_obs, hsv_roi, corrected_frame
@@ -81,12 +111,12 @@ def process_frame():
 def get_obstacle_positions(contours, obs):
     obs = []
     min_area = 500  # minimum contour area to be obstacle in pixels
-    max_area = 30000
+    max_area = 50000
 
     for cnt in contours:
         if cv2.contourArea(cnt) > min_area and cv2.contourArea(cnt) < max_area:
             x,y,w,h = cv2.boundingRect(cnt)
-            if h > w:              # Prevents parking walls being detected as obstacles in most orientations
+            if h > w or (y > 140 and abs(1200-x) < 250 and h > 100):              # Prevents parking walls being detected as obstacles in most orientations
                 # TODO when driving integration done; Second tuple gives grid pos
                 obs.append([(x,y,w,h), (0,0,0)])
             
@@ -121,13 +151,14 @@ def nearest_obstacle():
 
 def run():
     global frame, hsv_frame, corrected_frame, hsv_roi
+    global yaw, distance, left_dist, front_dist, right_dist, turning, turns
     while True:
         # Read a frame from the camera
         frame = picam2.capture_array()
         corrected_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # Convert the frame to HSV color space
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
-        hsv_roi = hsv_frame[350:715, 0:1280]        # Our region of interest is only the bottom half of the camera feed
+        hsv_roi = hsv_frame[350:720, 0:1280]        # Our region of interest is only the bottom half of the camera feed
 
         # Process camera frame for obstacles
         frame_processed, red_obs, green_obs = process_frame()
@@ -135,8 +166,10 @@ def run():
         # Decide navigation based on obstacle detection
         path_action = decide_path(red_obs, green_obs)
 
+        drive_data(0, 90)
+
         # Show output
-        cv2.putText(frame_processed, f"Path: {path_action}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+        cv2.putText(frame_processed, f"Front {front_dist} Left {left_dist} Right {right_dist}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,255), 2)
 
         cv2.imshow("Obstacle Detection", frame_processed)
         #cv2.imshow("Contours", corrected_frame)
@@ -144,8 +177,15 @@ def run():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+try:
+    run()
+
+finally:
+    drive_data(0,90)
     picam2.stop_preview()
     picam2.stop()
     cv2.destroyAllWindows()
-
-run()
+    GPIO.output(led, GPIO.HIGH)
+    time.sleep(1.5)  # Indicate stopping
+    GPIO.output(led, GPIO.LOW)
+    GPIO.cleanup()
