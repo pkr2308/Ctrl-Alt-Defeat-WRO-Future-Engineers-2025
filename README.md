@@ -47,6 +47,7 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 > [!NOTE]
 > Random files called `.lgd-nfy0` may be seen sometimes in varioues places. These were probably created by a typo a long time ago, and despite repeated deletion, they keep spawning everywhere in the Pi's cone of the repo! Just ignore them, if they occur. 
 
+
 # System Architecture 
 
 -	Raspberry Pi 5: It uses ROS2 and handles more complex tasks like object and colour detection, route planning, and the 2D LiDAR
@@ -87,15 +88,14 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 - __BNO055:__ This is the IMU we are using for orientation due to its reliability, accuracy and simplicity of use. It is connected to the RP2040, and is directly slotted into the peripherals board.
 - __nRF24L01:__ This is the wireless module used for wireless communication during testing and debugging with the RP2040. Another custom module (telemetry board) is made for receiving the data. (Note : This is not plugged in for actual rounds). It is directly slotted into the peripherals board.
 - __Motor encoders:__ The encoders give ticks each time they are trigerred by rotation of the motor shaft. Data from it is used for distance calculations. In our case, about 43 ticks corresponds to 1cm. The 4 encoder wires are grouped together and connected to the peripherals board.
-- __RPLidar A1:__ It is a 2D-LiDAR connected to the Raspberry Pi 5/4B for mapping and obstacle detection. It is mounted in the front for good visibility of obstacles and walls and relatively low since the height of game-field objects is only 10cm. 
-- __Raspberry Pi Camera Module 3 Wide:__ It is used with the Raspberry Pi 5/4B for recognising the colour of an obstacle once detected with the RPLidar. The camera is secured at four points for greater stability. With only two connection points, the camera could be easily turned due to the material properties of the Camera to Pi 5 connection wire. The higher mounting location allows it to detect obstacles from a large distance (almost 2m!) and plan accordingly. The Wide lens allows for a greater field of view. The NoIR version used to give odd red patches due to the lack of the IR filter in some test cases.
+- __Raspberry Pi Camera Module 3 Wide:__ It is used with the Pi for detecting the an obstacles. The camera is secured at four points for greater stability. With only two connection points, the camera could be easily turned due to the material properties of the Camera to Pi 5 connection wire. The higher mounting location allows it to detect obstacles from a large distance (almost 2m!) and plan accordingly. The Wide lens allows for a greater field of view. The NoIR version used to give odd red patches due to the lack of the IR filter in some test cases.
+- __RPLidar A1:__ It is a 2D-LiDAR. It was supposed to be connected to the Pi and give distance all around the robot. However, we could not get it work Raspbian or any other OS. (It worked well with ROS though!) So, it is basically dead weight!
 - Improvements: 
 1. The RPLidar doesn't work well with the standard Raspbian OS on the Pi or with a computer, with values for many angles returned zero or being frozen. It seems to work fine on ROS though. Not sure what the issue is, but resoving this can improve ease of programming.
-2. ROS is difficult to work with.
-3. The 1D LiDARs were probably unnecessary and quite expensive. Ultrasonic sensors would have done for the sides.
-4. The BNO055 does clock stretching, which causes issues on the I2C buses of most microcontrollers (thankfully not the RP2040). It also has a slight drifting tendency of a few degrees after a round. A IMU that does not have these issues and is easy to use will be more accurate and more flexible in use.
+2. The 1D LiDARs are quite expensive. Ultrasonic sensors would have done for the sides.
+3. The BNO055 does clock stretching, which causes issues on the I2C buses of most microcontrollers (thankfully not the RP2040). It also has a slight drifting tendency of a few degrees after a round. A IMU that does not have these issues and is easy to use will be more accurate and more flexible in use.
 
-[Bill of Materials](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/design-files/Bill%20of%20Materials.md) contains all necessary parts/components and their sources.
+The [Bill of Materials](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/design-files/Bill%20of%20Materials.md) contains all necessary parts/components and their sources.
 
 ## Obstacle Management
 
@@ -105,8 +105,8 @@ See [this section](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Enginee
 - First, the region of interest (ROI) is taken as the bottom half of the feed (this is for our camera placement. May vary for other setups).
 - Then, coloured masks (one each for red and green) are applied, followed by OpenCV's controur detection to detect surfaces. Data like position, height and width of the contours may be obtained from the other OpenCV methods.
 - If the contours detected meet the required criteria (like size, height-width ratio), they are classified as obstacles. For our benefit, rectangles are drawn around the obstacles.
-- Using the data available, including obstacle position, target position, yaw and distance travelled, the required steering is calculated to pass the obstacle on the correct side, when not at a turn (Red - left, green - right)
-- When the side chosen is preceded by a turn, the turn is initiated at a predefined obstacle position in the camera feed. (Ex: Clockwise round, green -> turn early)
+- Using the data available, including obstacle position, yaw and distance travelled, the required steering is calculated to pass the obstacle on the correct side, when not at a turn (Red - right, green - left)
+- When the side chosen is preceded by a turn, the turn is initiated at a predefined distance from the wall ahead. (Ex: Clockwise round, green -> turn early)
 
 Improvements:
 1. The RPLidar might have been used effectively with better drivers with the standard Raspbian OS.
@@ -130,8 +130,9 @@ It will be helpful to refer to the pictures of the completed model for the follo
 12. Screw in the RPLidar's extra micro-USB pin extender to the support section
 13. Attach the two PiCamera holder parts to the rear of the Lidar support section, and screw in the camera (2M screws and nuts are needed)
 12. Attach the top-most Raspberry Pi and UPS platform to the rear with screw pillars.
-13. Attach the Raspberry Pi with the UPS Hat to the top.
-14. Make all necessary wired connections by referring to schematic files.
+13. Attach the rear lidar holder with the rear lidar attached to it
+14. Attach the Raspberry Pi with the UPS Hat to the top.
+15. Make all wired connections by referring to schematic files.
 
 
 # Peripherals Interface Board
@@ -205,6 +206,50 @@ Managers are classes that handle certain aspects of the vehicle. Certain structs
 - `Schedular` : A class which takes in an arbitrary number of `SchedulerTask`s, and updates them.
 
 
+# Raspberry Pi System
+
+The Raspberry Pi system handles most tasks for the obstacle round, including unparking, obstacle detection and navigation.
+
+## Raspbian Setup
+
+We are using Raspbian Bookworm.
+Run the following commands in the terminal
+- $`sudo chmod 0700 /run/user/1000`
+- $`sudo apt install software-properties-common`
+- $`sudo apt install python3-launchpadlib`
+- $`sudo apt install code`
+- $`sudo apt upgrade code`
+- $`sudo apt install idle3`
+- $`sudo apt install python3-opencv`
+- $`sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2`
+- Refer [here](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install UPS library to show details about the batteries.
+- If the Pi is accidentally shut down, and git is not working, run the following: 
+1. $`find .git/objects/ -type f -empty | xargs rm` - Cleaning
+2. $`git fetch -p` - Restore missing objects
+3. $`git fsck --full` - Verify
+- It is advised to have RPiConnect for easy connection to the Pi.
+- This reposittory is cloned on the Pi and the obstacle round program is added to the startup sequence.
+
+## Adding Programs to Startup
+
+The method used here involves running executables on startup. Refer [`initial-tests/startup-test/`](https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/tree/main/initial-tests/startup-test) for the code.
+1. Create the python file
+2. Create a launcher script, like the one in the initial test file, that ends in `.sh`. Ensure the launcher is working with `./(launcher-name).sh` in its directory.
+3. In the launcher script, navigate to the directory of the python file and run it with `sudo python3 (file-name).py`. Then return to user directory
+4. In the directory with launcher script, make it executable by running `sudo chmod 755 (launcher-name).sh`
+5. Run `sudo crontab -e` (you can use nano to edit it), and add `@reboot sh /home/(user)/(path to launcher)/(launcher-name).sh` at the end.
+6. Restart the Pi (`sudo reboot`) to check if it works.
+ 
+
+## PiCamera 3
+
+The Raspberry Pi Camera Module 3 Wide is used for obstacle detection. It is placed high up to have a good view. (We actually only use the bottom half of the frame!)
+
+## Serial Communication
+
+The Pi communicates with the RP2040 over the serial. When the Pi sends a command (speed and steering), the RP2040 sends back data (like yaw, lidar distance, turn direction etc.)
+
+
 # Open Round
 
 Refer to `sw/peripherals-board/src/drivers/hwrev2/hwrev2_single_lidar_open_round.cpp and .hpp` files for program.
@@ -248,63 +293,9 @@ Public includes the logger (for debugging), vehicle command (for driving) and se
 7. After final round, slow down and stop in the start section.
 
 
-# Raspberry Pi System
-
-The Raspberry Pi system handles most tasks for the obstacle round, including parking/unparking, obstacle detection, colour detection and navigation.
-
-## Ubuntu and ROS
-
-We are using a Raspberry Pi 5 8GB with Ubuntu 24.04 LTS along with ROS2 Jazzy for the obstacle round. 
-
-The development repository for this is [my_bot](https://github.com/pkr2308/my_bot). The final version of this is also in the current repo.
-A [commands.md]() file is included in the launch folder, which details the installation and running of files.
-
-## Description Files
-
-They are configuration and parameter files used to define the robot model, sensors, controllers, and navigation parameters. These YAML or XML files store the settings that guide nodes like navigation, control, and SLAM to function correctly with a specific robot setup.
-
-- `robot.urdf.xacro`: Main file for the robot that includes the other files
-- `robot_core.xacro`: Chassis file
-- `lidar.xacro`: RPLidar file
-- `camera.xacro`: PiCamera 3 file
-- `ros2_control.xacro`: Used for ROS2 control. A custom hardware interface was built for use with the peripherals board.
-
-## ROS2 Control
-
-ros2_control is a framework in ROS for hardware abstraction and controller management. For our case, the ackermann steering controller and joint state publisher are used as controllers. The peripherals board is connected via serial. Both sides have a serial algorithm to read and write data(controls or sensor info).  This enables the Pi to control the robot and receive data from its sensors.
-
-## RPLidar
-
-The SLAMTEC RPLidar A1 is a 2D-LiDAR sensor with the official driver. It is used as the base sensor for obstacle detection and parking. It publishes data on the `scan` topic on the `rplidar_composition` node. 
-
-## PiCamera 3
-
-The Raspberry Pi Camera Module 3 Wide is used for detecting the colour of the obstacle once the obstacle is detected with the RPLidar.
-
-## SLAM
-
-SLAM (Simultaneous Localisation and Mapping) allows the robot to build a map of its environment while localising itself within that map. The slam_toolbox package in ROS achieves this by taking sensor data (lidar), creating grid maps, and tracking the robot’s position. 
-
-## Navigation
-
-Navigation in ROS is handled mainly by the Nav2 stack for autonomous navigation. It allows for path planning, obstacle avoidance, and map following. Nav2 integrates with SLAM for mapping and localization. 
-
-## Necessary Libraries in Order
-(From Raspbian)
-- $`sudo chmod 0700 /run/user/1000`
-- $`sudo apt install software-properties-common`
-- $`sudo apt install python3-launchpadlib`
-- $`sudo apt install code`
-- $`sudo apt upgrade code`
-- $`sudo apt install idle3`
-- $`sudo apt install python3-opencv`
-- $`sudo apt install -y python3-libcamera python3-pyqt5 python3-picamera2`
-- Refer [here](https://www.waveshare.com/wiki/UPS_HAT_(E)) to install UPS library to show details about the batteries.
-
-
 # Acknowledgements
 
 We would like to thank
+- YoLabs Team:
 - Raspberry Pi Foundation:
 - OpenCV :
-- YoLabs Team:
