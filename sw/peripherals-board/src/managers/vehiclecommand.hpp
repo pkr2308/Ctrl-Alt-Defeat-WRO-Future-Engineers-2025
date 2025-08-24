@@ -8,9 +8,18 @@
 
 #include <cstdint>
 
+enum VehicleInstruction{
+
+  NO_INSTRUCTION,
+  RP2040_RPI_START_OBSTACLE_NAVIGATION,
+  RPI_RP2040_START_PARKING
+
+};
+
 struct VehicleCommand{
 
   int16_t targetSpeed; // Note from DIY: Putting negative values into an *unsigned* int16 was not a good idea
   uint16_t targetYaw;
+  VehicleInstruction instruction = NO_INSTRUCTION;  // initialised by default to NO_INSTRUCTION
 
 };

@@ -34,28 +34,28 @@ std::vector<SensorData> hw_rev_2_lidar::update(){
     _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from front LiDAR returned false");
   }
   else{
-    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from front LiDAR returned true");
+    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->INFO, "Data read from front LiDAR returned true");
   }
 
   if(!_lidar->getData(data.lidar[90], _config.addressConfig.rightLidarAddr)){
     _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from right LiDAR returned false");
   }
   else{
-    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from right LiDAR returned true");
+    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->INFO, "Data read from right LiDAR returned true");
   }
 
   if(!_lidar->getData(data.lidar[180], _config.addressConfig.backLidarAddr)){
     _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from back LiDAR returned false");
   }
   else{
-    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from back LiDAR returned true");
+    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->INFO, "Data read from back LiDAR returned true");
   }
 
   if(!_lidar->getData(data.lidar[270], _config.addressConfig.leftLidarAddr)){
     _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from left LiDAR returned false");
   }
   else{
-    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->ERROR, "Data read from left LiDAR returned true");
+    _logger->sendMessage("hw_rev_2_lidar::update()", _logger->INFO, "Data read from left LiDAR returned true");
   }
 
   
