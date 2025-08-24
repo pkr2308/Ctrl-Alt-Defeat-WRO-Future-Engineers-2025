@@ -24,6 +24,7 @@ VEHICLE_DRIVER_MOTOR motor(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_STEERING steering(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_TARGET_CONTROL targetControl(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_OPEN_ROUND_ALGORITHM openRoundAlgorithm(VEHICLE_GET_CONFIG);
+VEHICLE_DRIVER_UNPARK_ALGORITHM unparkAlgorithm(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_REMOTE_COMMUNICATION remoteCommunication(VEHICLE_GET_CONFIG);
 VEHICLE_DRIVER_SERIAL_COMMUNICATION serialCommunication(VEHICLE_GET_CONFIG);
 //VEHICLE_DRIVER_ROS_COMMUNICATION rosCommunication(VEHICLE_GET_CONFIG);
@@ -68,6 +69,8 @@ void setup(){
   debugLogger.sendMessage("setup()", debugLogger.INFO, "Finished setting communication pins for SPI1, UART1, I2C0");
 
   sensorManager.init(&debugLogger);
+
+  unparkAlgorithm.init(&debugLogger);
 
   if(!sensorManager.addSensor(&bno)){
 
@@ -118,6 +121,10 @@ void loop(){
 
   remoteCommunication.update(vehicleData, activeDriveCommand);    // Send data over nRF24L01+, ignore any commands from telemetry module
   VehicleCommand serialCommunicationCommand = serialCommunication.update(vehicleData, activeDriveCommand);
+
+  activeDriveCommand = unparkAlgorithm.drive(vehicleData);
+
+  targetControl.directControl(activeDriveCommand, vehicleData);
 
   debugLogDataCommand(vehicleData, activeDriveCommand);
 

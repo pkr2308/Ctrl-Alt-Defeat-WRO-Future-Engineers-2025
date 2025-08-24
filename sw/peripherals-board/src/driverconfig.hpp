@@ -35,6 +35,6 @@
 
 #define VEHICLE_DRIVER_OPEN_ROUND_ALGORITHM hw_rev_2_SingleLidarOpenRound
 #define VEHICLE_DRIVER_UNPARK_ALGORITHM hw_rev_2_UnparkAlgorithm
-#define VEHICLE_DRIVER__PARK_ALGORITHM hw_rev_2_ParkAlgorithm
+#define VEHICLE_DRIVER_PARK_ALGORITHM hw_rev_2_ParkAlgorithm
 
 #endif

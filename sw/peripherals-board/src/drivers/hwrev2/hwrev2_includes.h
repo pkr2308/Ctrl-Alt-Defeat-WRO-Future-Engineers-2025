@@ -17,3 +17,4 @@
 #include <hwrev2_micro_ros_communication.hpp>
 #include <hwrev2_park.hpp>
 #include <hwrev2_rgbled.hpp>
+#include <hwrev2_unpark.hpp>
