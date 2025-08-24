@@ -52,7 +52,8 @@ void setup(){
   debugLogHeader();
 
   rgbLED.init(&debugLogger);
-  rgbLED.limitBrightness(5);
+  rgbLED.limitBrightness(10);
+  rgbLED.setStaticColor(rgbLED.BLUE);
 
   SPI1.setSCK(VEHICLE_GET_CONFIG.pinConfig.spi1SCK);
   SPI1.setRX(VEHICLE_GET_CONFIG.pinConfig.spi1MISO);
@@ -299,6 +300,7 @@ void debugProbeI2CAddr(byte addr){
  */
 void debugFailureBlink(){
 
+  rgbLED.limitBrightness(50);
   rgbLED.setStaticColor(rgbLED.AMBER);
   delay(100);
   rgbLED.setStaticColor(rgbLED.BLACK);
