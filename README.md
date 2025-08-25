@@ -1,3 +1,5 @@
+# This repository has been moved to [CmdOptDefeat/fe25](https://github.com/CmdOptDefeat/fe25)
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-4096.png">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/pkr2308/Ctrl-Alt-Defeat-WRO-Future-Engineers-2025/blob/main/repo-assets/logo/ctrlaltdefeat-no-glow-no-bg-dark-4096.png">
